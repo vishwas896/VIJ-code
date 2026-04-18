@@ -1,0 +1,139 @@
+.onboarding-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 40px;
+}
+
+.wizard-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-section {
+  margin-bottom: 40px;
+}
+
+.progress-text {
+  font-size: 14px;
+  color: var(--vij-text-muted);
+  margin-bottom: 12px;
+  text-align: right;
+}
+
+.progress-track {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent-azure);
+  border-radius: 2px;
+}
+
+.wizard-pane-container {
+  min-height: 400px;
+  position: relative;
+}
+
+.wizard-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.wizard-pane h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.pane-subtitle {
+  color: var(--vij-text-muted);
+  margin-bottom: 40px;
+}
+
+.fluid-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
+  font-size: 20px;
+  color: var(--vij-text-main);
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: inherit;
+}
+
+.fluid-input:focus {
+  border-bottom-color: var(--accent-azure);
+  box-shadow: 0 4px 6px -4px var(--accent-azure-glow);
+}
+
+.input-group {
+  margin-bottom: 32px;
+}
+
+.phone-group {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.country-code {
+  width: 80px;
+  text-align: center;
+}
+
+.skill-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+  min-height: 100px;
+}
+
+.floating-tag {
+  padding: 8px 16px;
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-glass);
+  font-weight: 500;
+  color: var(--accent-azure);
+}
+
+.wizard-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.success-card {
+  text-align: center;
+  padding: 40px !important;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--accent-azure);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 24px;
+}

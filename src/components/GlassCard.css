@@ -1,0 +1,27 @@
+.glass-card {
+  background: var(--glass-white);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-glass);
+  transition: border-color 0.3s ease;
+}
+
+.glass-card.glow-azure {
+  border-color: var(--accent-azure-glow);
+  box-shadow: 0 0 20px var(--accent-azure-glow), var(--shadow-glass);
+}
+
+.glass-card.glow-gold {
+  border-color: var(--accent-gold-glow);
+  box-shadow: 0 0 20px var(--accent-gold-glow), var(--shadow-glass);
+  animation: pulse-gold 2s infinite ease-in-out;
+}
+
+@keyframes pulse-gold {
+  0% { box-shadow: 0 0 10px var(--accent-gold-glow), var(--shadow-glass); }
+  50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.5), var(--shadow-glass); }
+  100% { box-shadow: 0 0 10px var(--accent-gold-glow), var(--shadow-glass); }
+}
