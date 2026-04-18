@@ -19,11 +19,13 @@ export const RecruiterDashboard: React.FC = () => {
         <div className="left-pane">
           <div className="pane-header">
             <h2>Active Postings</h2>
-            <GlassButton variant="secondary" className="small-btn">New Post</GlassButton>
+            <GlassButton variant="secondary" className="small-btn" onClick={() => window.location.href = '/recruiter/post-job'}>
+              Post New Job Requirement
+            </GlassButton>
           </div>
           
           <div className="postings-list">
-            <GlassCard className="posting-card active-posting">
+            <GlassCard className="posting-card active-posting" onClick={() => window.location.href = '/recruiter/jobs/1'}>
               <h3>Senior React Dev</h3>
               <p>Remote • $120k-$150k</p>
               <div className="posting-stats">

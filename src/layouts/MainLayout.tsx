@@ -15,12 +15,16 @@ export const MainLayout: React.FC = () => {
           <span className="logo-text">VIJ</span>
         </Link>
         <nav className="global-nav">
-          <Link to="/onboarding" className="nav-link">Onboarding</Link>
-          <Link to="/recruiter" className="nav-link">Recruiter</Link>
-          <Link to="/interview" className="nav-link">Interview</Link>
-          <Link to="/social" className="nav-link">Social Hub</Link>
-          <Link to="/networking" className="nav-link">Networking</Link>
-          <Link to="/wallet" className="nav-link">Wallet</Link>
+          <Link to="/explore" className="nav-link">Explore</Link>
+          <Link to="/news" className="nav-link">Social Hub</Link>
+          <Link to="/roadmaps" className="nav-link">Roadmaps</Link>
+          <Link to="/register" className="nav-link" style={{ 
+            background: 'rgba(255,255,255,0.4)', 
+            backdropFilter: 'blur(12px)', 
+            padding: '8px 24px', 
+            borderRadius: '999px',
+            color: 'var(--vij-text-main)'
+          }}>Join the Junction</Link>
         </nav>
       </header>
       

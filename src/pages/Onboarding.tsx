@@ -70,15 +70,17 @@ export const Onboarding: React.FC = () => {
                 <h2>Define Your Parameters</h2>
                 <p className="pane-subtitle">Add exact skills to feed the Match Engine.</p>
                 
-                <div className="input-group">
+                <div className="input-group" style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
                   <input 
                     type="text" 
                     className="fluid-input" 
-                    placeholder="Type a skill and hit Enter..." 
+                    placeholder="Type a skill..." 
                     value={skillInput}
                     onChange={(e) => setSkillInput(e.target.value)}
                     onKeyDown={handleAddSkill}
+                    style={{ flex: 1 }}
                   />
+                  <GlassButton variant="secondary" onClick={() => handleAddSkill({ key: 'Enter' } as any)}>Add Skill</GlassButton>
                 </div>
                 
                 <div className="skill-cloud">
@@ -128,11 +130,11 @@ export const Onboarding: React.FC = () => {
           )}
           {step < 3 ? (
             <GlassButton onClick={() => setStep(s => s + 1)} className="ml-auto">
-              Continue
+              Next Step
             </GlassButton>
           ) : (
-            <GlassButton onClick={() => alert('Done')} className="ml-auto" glowingEdge="azure">
-              Enter Platform
+            <GlassButton onClick={() => window.location.href = '/recruiter/dashboard'} className="ml-auto" glowingEdge="azure">
+              Complete Profile
             </GlassButton>
           )}
         </div>

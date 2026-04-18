@@ -82,9 +82,15 @@ export const InterviewRoom: React.FC = () => {
               >
                 {cameraOn ? <Video size={20} /> : <VideoOff size={20} />}
               </button>
-              <button className="dock-btn end-call">
+              <button className="dock-btn end-call" onClick={() => window.location.href = '/recruiter/dashboard'}>
                 <PhoneOff size={20} />
               </button>
+            </div>
+            
+            <div style={{ marginLeft: '24px' }}>
+              <GlassButton glowingEdge="gold" onClick={() => window.location.href = '/wallet/checkout/candidate-xyz'}>
+                Select Candidate
+              </GlassButton>
             </div>
           </div>
         </div>

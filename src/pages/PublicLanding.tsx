@@ -22,9 +22,26 @@ export const PublicLanding: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ marginBottom: '32px' }}
           >
             A 100% Match environment secured by VIJ Mediation.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <a href="/register" style={{ 
+              display: 'inline-block',
+              textDecoration: 'none',
+              padding: '16px 32px',
+              background: 'var(--accent-azure)',
+              color: 'white',
+              borderRadius: '999px',
+              fontWeight: 600,
+              boxShadow: '0 0 20px var(--accent-azure-glow)'
+            }}>View 100% Matches</a>
+          </motion.div>
         </div>
         
         {/* Orbiting Stats */}

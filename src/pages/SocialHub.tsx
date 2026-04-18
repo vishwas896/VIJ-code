@@ -95,6 +95,11 @@ export const SocialHub: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                  
+                  <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
+                     <input type="text" placeholder="Add a comment..." style={{ flex: 1, padding: '12px 16px', borderRadius: '999px', border: '1px solid var(--glass-border)', background: 'var(--glass-white)', backdropFilter: 'blur(12px)' }} />
+                     <button style={{ padding: '0 24px', borderRadius: '999px', background: 'var(--accent-azure)', color: 'white', border: 'none', fontWeight: 600 }}>Post</button>
+                  </div>
                 </GlassCard>
                 
               </motion.div>
