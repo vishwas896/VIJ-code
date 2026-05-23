@@ -1,24 +1,53 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { MainLayout } from './layouts/MainLayout';
-import { PublicLanding } from './pages/PublicLanding';
+import { Landing } from './pages/Landing';
 import { Onboarding } from './pages/Onboarding';
-import { RecruiterDashboard } from './pages/RecruiterDashboard';
-import { RecruiterPostJob } from './pages/RecruiterPostJob';
+import { RecruiterDashboard } from './pages/recruiter/RecruiterDashboard';
+import { RecruiterJobsCreate } from './pages/recruiter/RecruiterJobsCreate';
+import { RecruiterJobPipeline } from './pages/recruiter/RecruiterJobPipeline';
+import { RecruiterOnboarding } from './pages/recruiter/RecruiterOnboarding';
+import { RecruiterProfile } from './pages/recruiter/RecruiterProfile';
 import { InterviewRoom } from './pages/InterviewRoom';
 import { SocialHub } from './pages/SocialHub';
-import { Explore } from './pages/Explore';
+import { Jobs } from './pages/Jobs';
 import { NetworkChat } from './pages/NetworkChat';
 import { Roadmaps } from './pages/Roadmaps';
-import { Wallet } from './pages/Wallet';
-import { Marketplace } from './pages/Marketplace';
 import { Auth } from './pages/Auth';
-import { Placeholder } from './components/Placeholder';
+import { TagExplorer } from './pages/TagExplorer';
+import { RoadmapBuilder } from './pages/RoadmapBuilder';
+// JobDetails removed in favor of RecruiterJobPipeline
+import { PublicProfile } from './pages/PublicProfile';
+import { PaymentGateway } from './pages/PaymentGateway';
+import { LearningCenter } from './pages/LearningCenter';
+import { GlobalNetwork } from './pages/GlobalNetwork';
+import { Services } from './pages/Services';
+import { CompanyPage } from './pages/CompanyPage';
+import { CompaniesSearch } from './pages/CompaniesSearch';
+import { SalaryInsights } from './pages/SalaryInsights';
+import { EmployeeDirectory } from './pages/EmployeeDirectory';
+import { SeekerDashboard } from './pages/SeekerDashboard';
+import { About } from './pages/About';
+import { Policy } from './pages/Policy';
+import { Terms } from './pages/Terms';
+import { Contact } from './pages/Contact';
+import { Notifications } from './pages/Notifications';
+import { CurrencyProvider } from './context/CurrencyContext';
+import { RoadmapProvider } from './context/RoadmapContext';
+import { ThemeProvider } from './context/ThemeContext';
 
-function App() {
+import { Settings } from './pages/Settings';
+
+function AppRoutes() {
+  const location = useLocation();
+  const isIsolated = ['/register', '/login', '/interview'].some(path => location.pathname.startsWith(path));
+  const rootKey = isIsolated ? location.pathname : 'main-layout';
+
   return (
-    <Router>
-      <Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={rootKey}>
         {/* Full Screen Isolated Routes */}
         <Route path="/register" element={<Auth />} />
         <Route path="/login" element={<Auth />} />
@@ -26,34 +55,75 @@ function App() {
 
         {/* Routes under Main Layout */}
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<PublicLanding />} />
-          <Route path="explore" element={<Explore />} />
-          <Route path="explore/tags/:tagId" element={<Placeholder title="Tag Explorer" />} />
+          <Route index element={<Landing />} />
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="companies" element={<CompaniesSearch />} />
+          <Route path="jobs/tags/:tagId" element={<TagExplorer />} />
           <Route path="news" element={<SocialHub />} />
           <Route path="roadmaps" element={<Roadmaps />} />
+          <Route path="about" element={<About />} />
+          <Route path="policy" element={<Policy />} />
+          <Route path="terms" element={<Terms />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="settings" element={<Navigate to="/settings/account" replace />} />
+          <Route path="settings/:tabId" element={<Settings />} />
+          <Route path="notifications" element={<Notifications />} />
           
           <Route path="onboarding/parameters" element={<Onboarding />} />
-          <Route path="onboarding/roadmap-builder" element={<Placeholder title="Roadmap Builder" />} />
+          <Route path="onboarding/roadmap-builder" element={<RoadmapBuilder />} />
           
+          <Route path="recruiter/onboarding" element={<RecruiterOnboarding />} />
           <Route path="recruiter/dashboard" element={<RecruiterDashboard />} />
-          <Route path="recruiter/post-job" element={<RecruiterPostJob />} />
-          <Route path="recruiter/jobs/:jobId" element={<Placeholder title="Job Details" />} />
+          <Route path="recruiter/jobs/create" element={<RecruiterJobsCreate />} />
+          <Route path="recruiter/jobs/:jobId" element={<RecruiterJobPipeline />} />
+          <Route path="recruiter/profile" element={<RecruiterProfile />} />
           
+          <Route path="seeker/dashboard" element={<SeekerDashboard />} />
+          
+          <Route path="network" element={<GlobalNetwork />} />
           <Route path="network/connections" element={<NetworkChat />} />
           <Route path="network/messages" element={<NetworkChat />} />
-          <Route path="profile/:username" element={<Placeholder title="Public Profile" />} />
+          <Route path="profile/:username" element={<PublicProfile />} />
           
-          <Route path="wallet" element={<Wallet />} />
-          <Route path="wallet/checkout/:candidateId" element={<Placeholder title="Payment Gateway" />} />
+          {/* Wallet hidden — redirect to home */}
+          <Route path="wallet" element={<Navigate to="/" replace />} />
+          <Route 
+            path="wallet/checkout/:candidateId" 
+            element={
+              <ProtectedRoute>
+                <PaymentGateway />
+              </ProtectedRoute>
+            } 
+          />
           
-          <Route path="marketplace" element={<Marketplace />} />
-          <Route path="learning-center/:courseId" element={<Placeholder title="Learning Center" />} />
+          <Route path="services" element={<Services />} />
+          <Route path="learning-center/:courseId" element={<LearningCenter />} />
+          <Route path="company/:companyId" element={<CompanyPage />} />
+          <Route path="salary-insights" element={<SalaryInsights />} />
+          <Route path="employees/:companyId" element={<EmployeeDirectory />} />
 
           {/* Fallbacks */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
-    </Router>
+    </AnimatePresence>
+  );
+}
+
+function App() {
+  console.log("App.tsx: rendering");
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <CurrencyProvider>
+          <RoadmapProvider>
+            <Router>
+              <AppRoutes />
+            </Router>
+          </RoadmapProvider>
+        </CurrencyProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

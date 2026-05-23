@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════════════
+   BACK + EXPLORE NAVIGATION BAR
+   ═══════════════════════════════════════════════ */
+
+.back-explore-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 32px;
+  position: sticky;
+  top: 64px;
+  z-index: 90;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ── Back Button ── */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px 6px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vij-text-main, #1c1e26);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(14, 165, 233, 0.25);
+  box-shadow: 0 2px 10px rgba(14, 165, 233, 0.1);
+  color: var(--accent-azure, #0ea5e9);
+}
+
+.back-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Explore Button ── */
+.explore-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px 6px 12px;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.06);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-azure, #0ea5e9);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px rgba(14, 165, 233, 0.06);
+}
+
+.explore-btn:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 2px 12px rgba(14, 165, 233, 0.15);
+  transform: translateY(-1px);
+}
+
+.explore-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .back-explore-bar {
+    padding: 8px 16px;
+    top: 56px;
+  }
+  
+  .back-btn,
+  .explore-btn {
+    font-size: 12px;
+    padding: 5px 12px 5px 10px;
+  }
+}

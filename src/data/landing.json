@@ -1,0 +1,75 @@
+{
+  "stats": {
+    "roadmaps": "50,000+",
+    "salaryDataPoints": "2.4 Million",
+    "successRate": "94%",
+    "activeMentors": "30,000+"
+  },
+  "painPoints": [
+    {
+      "id": "ghosting",
+      "quote": "I applied to 100+ jobs and never heard back from a single recruiter.",
+      "author": "Priya S., Software Engineer Trainee"
+    },
+    {
+      "id": "switching",
+      "quote": "Legacy job portals only recommend roles that match my exact past title.",
+      "author": "Rohan M., Business Analyst"
+    },
+    {
+      "id": "simulator",
+      "quote": "I have no idea if learning a new technology skill is worth my weekend hours.",
+      "author": "Ananya K., Systems Administrator"
+    }
+  ],
+  "steps": [
+    {
+      "num": "01",
+      "title": "Map Your Starting Point",
+      "desc": "Import your profile or list current skills. Our AI instantly maps your baseline career fingerprint."
+    },
+    {
+      "num": "02",
+      "title": "Explore Possible Futures",
+      "desc": "Test salary, cost index, and hours in the scenario simulator. Choose paths validated by real contributors."
+    },
+    {
+      "num": "03",
+      "title": "Follow Dynamic Roadmaps",
+      "desc": "Access week-by-week timeline milestones, rated certifications, and anti-ghosting matcher pipelines."
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Karthik R.",
+      "before": "Manual QA",
+      "after": "Automation Lead",
+      "salaryIncrease": "42%",
+      "quote": "The scenario simulator proved that gaining Selenium/Python competency would increase my base pay by 42%. Followed the milestone checklist and connected directly with hiring managers."
+    },
+    {
+      "name": "Neha P.",
+      "before": "Marketing Specialist",
+      "after": "Associate PM",
+      "salaryIncrease": "35%",
+      "quote": "I used the radial node explorer to map my pivot from marketing into product. Bridged gaps through the timeline roadmap suggestions and tracked recruiter responses in real time."
+    },
+    {
+      "name": "Amit S.",
+      "before": "System Engineer",
+      "after": "DevOps Architect",
+      "salaryIncrease": "55%",
+      "quote": "Being able to self-assess skills on the competency cloud gave me verified badges. Applied through the anti-ghosting matcher, viewed stats, and skipped long waiting times."
+    }
+  ],
+  "industries": [
+    { "code": "tech", "label": "Technology", "avgSalary": "$115,000", "snippet": "Data Analyst in Tech" },
+    { "code": "finance", "label": "Finance & Banking", "avgSalary": "$98,000", "snippet": "Risk Analyst in Finance" },
+    { "code": "marketing", "label": "Marketing & AdTech", "avgSalary": "$75,000", "snippet": "Growth PM in Marketing" },
+    { "code": "healthcare", "label": "Healthcare & Bio", "avgSalary": "$88,000", "snippet": "Bioinformatics Specialist" },
+    { "code": "management", "label": "Product Management", "avgSalary": "$125,000", "snippet": "Director of Product" },
+    { "code": "design", "label": "Design & UI/UX", "avgSalary": "$82,000", "snippet": "Lead Product Designer" },
+    { "code": "education", "label": "EdTech & Education", "avgSalary": "$70,000", "snippet": "Learning Path Architect" },
+    { "code": "datascience", "label": "AI & Data Science", "avgSalary": "$140,000", "snippet": "LLM Research Scientist" }
+  ]
+}

@@ -1,0 +1,120 @@
+.currency-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.currency-trigger-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vij-text-main);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.currency-trigger-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.currency-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1000;
+}
+
+.currency-dropdown-header {
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.currency-dropdown-header h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--vij-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.currency-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.currency-option-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.currency-option-btn:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.currency-option-btn.active {
+  background: rgba(14, 165, 233, 0.1);
+}
+
+.currency-symbol {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--vij-text-main);
+  margin-right: 12px;
+}
+
+.currency-option-btn.active .currency-symbol {
+  background: var(--accent-azure);
+  color: white;
+}
+
+.currency-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vij-text-main);
+  flex: 1;
+}
+
+.currency-check {
+  color: var(--accent-azure);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .currency-selector-btn { padding: 6px 10px; font-size: 12px; }
+  .currency-dropdown { min-width: 160px; right: 0; }
+}
