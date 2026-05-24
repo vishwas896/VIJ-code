@@ -19,8 +19,8 @@
   justify-content: space-between;
   padding: 0 40px;
   position: sticky;
-  top: 0;
-  z-index: 100;
+  top: 64px; /* Stick below global header on desktop */
+  z-index: 90;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -486,10 +486,30 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-nav { padding: 0 20px; }
+  .dashboard-nav { display: none !important; }
   .dashboard-main { padding: 20px; }
   .hero-section { flex-direction: column; align-items: flex-start; gap: 20px; }
   .search-bar-glass { display: none; }
   .mobile-bottom-nav { display: flex; }
   .hero-content h1 { font-size: 28px; }
+}
+
+@media (max-width: 500px) {
+  .card-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .card-details {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .detail-item {
+    justify-content: center;
+  }
+  .quick-apply-btn {
+    width: 100%;
+  }
 }

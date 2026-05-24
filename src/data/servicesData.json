@@ -1,0 +1,301 @@
+{
+  "categories": [
+    {
+      "id": "career-intelligence",
+      "title": "Career Intelligence & Planning",
+      "icon": "🔮",
+      "subtitle": "For users who need direction, clarity, and data-backed career decisions.",
+      "personaIds": ["seeker", "switcher", "student"],
+      "items": [
+        {
+          "id": "ai-roadmap",
+          "title": "AI Career Roadmap",
+          "description": "Step-by-step, data-backed career path for any role, in any industry.",
+          "cta": "Build My Roadmap",
+          "link": "/roadmaps"
+        },
+        {
+          "id": "scenario-simulator",
+          "title": "Career Scenario Simulator",
+          "description": "Adjust variables (role, location, education) to see projected salary, work-life score, and happiness index.",
+          "cta": "Try the Simulator",
+          "link": "/salary-insights"
+        },
+        {
+          "id": "skill-analyzer",
+          "title": "Skill Gap Analyzer",
+          "description": "Identify exactly which skills you need to reach your next role and get curated learning resources.",
+          "cta": "Analyze My Skills",
+          "link": "/onboarding/parameters"
+        },
+        {
+          "id": "pivot-explorer",
+          "title": "Pivot Explorer",
+          "description": "Visual role graph showing every possible career transition from your current position.",
+          "cta": "Explore Pivots",
+          "link": "/roadmaps"
+        },
+        {
+          "id": "salary-insights",
+          "title": "Salary Insights & Trends",
+          "description": "Real salary data from millions of professionals, filterable by industry, location, and experience.",
+          "cta": "View Salaries",
+          "link": "/salary-insights"
+        },
+        {
+          "id": "interview-insights",
+          "title": "Interview Insights",
+          "description": "Community-sourced interview questions, experiences, and success rates per company.",
+          "cta": "Prep for Interviews",
+          "link": "/jobs"
+        }
+      ]
+    },
+    {
+      "id": "job-discovery",
+      "title": "Job Discovery & Application",
+      "icon": "💼",
+      "subtitle": "For active job seekers who want to find and land roles faster.",
+      "personaIds": ["seeker"],
+      "items": [
+        {
+          "id": "smart-matching",
+          "title": "Smart Job Matching",
+          "description": "AI-powered recommendations based on your roadmap, skills, and readiness.",
+          "cta": "Find Jobs",
+          "link": "/jobs"
+        },
+        {
+          "id": "anti-ghosting",
+          "title": "Anti-Ghosting Tracker",
+          "description": "Real‑time application status pipeline (Applied → Viewed → Interview) with average response times.",
+          "cta": "Track Applications",
+          "link": "/seeker/dashboard"
+        },
+        {
+          "id": "resume-builder",
+          "title": "Resume & Portfolio Builder",
+          "description": "AI-optimized resume generation and dynamic portfolio creation from your roadmap projects.",
+          "cta": "Build My Resume",
+          "link": "/onboarding/roadmap-builder"
+        }
+      ]
+    },
+    {
+      "id": "community-mentorship",
+      "title": "Community & Mentorship",
+      "icon": "👥",
+      "subtitle": "For users seeking human connection, guidance, and inspiration.",
+      "personaIds": ["seeker", "switcher", "student", "mentor"],
+      "items": [
+        {
+          "id": "mentorship-exchange",
+          "title": "Mentorship Exchange",
+          "description": "Book paid/unpaid sessions with verified mentors who have walked your path.",
+          "cta": "Find a Mentor",
+          "link": "/network"
+        },
+        {
+          "id": "community-bowls",
+          "title": "Community Bowls",
+          "description": "Topic-based discussion forums for real-time career talk, advice, and networking.",
+          "cta": "Join a Bowl",
+          "link": "/news"
+        },
+        {
+          "id": "career-stories",
+          "title": "Career Stories",
+          "description": "Real, anonymized journeys of professionals who made successful transitions.",
+          "cta": "Read Stories",
+          "link": "/about"
+        },
+        {
+          "id": "top-voices",
+          "title": "Top Voices & Leaderboard",
+          "description": "Recognize and learn from the most active contributors in the community.",
+          "cta": "Meet Top Voices",
+          "link": "/about"
+        },
+        {
+          "id": "content-to-roadmap",
+          "title": "Content-to-Roadmap",
+          "description": "Turn any career story or article into a followable roadmap template.",
+          "cta": "Generate Roadmap",
+          "link": "/onboarding/roadmap-builder"
+        },
+        {
+          "id": "skill-challenges",
+          "title": "Gamified Skill Challenges",
+          "description": "Validate skills with AI quizzes, earn badges, and compete in 1v1 battles.",
+          "cta": "Take a Challenge",
+          "link": "/learning-center/1"
+        }
+      ]
+    },
+    {
+      "id": "networking-visibility",
+      "title": "Networking & Visibility",
+      "icon": "🌐",
+      "subtitle": "For professionals building their brand and connections.",
+      "personaIds": ["mentor", "recruiter"],
+      "items": [
+        {
+          "id": "global-connections",
+          "title": "Global Connections Map",
+          "description": "Interactive globe showing talent, recruiters, and open-to-work professionals.",
+          "cta": "Explore Network",
+          "link": "/network"
+        },
+        {
+          "id": "professional-profile",
+          "title": "Professional Profile",
+          "description": "Glassmorphic profile page with skill endorsements, roadmap progress, and portfolio.",
+          "cta": "View My Profile",
+          "link": "/profile/me"
+        },
+        {
+          "id": "news-pulse",
+          "title": "News & Industry Pulse",
+          "description": "Curated business and career news with community reactions and trending alerts.",
+          "cta": "Read News",
+          "link": "/news"
+        }
+      ]
+    },
+    {
+      "id": "advanced-tools",
+      "title": "Advanced Tools & Experiments",
+      "icon": "🧪",
+      "subtitle": "Cutting-edge features that push career planning forward.",
+      "personaIds": ["switcher", "student", "recruiter"],
+      "items": [
+        {
+          "id": "interview-room",
+          "title": "3-Pane Interview Room",
+          "description": "Real-time collaborative coding and video interview environment.",
+          "cta": "Enter Room",
+          "link": "/interview/demo-room"
+        },
+        {
+          "id": "web3-wallet",
+          "title": "Web3 Wallet & Marketplace",
+          "description": "Digital currency tokens, simulated transactions, and premium feature purchases.",
+          "cta": "Open Wallet",
+          "link": "/wallet"
+        },
+        {
+          "id": "ai-resume-reviewer",
+          "title": "AI Resume Reviewer",
+          "description": "Upload your resume and get instant AI feedback with actionable suggestions.",
+          "cta": "Review Resume",
+          "link": "/seeker/dashboard"
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "title": "Flexible Plans for Career Builders",
+    "subtitle": "Choose the tier that fits your professional growth journey.",
+    "plans": [
+      {
+        "id": "free",
+        "name": "Free Tier",
+        "price": "0",
+        "period": "forever",
+        "cta": "Start Free",
+        "features": [
+          "Basic AI Roadmap Generation",
+          "Job Matching System Access",
+          "Limited Salary Insights",
+          "Community Forums & Reading",
+          "Public Profile Customization"
+        ],
+        "popular": false
+      },
+      {
+        "id": "pro",
+        "name": "Pro Tier",
+        "price": "19",
+        "period": "month",
+        "cta": "Go Pro",
+        "features": [
+          "Advanced Career Scenario Simulator",
+          "Priority 1-on-1 Mentorship Booking",
+          "Instant AI Resume Feedback",
+          "Full Anti-Ghosting Application Tracker",
+          "Verified Skills Certification Badges"
+        ],
+        "popular": true
+      },
+      {
+        "id": "enterprise",
+        "name": "Enterprise Tier",
+        "price": "149",
+        "period": "month",
+        "cta": "Contact Sales",
+        "features": [
+          "Advanced Talent Sourcing Filters",
+          "Employer Branding Showcase",
+          "Recruiter Job Pipeline & Dashboard",
+          "Team Skill Analytics Reports",
+          "Dedicated Account Manager Support"
+        ],
+        "popular": false
+      }
+    ]
+  },
+  "stats": [
+    { "value": 50000, "suffix": "+", "label": "Roadmaps Generated" },
+    { "value": 2400000, "suffix": "+", "label": "Salary Data Points" },
+    { "value": 30000, "suffix": "+", "label": "Active Mentors" },
+    { "value": 94, "suffix": "%", "label": "Positive Outcome Rate" }
+  ],
+  "testimonials": [
+    {
+      "quote": "VIJ completely changed my transition into Tech. The Scenario Simulator and Skill Gap Analyzer gave me a concrete roadmap that LinkedIn simply couldn't offer.",
+      "author": "Anonymized Software Engineer",
+      "details": "Pivoted from Finance in 6 Months"
+    },
+    {
+      "quote": "As a mentor, the Mentorship Exchange and Bowl discussions allow me to reach highly motivated students without dealing with heavy administrative overhead.",
+      "author": "Anonymized Senior Design Lead",
+      "details": "Conducted 40+ sessions this year"
+    },
+    {
+      "quote": "Finding matching candidates with validated skill portfolios reduced our recruitment cycle from 4 weeks to just 5 days.",
+      "author": "Anonymized Talent Acquisition Partner",
+      "details": "Hired 12 developers via VIJ"
+    },
+    {
+      "quote": "The 3-pane interview room combined with custom roadmaps meant I could run mock interviews that mirrored real engineering team pipelines.",
+      "author": "Anonymized CS Graduate Student",
+      "details": "Land multiple internships"
+    }
+  ],
+  "faq": [
+    {
+      "q": "How is VIJ different from LinkedIn or Glassdoor?",
+      "a": "LinkedIn is a professional social network, and Glassdoor is a salary and review site. VIJ bridges both by using skill-centric career roadmaps, scenario simulation, and real-time community engagement to help you plan, transition, and land roles based on actual skills rather than generic bios."
+    },
+    {
+      "q": "Is my data anonymous?",
+      "a": "Yes! VIJ respects privacy first. Users can customize public profiles, anonymize career stories, and manage who sees their roadmap data."
+    },
+    {
+      "q": "How do I become a mentor?",
+      "a": "You can sign up as a Mentor in the Network tab, complete a profile detailing your skills and career history, and once verified by the community, start listing paid or unpaid booking slots."
+    },
+    {
+      "q": "Can recruiters see my profile?",
+      "a": "Only if you set your visibility to 'Open to Opportunities'. You have full control over who can search or access your career roadmap."
+    },
+    {
+      "q": "What industries does VIJ cover?",
+      "a": "Currently we support extensive mappings in Software Engineering, Data Science, Product Management, UI/UX Design, and Digital Marketing, with business management and other domains coming soon."
+    },
+    {
+      "q": "Is VIJ really free?",
+      "a": "Yes, our core roadmap generator, job search, and community forums are 100% free with no ads or paywalls. Advanced AI tools and premium mentorship sessions are available under our Pro/Enterprise subscriptions."
+    }
+  ]
+}

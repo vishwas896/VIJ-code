@@ -26,31 +26,28 @@ export const PageTransition: React.FC<PageTransitionProps> = ({
       initial={{ 
         opacity: 0, 
         ...offset, 
-        scale: 0.98,
-        filter: 'blur(6px)' 
+        scale: 0.98
       }}
       animate={{ 
         opacity: 1, 
         y: 0, 
         x: 0, 
-        scale: 1,
-        filter: 'blur(0px)' 
+        scale: 1
       }}
       exit={{ 
         opacity: 0, 
-        scale: 0.97,
-        filter: 'blur(4px)' 
+        scale: 0.97
       }}
       transition={{ 
         type: 'spring', 
         stiffness: 260, 
         damping: 22, 
-        mass: 0.8,
-        filter: { duration: 0.3 }
+        mass: 0.8
       }}
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: '100%', minHeight: '100%' }}
     >
       {children}
     </motion.div>
   );
 };
+

@@ -1,166 +1,206 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { 
-  Star, Clock, Users, 
-  Search, BookOpen, 
-  Target, Zap, Sparkles
+  ChevronLeft, ChevronRight, Shield, Heart, Lock, CheckCircle
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
 import { PageTransition } from '../components/PageTransition';
-import { useAuth } from '../context/AuthContext';
+import { ServicesProvider } from '../context/ServicesContext';
+import { ServicesHero } from '../components/services/ServicesHero';
+import { PersonaFilterBar } from '../components/services/PersonaFilterBar';
+import { CareerIntelligence } from '../components/services/CareerIntelligence';
+import { JobDiscovery } from '../components/services/JobDiscovery';
+import { CommunityMentorship } from '../components/services/CommunityMentorship';
+import { NetworkingVisibility } from '../components/services/NetworkingVisibility';
+import { AdvancedTools } from '../components/services/AdvancedTools';
+import { EcosystemDiagram } from '../components/services/EcosystemDiagram';
+import { PricingPlans } from '../components/services/PricingPlans';
+import { ServicesFAQ } from '../components/services/ServicesFAQ';
+import { ServicesCTA } from '../components/services/ServicesCTA';
+import { AnimatedCounter } from '../components/AnimatedCounter';
+import { GlassCard } from '../components/GlassCard';
+import servicesData from '../data/servicesData.json';
 import './Services.css';
 
-const categories = [
-  { id: 'courses', label: 'Online Courses', icon: <BookOpen size={16} /> },
-  { id: 'skills', label: 'Skill Assessments', icon: <Target size={16} /> },
-  { id: 'services', label: 'Premium Services', icon: <Sparkles size={16} /> },
-];
-
-const items = [
-  // COURSES
-  { id: 'c1', type: 'courses', title: 'Advanced React Architecture', duration: '4.5h', rating: 4.8, price: 50, learners: '3.2k', level: 'Advanced', gradient: 'linear-gradient(135deg, #6366f1, #a855f7)', icon: '⚛️' },
-  { id: 'c2', type: 'courses', title: 'Next.js 15 Deep Dive', duration: '6h', rating: 4.9, price: 65, learners: '2.9k', level: 'Intermediate', gradient: 'linear-gradient(135deg, #0ea5e9, #22c55e)', icon: '🚀' },
-  { id: 'c3', type: 'courses', title: 'Framer Motion 101', duration: '2h', rating: 4.9, price: 30, learners: '5.1k', level: 'Beginner', gradient: 'linear-gradient(135deg, #f43f5e, #fb923c)', icon: '🎭' },
+// Stats, Testimonials & Trust Badges Section
+const StatsAndTestimonials: React.FC = () => {
+  const stats = servicesData.stats;
+  const testimonials = servicesData.testimonials;
   
-  // SKILLS
-  { id: 's1', type: 'skills', title: 'AWS Cloud Practitioner Prep', duration: 'Self-paced', rating: 4.7, price: 40, learners: '1.2k', level: 'Professional', gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', icon: '☁️' },
-  { id: 's2', type: 'skills', title: 'Cybersecurity Assessment', duration: '90 min', rating: 4.6, price: 25, learners: '800+', level: 'Critical', gradient: 'linear-gradient(135deg, #ef4444, #991b1b)', icon: '🛡️' },
-  { id: 's3', type: 'skills', title: 'Data Structures Mastery', duration: '3 weeks', rating: 4.8, price: 55, learners: '2.2k', level: 'Advanced', gradient: 'linear-gradient(135deg, #8b5cf6, #4c1d95)', icon: '📊' },
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  // SERVICES
-  { id: 'v1', type: 'services', title: 'Expert CV Review', duration: '24h Delivery', rating: 5.0, price: 75, learners: '500+', level: 'Premium', gradient: 'linear-gradient(135deg, #ec4899, #be185d)', icon: '📝' },
-  { id: 'v2', type: 'services', title: '1-on-1 Career Mentoring', duration: '60 min session', rating: 4.9, price: 120, learners: '300+', level: 'Expert', gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)', icon: '🤝' },
-  { id: 'v3', type: 'services', title: 'LinkedIn Profile Audit', duration: '48h Delivery', rating: 4.7, price: 50, learners: '1.5k+', level: 'Essential', gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', icon: '🔗' },
-];
+  // Auto-scroll testimonials
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
 
-export const Services: React.FC = () => {
-  const navigate = useNavigate();
-  const { user, purchaseItem, isAuthenticated } = useAuth();
-  const [activeTab, setActiveTab] = useState('courses');
-  const [searchValue, setSearchValue] = useState('');
-  const [processing, setProcessing] = useState<string | null>(null);
-
-  const handlePurchase = (id: string) => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-    setProcessing(id);
-    setTimeout(() => {
-      purchaseItem(id);
-      setProcessing(null);
-      // Optional: redirect to dashboard after purchase
-    }, 1500);
+  const handlePrev = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  const filteredItems = items.filter(item => 
-    item.type === activeTab && 
-    item.title.toLowerCase().includes(searchValue.toLowerCase())
-  );
-
-  const isPurchased = (id: string) => user?.purchasedItems?.includes(id);
+  const handleNext = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
 
   return (
-    <PageTransition>
-      <div className="services-page">
-        <header className="services-header">
-          <div className="header-content">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-              <div className="services-badge">VIJ MARKETPLACE</div>
-              <h1>Ecosystem Services</h1>
-              <p>Premium courses, skill validations, and professional services tailored for your growth.</p>
-            </motion.div>
-            
-            <div className="search-box">
-              <Search size={18} />
-              <input 
-                type="text" 
-                placeholder="Search services, skills, or courses..." 
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
+    <section className="stats-testimonials-section">
+      {/* Stats Bar */}
+      <div className="stats-bar-grid">
+        {stats.map((stat, idx) => (
+          <GlassCard key={idx} className="stats-card text-center" tilt={true}>
+            <div className="stats-value-row">
+              <AnimatedCounter 
+                target={stat.value} 
+                suffix={stat.suffix} 
+                className="stats-number" 
               />
             </div>
-          </div>
+            <p className="stats-label">{stat.label}</p>
+          </GlassCard>
+        ))}
+      </div>
 
-          <div className="services-tabs">
-            {categories.map((cat) => (
-              <button 
-                key={cat.id}
-                className={`tab-btn ${activeTab === cat.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(cat.id)}
-              >
-                {cat.icon}
-                <span>{cat.label}</span>
-                {activeTab === cat.id && <motion.div layoutId="tab-underline" className="tab-underline" />}
+      {/* Testimonials & Trust */}
+      <div className="testimonials-row-grid">
+        {/* Testimonials Carousel */}
+        <div className="testimonials-carousel-wrapper">
+          <GlassCard className="testimonials-card" glowingEdge="none" tilt={false}>
+            <span className="services-badge">TESTIMONIALS</span>
+            <div className="carousel-view-area">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentTestimonial}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="testimonial-slide"
+                >
+                  <blockquote className="testimonial-quote">
+                    "{testimonials[currentTestimonial].quote}"
+                  </blockquote>
+                  <div className="testimonial-meta">
+                    <strong className="testimonial-author">
+                      {testimonials[currentTestimonial].author}
+                    </strong>
+                    <span className="testimonial-details">
+                      {testimonials[currentTestimonial].details}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="carousel-nav-controls">
+              <button className="carousel-arrow-btn" onClick={handlePrev} aria-label="Previous testimonial">
+                <ChevronLeft size={16} />
               </button>
-            ))}
-          </div>
-        </header>
-
-        <main className="services-grid">
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={activeTab}
-              className="items-container"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {filteredItems.map((item) => (
-                <GlassCard key={item.id} className="service-card" style={{ padding: 0 }}>
-                  <div className="item-preview" style={{ background: item.gradient }}>
-                    <div className="item-icon-large">{item.icon}</div>
-                    <div className="item-level-tag">{item.level}</div>
-                  </div>
-                  
-                  <div className="item-details">
-                    <h3>{item.title}</h3>
-                    <div className="item-meta">
-                      <span><Clock size={12} /> {item.duration}</span>
-                      <span><Star size={12} style={{ color: '#f59e0b' }} /> {item.rating}</span>
-                      <span><Users size={12} /> {item.learners}</span>
-                    </div>
-                    
-                    <div className="item-footer">
-                      <div className="item-price">${item.price}</div>
-                      <GlassButton 
-                        variant={isPurchased(item.id) ? 'secondary' : 'primary'}
-                        className="buy-btn"
-                        disabled={processing === item.id}
-                        onClick={() => handlePurchase(item.id)}
-                      >
-                        {processing === item.id ? (
-                          <div className="spinner-small" />
-                        ) : isPurchased(item.id) ? (
-                          'Already Owned'
-                        ) : (
-                          'Purchase Now'
-                        )}
-                      </GlassButton>
-                    </div>
-                  </div>
-                </GlassCard>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </main>
-
-        <footer className="services-footer">
-          <GlassCard className="help-card" glowingEdge="azure">
-            <div className="help-content">
-              <Zap size={24} className="help-icon" />
-              <div>
-                <h4>Need a custom package?</h4>
-                <p>Enterprise training and team certifications are available. Contact our support team for a dedicated roadmap.</p>
+              <div className="carousel-dots">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`carousel-dot-btn ${currentTestimonial === idx ? 'active' : ''}`}
+                    onClick={() => setCurrentTestimonial(idx)}
+                    aria-label={`Go to testimonial ${idx + 1}`}
+                  />
+                ))}
               </div>
-              <GlassButton variant="secondary">Contact Support</GlassButton>
+              <button className="carousel-arrow-btn" onClick={handleNext} aria-label="Next testimonial">
+                <ChevronRight size={16} />
+              </button>
             </div>
           </GlassCard>
-        </footer>
+        </div>
+
+        {/* Trust Badges */}
+        <div className="trust-badges-wrapper">
+          <GlassCard className="trust-card" glowingEdge="azure" tilt={false}>
+            <span className="services-badge">OUR COMMITMENT</span>
+            <h3>Platform Safety & Integrity</h3>
+            <p className="trust-card-intro">
+              We design every feature around privacy, accessibility, and quality, ensuring a fair space for career building.
+            </p>
+            <div className="badges-list-grid">
+              <div className="badge-item">
+                <Shield size={18} className="badge-icon icon-azure" />
+                <div>
+                  <h5>Data Privacy Certified</h5>
+                  <span>You control who views your active roadmaps.</span>
+                </div>
+              </div>
+              <div className="badge-item">
+                <Heart size={18} className="badge-icon icon-gold" />
+                <div>
+                  <h5>Community-Driven</h5>
+                  <span>Built for seekers, powered by real mentors.</span>
+                </div>
+              </div>
+              <div className="badge-item">
+                <Lock size={18} className="badge-icon icon-emerald" />
+                <div>
+                  <h5>GDPR Compliant</h5>
+                  <span>Strict controls over personal credentials.</span>
+                </div>
+              </div>
+              <div className="badge-item">
+                <CheckCircle size={18} className="badge-icon icon-azure" />
+                <div>
+                  <h5>No Ads, No Paywalls</h5>
+                  <span>Core features are free and direct.</span>
+                </div>
+              </div>
+            </div>
+          </GlassCard>
+        </div>
       </div>
+    </section>
+  );
+};
+
+export const Services: React.FC = () => {
+  return (
+    <PageTransition>
+      <ServicesProvider>
+        <div className="services-page">
+          {/* A. Navbar - Handled in MainLayout */}
+
+          {/* B. Hero Section */}
+          <ServicesHero />
+
+          {/* C. Persistent Filter Bar */}
+          <PersonaFilterBar />
+
+          {/* D. Main Catalog Content */}
+          <div className="services-catalog-container">
+            <CareerIntelligence />
+            <JobDiscovery />
+            <CommunityMentorship />
+            <NetworkingVisibility />
+            <AdvancedTools />
+          </div>
+
+          {/* E. Ecosystem Diagram */}
+          <EcosystemDiagram />
+
+          {/* F. Plans & Pricing */}
+          <PricingPlans />
+
+          {/* G. Social Proof & Trust */}
+          <StatsAndTestimonials />
+
+          {/* H. FAQ Section */}
+          <ServicesFAQ />
+
+          {/* I. Final CTA Section */}
+          <ServicesCTA />
+
+          {/* J. Footer - Handled in MainLayout */}
+        </div>
+      </ServicesProvider>
     </PageTransition>
   );
 };
+
+export default Services;

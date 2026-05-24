@@ -615,14 +615,19 @@
 /* --- RESPONSIVE --- */
 @media (max-width: 1024px) {
   .recruiter-page-root { padding: 24px; }
+  .recruiter-hud-root { padding: 80px 24px 40px; }
   .dashboard-metrics-ribbon { grid-template-columns: repeat(2, 1fr); }
+  .recruiter-metrics-grid { grid-template-columns: repeat(2, 1fr); }
   .dashboard-split-grid { grid-template-columns: 1fr; }
+  .hud-content-layout { grid-template-columns: 1fr; }
   .profile-split { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
   .recruiter-page-root { padding: 16px; }
+  .recruiter-hud-root { padding: 72px 16px 40px; }
   .dashboard-metrics-ribbon { grid-template-columns: 1fr; gap: 16px; }
+  .recruiter-metrics-grid { grid-template-columns: 1fr; gap: 16px; }
   .recruiter-title { font-size: 22px; }
   .metric-card { padding: 16px; gap: 14px; }
   .metric-card h3 { font-size: 22px; }
@@ -634,10 +639,16 @@
   .candidate-grid { grid-template-columns: 1fr; }
   .bottom-action-bar { flex-direction: column; gap: 12px; padding: 16px; }
   .sidebar-action-card { padding: 16px; }
+  .hud-metric-card { padding: 16px !important; gap: 14px; }
+  .metric-value { font-size: 24px; }
+  .metric-icon-box { width: 44px; height: 44px; border-radius: 12px; }
+  .card-top { flex-direction: column; gap: 12px; }
+  .health-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
   .recruiter-page-root { padding: 12px; }
+  .recruiter-hud-root { padding: 72px 12px 32px; }
   .wizard-steps { gap: 8px; }
   .candidate-card { padding: 16px; }
 }

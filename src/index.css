@@ -279,48 +279,115 @@ a, button {
   display: none !important;
 }
 
-/* Disable card hover transitions and translations globally */
-.glass-card, 
-.job-match-card, 
-.theme-card, 
-.wallpaper-preset-card, 
-.layout-mode-card, 
-.pipeline-hud-card, 
-.pipeline-job-card, 
-.exp-job-card, 
-.exp-news-card, 
-.exp-locked-card, 
-.exp-pulse-card, 
-.notif-feed-item-card, 
-.smart-summary-card, 
-.settings-card, 
-.ai-insight-panel, 
-.hud-metric-card, 
-.hud-side-widget, 
-.stats-widget,
-[class*="-card"] {
+/* Disable card hover transitions and translations only when animations are disabled */
+.animations-disabled .glass-card, 
+.animations-disabled .job-match-card, 
+.animations-disabled .theme-card, 
+.animations-disabled .wallpaper-preset-card, 
+.animations-disabled .layout-mode-card, 
+.animations-disabled .pipeline-hud-card, 
+.animations-disabled .pipeline-job-card, 
+.animations-disabled .exp-job-card, 
+.animations-disabled .exp-news-card, 
+.animations-disabled .exp-locked-card, 
+.animations-disabled .exp-pulse-card, 
+.animations-disabled .notif-feed-item-card, 
+.animations-disabled .smart-summary-card, 
+.animations-disabled .settings-card, 
+.animations-disabled .ai-insight-panel, 
+.animations-disabled .hud-metric-card, 
+.animations-disabled .hud-side-widget, 
+.animations-disabled .stats-widget,
+.animations-disabled [class*="-card"] {
   transition: none !important;
 }
 
-.glass-card:hover, 
-.job-match-card:hover, 
-.theme-card:hover, 
-.wallpaper-preset-card:hover, 
-.layout-mode-card:hover, 
-.pipeline-hud-card:hover, 
-.pipeline-job-card:hover, 
-.exp-job-card:hover, 
-.exp-news-card:hover, 
-.exp-locked-card:hover, 
-.exp-pulse-card:hover, 
-.notif-feed-item-card:hover, 
-.smart-summary-card:hover, 
-.settings-card:hover, 
-.ai-insight-panel:hover, 
-.hud-metric-card:hover, 
-.hud-side-widget:hover, 
-.stats-widget:hover,
-[class*="-card"]:hover {
+.animations-disabled .glass-card:hover, 
+.animations-disabled .job-match-card:hover, 
+.animations-disabled .theme-card:hover, 
+.animations-disabled .wallpaper-preset-card:hover, 
+.animations-disabled .layout-mode-card:hover, 
+.animations-disabled .pipeline-hud-card:hover, 
+.animations-disabled .pipeline-job-card:hover, 
+.animations-disabled .exp-job-card:hover, 
+.animations-disabled .exp-news-card:hover, 
+.animations-disabled .exp-locked-card:hover, 
+.animations-disabled .exp-pulse-card:hover, 
+.animations-disabled .notif-feed-item-card:hover, 
+.animations-disabled .smart-summary-card:hover, 
+.animations-disabled .settings-card:hover, 
+.animations-disabled .ai-insight-panel:hover, 
+.animations-disabled .hud-metric-card:hover, 
+.animations-disabled .hud-side-widget:hover, 
+.animations-disabled .stats-widget:hover,
+.animations-disabled [class*="-card"]:hover {
   transition: none !important;
   transform: none !important;
 }
+
+/* ═════════════════════════════════════════════════════════════
+   GLOBAL RESPONSIVE OVERRIDES
+   ═════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .vij-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .vij-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+@media (max-width: 768px) {
+  /* Fluid Typography Scaling Overrides */
+  h1, .h1 { font-size: clamp(24px, 6vw, 36px) !important; }
+  h2, .h2 { font-size: clamp(20px, 5vw, 28px) !important; }
+  h3, .h3 { font-size: clamp(17px, 4vw, 22px) !important; }
+  h4, .h4 { font-size: clamp(14px, 3vw, 18px) !important; }
+
+  /* Fluid Spacing Scale Reductions */
+  :root {
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+  }
+
+  /* Responsive Spacing & Grid Reductions */
+  .vij-page {
+    padding: var(--space-sm) !important;
+  }
+
+  .vij-flex:not(.flex-no-collapse) {
+    flex-direction: column !important;
+  }
+
+  .vij-grid-2, .vij-grid-3, .vij-grid-4 { 
+    grid-template-columns: 1fr !important; 
+    gap: var(--space-sm) !important;
+  }
+
+  /* Common Layout Collapses */
+  .dashboard-layout, 
+  .settings-layout, 
+  .profile-layout, 
+  .auth-layout, 
+  .jobs-layout {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-md) !important;
+  }
+
+  /* Global Form Responsiveness */
+  input, textarea, select {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Prevent overflow on tables/scroll zones */
+  .table-responsive, 
+  .table-container, 
+  .scroll-x-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+

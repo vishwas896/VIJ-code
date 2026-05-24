@@ -11,6 +11,7 @@ import { NotificationDropdown } from '../components/NotificationDropdown';
 import { FloatingMessenger } from '../components/FloatingMessenger';
 import { CurrencySelector } from '../components/CurrencySelector';
 import { useTheme } from '../context/ThemeContext';
+import { Footer } from '../components/footer/Footer';
 import './MainLayout.css';
 
 export const MainLayout: React.FC = () => {
@@ -22,18 +23,11 @@ export const MainLayout: React.FC = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [isBottom, setIsBottom] = useState(false);
 
-  // Scroll-aware header and footer bottom detection
+  // Scroll-aware header detection
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      
-      const threshold = 100; // px tolerance
-      const isScrollable = document.documentElement.scrollHeight > window.innerHeight + threshold;
-      const scrolledToBottom = isScrollable && 
-        (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - threshold);
-      setIsBottom(scrolledToBottom);
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -42,10 +36,8 @@ export const MainLayout: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-  // Close mobile nav and collapse footer on route change
+  // Close mobile nav on route change
   useEffect(() => {
-    setIsBottom(false);
     const timer = window.setTimeout(() => setMobileNavOpen(false), 0);
     return () => window.clearTimeout(timer);
   }, [location.pathname]);
@@ -205,7 +197,16 @@ export const MainLayout: React.FC = () => {
                       <motion.div
                         initial={{ opacity: 0, y: 5 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
+                        transition={{ delay: 0.08 }}
+                      >
+                        <Link to="/settings/account" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
+                          <Settings size={16} /> Settings
+                        </Link>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.12 }}
                       >
                         <button className="profile-dropdown-item logout-item" onClick={logout}>
                           <LogOut size={16} /> Log Out
@@ -241,48 +242,7 @@ export const MainLayout: React.FC = () => {
         {!isAuthenticated && <GuestBanner />}
       </main>
 
-      {/* ── GLOBAL FOOTER ── */}
-      <footer className={`global-footer ${isBottom ? 'footer-expanded-bottom' : ''}`}>
-        <div className="footer-top">
-          <div className="footer-brand">
-            <Link to="/" className="logo-container">
-              <VijLogo size="sm" theme="light" />
-            </Link>
-            <p>A skill-based hiring ecosystem designed to bridge the gap between talent and opportunity.</p>
-          </div>
-          <div className="footer-columns">
-            <div className="footer-col">
-              <h4>Browse Jobs</h4>
-              <Link to="/jobs">Jobs by Role</Link>
-              <Link to="/jobs">Jobs by City</Link>
-              <Link to="/jobs">Jobs by Industry</Link>
-              <Link to="/salary-insights">Salary Insights</Link>
-            </div>
-            <div className="footer-col">
-              <h4>Resources</h4>
-              <Link to="/roadmaps">Career Roadmaps</Link>
-              <Link to="/services">Premium Services</Link>
-              <Link to="/learning-center/1">Learning Center</Link>
-              <Link to="/about">Success Stories</Link>
-            </div>
-            <div className="footer-col">
-              <h4>Social</h4>
-              <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer">Twitter</a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <div className="footer-status-left">
-            <span>© 2026 Virtual Intelligent Junction (VIJ). All rights reserved.</span>
-          </div>
-          <div className="footer-status-right">
-            <span className="footer-msme-badge">Registered MSME</span>
-            <span className="footer-status-dot-green">● Platform Active</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       
       {isAuthenticated && <FloatingMessenger />}
     </LiquidBackground>

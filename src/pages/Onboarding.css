@@ -426,8 +426,20 @@
 }
 
 @media (max-width: 640px) {
-  .wizard-container { padding: 32px; border-radius: 32px; }
+  .onboarding-page { padding: 16px; min-height: calc(100vh - 56px); }
+  .wizard-container { padding: 28px 20px; border-radius: 24px; }
   .input-row { grid-template-columns: 1fr; }
   .employment-toggle { grid-template-columns: 1fr 1fr; }
-  .otp-box { width: 52px; height: 52px; }
+  .otp-grid { gap: 8px; justify-content: center; }
+  .otp-box { width: 44px; height: 44px; font-size: 18px; border-radius: 10px; }
+  .wizard-pane h2 { font-size: 26px; }
+  .wizard-controls { margin-top: 32px; gap: 10px; }
+  .pane-header { margin-bottom: 24px; }
+  .wizard-pane-container { min-height: 380px; }
 }
+
+@media (max-width: 375px) {
+  .otp-box { width: 36px; height: 36px; font-size: 16px; }
+  .wizard-container { padding: 20px 14px; }
+}
+

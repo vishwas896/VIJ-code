@@ -1032,6 +1032,18 @@
     gap: 12px;
     text-align: center;
   }
+  .rm-branch-canvas {
+    overflow-x: auto !important;
+  }
+  .rm-compare-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .rm-sim-gauge-group {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* --- PRINT LAYOUT --- */

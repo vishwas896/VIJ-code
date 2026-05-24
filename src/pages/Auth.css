@@ -541,5 +541,5 @@
 @media (max-width: 480px) {
   .auth-domain-grid { grid-template-columns: repeat(2, 1fr); }
   .auth-field-row { grid-template-columns: 1fr; }
-  .auth-seeker-type-row { grid-template-columns: repeat(3, 1fr); }
+  .auth-seeker-type-row { grid-template-columns: 1fr; }
 }
