@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Search, X } from 'lucide-react';
@@ -117,3 +118,4 @@ export const AutocompleteDropdown: React.FC<AutocompleteDropdownProps> = ({
     </div>
   );
 };
+

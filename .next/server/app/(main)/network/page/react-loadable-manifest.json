@@ -1,0 +1,11 @@
+{
+  "[project]/src/views/GlobalNetwork.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/src/views/GlobalNetwork.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/src_views_GlobalNetwork_tsx_a09212ad._.js",
+      "static/chunks/node_modules_0cf8eeb3._.js",
+      "static/chunks/_07db4d90._.css",
+      "static/chunks/src_views_GlobalNetwork_tsx_ec036ae2._.js"
+    ]
+  }
+}

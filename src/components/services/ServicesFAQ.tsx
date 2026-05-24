@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -63,3 +64,4 @@ export const ServicesFAQ: React.FC = () => {
     </section>
   );
 };
+

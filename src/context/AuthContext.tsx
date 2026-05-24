@@ -1,3 +1,4 @@
+'use client';
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
 
@@ -58,18 +59,27 @@ const createUserId = () => {
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // For demo purposes, we'll initialize from localStorage to persist across refreshes
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('vij_auth') === 'true';
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [walletBalance, setWalletBalance] = useState(450);
 
-  const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem('vij_user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedAuth = localStorage.getItem('vij_auth') === 'true';
+      const savedUser = localStorage.getItem('vij_user');
+      const savedWallet = Number(localStorage.getItem('vij_wallet')) || 450;
 
-  const [walletBalance, setWalletBalance] = useState(() => {
-    return Number(localStorage.getItem('vij_wallet')) || 450;
-  });
+      setIsAuthenticated(savedAuth);
+      if (savedUser) {
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch (e) {
+          console.error("Error parsing user from localStorage", e);
+        }
+      }
+      setWalletBalance(savedWallet);
+    }
+  }, []);
 
   const login = (role: 'seeker' | 'recruiter', domain?: UserDomain) => {
     setIsAuthenticated(true);

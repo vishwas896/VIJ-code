@@ -1,5 +1,6 @@
+﻿'use client';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { 
   Map, Activity, Compass, GitMerge, DollarSign, HelpCircle, 
   Target, Eye, FileText, Users, MessageSquare, BookOpen, 
@@ -59,7 +60,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   link,
   isHighlighted
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <GlassCard 
@@ -89,7 +90,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         <GlassButton 
           variant={isHighlighted ? 'primary' : 'secondary'} 
           className="service-card-cta"
-          onClick={() => navigate(link)}
+          onClick={() => router.push(link)}
           icon={<ArrowUpRight size={14} />}
         >
           {cta}
@@ -98,3 +99,4 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
     </GlassCard>
   );
 };
+

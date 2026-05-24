@@ -1,3 +1,4 @@
+'use client';
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
@@ -32,20 +33,34 @@ interface RoadmapContextType {
 const RoadmapContext = createContext<RoadmapContextType | undefined>(undefined);
 
 export const RoadmapProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, setState] = useState<RoadmapState>(() => {
-    const saved = localStorage.getItem('vij_roadmap_state');
-    return saved ? JSON.parse(saved) : {
-      activePathId: null,
-      completedNodes: [],
-      savedPaths: [],
-      likedPaths: [],
-      profileAnswers: null,
-    };
+  const [state, setState] = useState<RoadmapState>({
+    activePathId: null,
+    completedNodes: [],
+    savedPaths: [],
+    likedPaths: [],
+    profileAnswers: null,
   });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('vij_roadmap_state', JSON.stringify(state));
-  }, [state]);
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('vij_roadmap_state');
+      if (saved) {
+        try {
+          setState(JSON.parse(saved));
+        } catch (e) {
+          console.error("Error loading roadmap state", e);
+        }
+      }
+      setIsLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded && typeof window !== 'undefined') {
+      localStorage.setItem('vij_roadmap_state', JSON.stringify(state));
+    }
+  }, [state, isLoaded]);
 
   const startRoute = (id: string) => {
     setState(prev => ({ ...prev, activePathId: id }));

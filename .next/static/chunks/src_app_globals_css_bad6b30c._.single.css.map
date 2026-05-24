@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/globals.css"],"sourcesContent":["/* Global CSS entry point for Next.js App Router */\n/* All VIJ design tokens and global styles are in src/index.css */\n@import '../index.css';\n"],"names":[],"mappings":""}}]
+}

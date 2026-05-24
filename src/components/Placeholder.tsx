@@ -1,13 +1,14 @@
+'use client';
 import React from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { GlassCard } from './GlassCard';
 import { GlassButton } from './GlassButton';
 import { LiquidBackground } from './LiquidBackground';
 
 export const Placeholder: React.FC<{ title?: string }> = ({ title }) => {
   const params = useParams();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <LiquidBackground>
@@ -18,12 +19,13 @@ export const Placeholder: React.FC<{ title?: string }> = ({ title }) => {
             This parameterized route is being modeled.
           </p>
           <div style={{ margin: '24px 0', padding: '16px', background: 'rgba(0,0,0,0.05)', borderRadius: '8px' }}>
-            <p><strong>Path:</strong> {location.pathname}</p>
+            <p><strong>Path:</strong> {pathname}</p>
             <p><strong>Parameters:</strong> {JSON.stringify(params)}</p>
           </div>
-          <GlassButton onClick={() => navigate(-1)} variant="secondary">Go Back</GlassButton>
+          <GlassButton onClick={() => router.back()} variant="secondary">Go Back</GlassButton>
         </GlassCard>
       </div>
     </LiquidBackground>
   );
 };
+

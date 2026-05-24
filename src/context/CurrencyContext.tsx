@@ -1,3 +1,4 @@
+'use client';
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 

@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MailX, Shuffle, HelpCircle } from 'lucide-react';
@@ -49,3 +50,4 @@ export const ProblemStatement: React.FC = () => {
     </section>
   );
 };
+

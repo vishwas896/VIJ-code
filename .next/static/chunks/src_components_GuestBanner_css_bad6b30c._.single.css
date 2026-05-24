@@ -1,0 +1,192 @@
+/* [project]/src/components/GuestBanner.css [app-client] (css) */
+.guest-banner-fixed {
+  z-index: 9999;
+  pointer-events: none;
+  width: 90%;
+  max-width: 800px;
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.guest-banner-glass {
+  pointer-events: auto;
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, .5);
+  border: 1px solid rgba(255, 255, 255, .4);
+  border-radius: 24px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 20px 32px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .08), inset 0 0 0 1px rgba(255, 255, 255, .2);
+}
+
+.banner-breathing-glow {
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .8;
+  -webkit-mask-composite: xor;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(14, 165, 233, .25) 25%, rgba(99, 102, 241, .25) 50%, rgba(14, 165, 233, .25) 75%, rgba(0, 0, 0, 0) 100%) 0 0 / 200% 100%;
+  padding: 1.5px;
+  animation: 3s ease-in-out infinite breathe-glow;
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  -webkit-mask-image: linear-gradient(#fff 0, #fff 0), linear-gradient(#fff 0, #fff 0);
+  -webkit-mask-position: 0 0, 0 0;
+  -webkit-mask-size: auto, auto;
+  -webkit-mask-repeat: repeat, repeat;
+  -webkit-mask-clip: content-box, border-box;
+  -webkit-mask-origin: content-box, border-box;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  -webkit-mask-source-type: auto, auto;
+  mask-mode: match-source, match-source;
+}
+
+@keyframes breathe-glow {
+  0%, 100% {
+    opacity: .4;
+    background-position: 0 0;
+  }
+
+  50% {
+    opacity: .9;
+    background-position: 100% 0;
+  }
+}
+
+.banner-timer-bar {
+  background: linear-gradient(90deg, var(--accent-azure, #0ea5e9), #6366f1);
+  transform-origin: 0;
+  z-index: 2;
+  border-radius: 3px 3px 0 0;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.banner-context {
+  z-index: 1;
+  align-items: center;
+  gap: 20px;
+  display: flex;
+  position: relative;
+}
+
+.banner-icon-ring {
+  background: #fff;
+  border-radius: 14px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, .15);
+}
+
+.banner-sparkle {
+  color: #0284c7;
+}
+
+.banner-text {
+  z-index: 1;
+  position: relative;
+}
+
+.banner-text h3 {
+  color: #18181b;
+  letter-spacing: -.3px;
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.banner-text p {
+  color: #71717a;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.banner-actions {
+  z-index: 1;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  display: flex;
+  position: relative;
+}
+
+.banner-btn-secondary {
+  color: #52525b;
+  transition: all var(--duration-normal, .3s) var(--ease-spring, ease);
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.banner-btn-secondary:hover {
+  color: #18181b;
+  background: rgba(0, 0, 0, .05);
+}
+
+.banner-btn-primary {
+  color: #fff;
+  transition: all var(--duration-normal, .3s) var(--ease-spring, ease);
+  background: #1c1e26;
+  border-radius: 12px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+}
+
+.banner-btn-primary:hover {
+  background: #2d2f3a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+}
+
+@media (max-width: 768px) {
+  .guest-banner-fixed {
+    width: 94%;
+    bottom: 16px;
+  }
+
+  .guest-banner-glass {
+    text-align: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .banner-context {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .banner-actions {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=src_components_GuestBanner_css_bad6b30c._.single.css.map*/

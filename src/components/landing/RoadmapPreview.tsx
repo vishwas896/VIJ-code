@@ -1,12 +1,13 @@
+﻿'use client';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Compass } from 'lucide-react';
 import { GlassCard } from '../GlassCard';
 import { GlassButton } from '../GlassButton';
 import './landing.css';
 
 export const RoadmapPreview: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <section className="ld-section">
@@ -68,7 +69,7 @@ export const RoadmapPreview: React.FC = () => {
             </p>
             <GlassButton 
               variant="primary"
-              onClick={() => navigate('/roadmaps')}
+              onClick={() => router.push('/roadmaps')}
               style={{ width: 'fit-content' }}
             >
               See It In Action
@@ -80,3 +81,4 @@ export const RoadmapPreview: React.FC = () => {
     </section>
   );
 };
+

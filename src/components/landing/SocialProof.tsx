@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, UserCheck2, Landmark } from 'lucide-react';
@@ -124,3 +125,4 @@ export const SocialProof: React.FC = () => {
     </section>
   );
 };
+

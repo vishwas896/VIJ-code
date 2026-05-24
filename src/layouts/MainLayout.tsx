@@ -1,5 +1,7 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { useLocation, useOutlet, Link } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Bell, LayoutDashboard, LogOut, User, Menu, X, Settings } from 'lucide-react';
 import { LiquidBackground } from '../components/LiquidBackground';
@@ -14,9 +16,8 @@ import { useTheme } from '../context/ThemeContext';
 import { Footer } from '../components/footer/Footer';
 import './MainLayout.css';
 
-export const MainLayout: React.FC = () => {
-  const location = useLocation();
-  const element = useOutlet();
+export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const pathname = usePathname();
   const { isAuthenticated, user, logout } = useAuth();
   const { preferences } = useTheme();
   const [showNotifs, setShowNotifs] = useState(false);
@@ -40,7 +41,7 @@ export const MainLayout: React.FC = () => {
   useEffect(() => {
     const timer = window.setTimeout(() => setMobileNavOpen(false), 0);
     return () => window.clearTimeout(timer);
-  }, [location.pathname]);
+  }, [pathname]);
 
   const navLinks = [
     { to: '/', label: 'Home' },
@@ -75,7 +76,7 @@ export const MainLayout: React.FC = () => {
       )}
       <header className={`global-header ${scrolled ? 'header-scrolled' : ''}`}>
         {/* ── Logo ── */}
-        <Link to="/" className="logo-container">
+        <Link href="/" className="logo-container">
           <VijLogo size="sm" theme="light" />
         </Link>
 
@@ -92,12 +93,12 @@ export const MainLayout: React.FC = () => {
         <nav className={`global-nav ${mobileNavOpen ? 'nav-open' : ''}`}>
           {navLinks.map((link) => {
             const isActive = link.to === '/' 
-              ? location.pathname === '/' 
-              : location.pathname.startsWith(link.to);
+              ? pathname === '/' 
+              : pathname.startsWith(link.to);
             return (
               <Link
                 key={link.to}
-                to={link.to}
+                href={link.to}
                 className={`nav-link ${isActive ? 'nav-active' : ''}`}
               >
                 {link.label}
@@ -119,7 +120,7 @@ export const MainLayout: React.FC = () => {
             <>
               {/* Dashboard Link */}
               <Link 
-                to={
+                href={
                   user?.role === 'recruiter' 
                     ? '/recruiter/dashboard' 
                     : user?.onboardingCompleted 
@@ -156,7 +157,7 @@ export const MainLayout: React.FC = () => {
 
               {/* Settings button */}
               <Link 
-                to="/settings" 
+                href="/settings" 
                 className="nav-settings-btn"
                 title="Settings"
               >
@@ -190,7 +191,7 @@ export const MainLayout: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05 }}
                       >
-                        <Link to="/profile/me" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
+                        <Link href="/profile/me" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
                           <User size={16} /> My Profile
                         </Link>
                       </motion.div>
@@ -199,7 +200,7 @@ export const MainLayout: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.08 }}
                       >
-                        <Link to="/settings/account" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
+                        <Link href="/settings/account" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
                           <Settings size={16} /> Settings
                         </Link>
                       </motion.div>
@@ -220,11 +221,11 @@ export const MainLayout: React.FC = () => {
           ) : (
             <>
               <CurrencySelector />
-              <Link to="/login" className="login-trigger-btn">
+              <Link href="/login" className="login-trigger-btn">
                 Log In
               </Link>
 
-              <Link to="/register" className="join-nav-btn">
+              <Link href="/register" className="join-nav-btn">
                 Join Junction
               </Link>
             </>
@@ -236,7 +237,9 @@ export const MainLayout: React.FC = () => {
       
       <main className="main-content" style={{ position: 'relative', overflowX: 'hidden' }}>
         <AnimatePresence mode="wait" initial={false}>
-          {element && React.cloneElement(element, { key: location.pathname })}
+          <motion.div key={pathname} style={{ width: '100%' }}>
+            {children}
+          </motion.div>
         </AnimatePresence>
         
         {!isAuthenticated && <GuestBanner />}

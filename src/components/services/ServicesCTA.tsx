@@ -1,24 +1,25 @@
+﻿'use client';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, MessageSquare } from 'lucide-react';
 import { GlassCard } from '../GlassCard';
 import { GlassButton } from '../GlassButton';
 import { useAuth } from '../../context/AuthContext';
 
 export const ServicesCTA: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
 
   const handlePrimaryClick = () => {
     if (isAuthenticated) {
-      navigate('/seeker/dashboard');
+      router.push('/seeker/dashboard');
     } else {
-      navigate('/register');
+      router.push('/register');
     }
   };
 
   const handleSecondaryClick = () => {
-    navigate('/contact');
+    router.push('/contact');
   };
 
   return (
@@ -52,3 +53,4 @@ export const ServicesCTA: React.FC = () => {
     </section>
   );
 };
+

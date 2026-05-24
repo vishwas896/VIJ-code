@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useRef, useCallback } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import './GlassButton.css';
@@ -85,3 +86,4 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
     </motion.button>
   );
 };
+

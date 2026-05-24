@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useRef, useEffect } from 'react';
 import { motion, useSpring, useInView, useMotionValue } from 'framer-motion';
 
@@ -58,3 +59,4 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
     </motion.span>
   );
 };
+
