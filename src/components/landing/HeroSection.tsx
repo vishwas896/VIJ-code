@@ -1,6 +1,7 @@
+﻿'use client';
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { Sparkles, Play, FileText, CheckCircle2 } from 'lucide-react';
 import { GlassButton } from '../GlassButton';
 import './landing.css';
@@ -17,7 +18,7 @@ interface TeaserNode {
 }
 
 export const HeroSection: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [activeNode, setActiveNode] = useState<TeaserNode | null>(null);
 
@@ -139,7 +140,7 @@ export const HeroSection: React.FC = () => {
           <div className="ld-hero-actions">
             <GlassButton 
               variant="primary"
-              onClick={() => navigate('/register')}
+              onClick={() => router.push('/register')}
               style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
             >
               <FileText size={16} />
@@ -234,3 +235,4 @@ export const HeroSection: React.FC = () => {
     </section>
   );
 };
+

@@ -1,17 +1,19 @@
+'use client';
 import React from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Briefcase } from 'lucide-react';
 import './BackJobsBar.css';
 
 export const BackJobsBar: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Don't show on home or jobs pages (top-level nav destinations)
-  if (location.pathname === '/' || location.pathname === '/jobs') return null;
+  if (pathname === '/' || pathname === '/jobs') return null;
 
-  const isJobsPage = location.pathname.startsWith('/jobs');
+  const isJobsPage = pathname.startsWith('/jobs');
 
   return (
     <motion.div
@@ -23,7 +25,7 @@ export const BackJobsBar: React.FC = () => {
       {/* Back Button */}
       <motion.button
         className="back-btn"
-        onClick={() => navigate(-1)}
+        onClick={() => router.back()}
         whileHover={{ x: -3, scale: 1.02 }}
         whileTap={{ scale: 0.96 }}
         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -46,7 +48,7 @@ export const BackJobsBar: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 300, damping: 20 }}
         >
-          <Link to="/jobs" className="explore-btn">
+          <Link href="/jobs" className="explore-btn">
             <motion.span
               className="explore-icon"
               animate={{ rotate: [0, 15, -15, 0] }}
@@ -61,3 +63,4 @@ export const BackJobsBar: React.FC = () => {
     </motion.div>
   );
 };
+

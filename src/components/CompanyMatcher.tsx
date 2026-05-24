@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Building, CheckCircle } from 'lucide-react';
@@ -89,3 +90,4 @@ export const CompanyMatcher: React.FC<{ onSelect: (company: Company) => void }> 
     </div>
   );
 };
+

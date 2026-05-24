@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Fingerprint, Landmark, Navigation2 } from 'lucide-react';
@@ -48,3 +49,4 @@ export const HowItWorks: React.FC = () => {
     </section>
   );
 };
+

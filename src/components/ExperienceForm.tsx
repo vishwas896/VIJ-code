@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Briefcase, X } from 'lucide-react';
@@ -210,3 +211,4 @@ export const ExperienceForm: React.FC = () => {
     </div>
   );
 };
+

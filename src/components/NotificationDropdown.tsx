@@ -1,6 +1,7 @@
+﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { Briefcase, Zap, Star, UserPlus, Bell, ArrowRight } from 'lucide-react';
 import { GlassCard } from './GlassCard';
 
@@ -22,7 +23,7 @@ const INITIAL_NOTIFS: DropdownNotifItem[] = [
 ];
 
 export const NotificationDropdown: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [items, setItems] = useState<DropdownNotifItem[]>(INITIAL_NOTIFS);
   const [filter, setFilter] = useState<'all' | 'job' | 'connection' | 'system'>('all');
 
@@ -85,7 +86,7 @@ export const NotificationDropdown: React.FC<{ onClose: () => void }> = ({ onClos
                   className={`notif-item ${n.priority ? 'dd-priority-notif' : ''}`}
                   onClick={() => {
                     onClose();
-                    navigate('/notifications');
+                    router.push('/notifications');
                   }}
                 >
                   <div className="notif-icon" style={{ backgroundColor: `${n.color}15`, color: n.color }}>
@@ -114,7 +115,7 @@ export const NotificationDropdown: React.FC<{ onClose: () => void }> = ({ onClos
           className="view-all-notif" 
           onClick={() => {
             onClose();
-            navigate('/notifications');
+            router.push('/notifications');
           }}
         >
           <span>View all in Notifications Hub</span>
@@ -124,3 +125,4 @@ export const NotificationDropdown: React.FC<{ onClose: () => void }> = ({ onClos
     </motion.div>
   );
 };
+

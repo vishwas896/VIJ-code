@@ -1,5 +1,7 @@
+'use client';
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Send, 
@@ -66,7 +68,7 @@ interface FooterSection {
 
 export const Footer: React.FC = () => {
   const { preferences } = useTheme();
-  const location = useLocation();
+  const pathname = usePathname();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -155,7 +157,7 @@ export const Footer: React.FC = () => {
           
           {/* ── Brand description column ── */}
           <div className="footer-brand-col">
-            <Link to="/" className="footer-logo-link" aria-label="Project VIJ Home">
+            <Link href="/" className="footer-logo-link" aria-label="Project VIJ Home">
               <VijLogo size="sm" theme={preferences.darkMode ? 'dark' : 'light'} />
             </Link>
             <p className="footer-tagline">“Your career, mapped by experience.”</p>
@@ -187,11 +189,11 @@ export const Footer: React.FC = () => {
                 className={`footer-links-list ${expandedSections[section.title] ? 'expanded' : ''}`}
               >
                 {section.links.map((link) => {
-                  const isActive = location.pathname === link.to;
+                  const isActive = pathname === link.to;
                   return (
                     <li key={link.label}>
                       <Link 
-                        to={link.to} 
+                        href={link.to} 
                         className={`footer-link ${isActive ? 'active' : ''}`}
                       >
                         {link.label}
@@ -335,3 +337,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+

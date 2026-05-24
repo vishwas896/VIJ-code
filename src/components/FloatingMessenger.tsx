@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -186,3 +187,4 @@ const Sparkles = ({ size }: { size: number }) => (
     <path d="M17 19h4" />
   </svg>
 );
+

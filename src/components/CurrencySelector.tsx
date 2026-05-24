@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe } from 'lucide-react';
@@ -74,3 +75,4 @@ export const CurrencySelector: React.FC = () => {
     </div>
   );
 };
+
