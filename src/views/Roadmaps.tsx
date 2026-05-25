@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -6,7 +6,7 @@ import {
   TrendingUp, ChevronRight,
   Activity, Users, Bookmark, Building2,
   Sparkles, Award, Flame, Compass, ChevronDown, 
-  Check, Info, Download, Volume2, Smile,
+  Check, Info, Download, Volume2,
   Clock, Play, Pause, RotateCcw, Share2,
   MapPin, CheckCircle, ExternalLink
 } from 'lucide-react';
@@ -510,72 +510,6 @@ export const Roadmaps: React.FC = () => {
         {/* ── CURRENT ROLE SNAPSHOT & SKILL ASSESSMENT ── */}
         {selectedRoadmap && (
           <section style={{ marginTop: '40px' }}>
-            <h2 className="rm-section-title">
-              <Building2 size={20} />
-              Current Profile Snapshot: {selectedRoadmap.title}
-            </h2>
-
-            <div className="rm-snapshot-grid">
-              {/* Salary Snapshot */}
-              <div className="rm-snapshot-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span className="rm-card-badge">Based on 1,450 salary reports</span>
-                  <Award size={14} style={{ color: '#0A6E6E' }} />
-                </div>
-                <h4 style={{ margin: '4px 0', fontSize: '14px', color: '#64748b' }}>Median Base Salary</h4>
-                <div className="rm-metric-val">
-                  {selectedRoadmap.id.includes('ai') ? '$145,000' : selectedRoadmap.id.includes('ib') ? '$118,000' : '$88,000'}
-                </div>
-                <div style={{ fontSize: '11px', color: '#64748b' }}>Updated 3 days ago.</div>
-              </div>
-
-              {/* Smiley gauge slider */}
-              <div className="rm-snapshot-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span className="rm-card-badge">Job Satisfaction</span>
-                  <Smile size={14} style={{ color: '#FF6B6B' }} />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
-                  <span style={{ fontSize: '32px' }}>{getSatisfactionEmoji(jobSatisfaction).emoji}</span>
-                  <div>
-                    <strong style={{ display: 'block', fontSize: '16px', color: '#0A6E6E' }}>{getSatisfactionEmoji(jobSatisfaction).label}</strong>
-                    <span style={{ fontSize: '11px', color: '#64748b' }}>Index score of {jobSatisfaction * 20}/100</span>
-                  </div>
-                </div>
-                <input 
-                  type="range" 
-                  min="1" 
-                  max="5" 
-                  value={jobSatisfaction} 
-                  onChange={e => setJobSatisfaction(parseInt(e.target.value))}
-                  style={{ width: '100%', accentColor: '#0A6E6E', marginTop: '10px' }}
-                />
-              </div>
-
-              {/* Experience distribution */}
-              <div className="rm-snapshot-card">
-                <span className="rm-card-badge">Industry Experience Spread</span>
-                <div className="rm-dist-bars">
-                  <div className="rm-dist-col active">
-                    <div className="rm-dist-bar" style={{ height: '24px' }} />
-                    <span className="rm-dist-lbl">0-1Y</span>
-                  </div>
-                  <div className="rm-dist-col active">
-                    <div className="rm-dist-bar" style={{ height: '40px' }} />
-                    <span className="rm-dist-lbl">1-3Y</span>
-                  </div>
-                  <div className="rm-dist-col">
-                    <div className="rm-dist-bar" style={{ height: '18px' }} />
-                    <span className="rm-dist-lbl">3-5Y</span>
-                  </div>
-                  <div className="rm-dist-col">
-                    <div className="rm-dist-bar" style={{ height: '8px' }} />
-                    <span className="rm-dist-lbl">5Y+</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Skill Cloud with rating options */}
             <div className="rm-skills-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

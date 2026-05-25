@@ -1,3 +1,11 @@
 'use client';
 import { Onboarding } from '../../../../views/Onboarding';
-export default function OnboardingParametersPage() { return <Onboarding />; }
+import { ProtectedRoute } from '../../../../components/ProtectedRoute';
+
+export default function OnboardingParametersPage() {
+  return (
+    <ProtectedRoute>
+      <Onboarding />
+    </ProtectedRoute>
+  );
+}

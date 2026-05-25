@@ -1,3 +1,11 @@
 'use client';
 import { NetworkChat } from '../../../../views/NetworkChat';
-export default function NetworkConnectionsPage() { return <NetworkChat />; }
+import { ProtectedRoute } from '../../../../components/ProtectedRoute';
+
+export default function NetworkConnectionsPage() {
+  return (
+    <ProtectedRoute>
+      <NetworkChat />
+    </ProtectedRoute>
+  );
+}

@@ -1,3 +1,11 @@
 'use client';
 import { Settings } from '../../../../views/Settings';
-export default function SettingsTabPage() { return <Settings />; }
+import { ProtectedRoute } from '../../../../components/ProtectedRoute';
+
+export default function SettingsTabPage() {
+  return (
+    <ProtectedRoute>
+      <Settings />
+    </ProtectedRoute>
+  );
+}

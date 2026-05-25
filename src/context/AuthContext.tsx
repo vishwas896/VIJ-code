@@ -31,6 +31,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   walletBalance: number;
+  loading: boolean;
   login: (role: 'seeker' | 'recruiter', domain?: UserDomain) => void;
   logout: () => void;
   completeOnboarding: () => void;
@@ -62,6 +63,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [walletBalance, setWalletBalance] = useState(450);
+  const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -78,6 +80,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
       setWalletBalance(savedWallet);
+      setLoading(false);
     }
   }, []);
 
@@ -163,6 +166,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       isAuthenticated, 
       user, 
       walletBalance,
+      loading,
       login, 
       logout, 
       completeOnboarding, 
