@@ -156,25 +156,37 @@
   background: rgba(14, 165, 233, 0.08);
 }
 
+.nav-bell,
+.nav-bell * {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 .nav-bell {
   position: relative;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.1);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--vij-text-muted);
-  transition: all 0.2s;
+  color: var(--accent-azure);
 }
 
-.nav-bell:hover {
-  color: var(--accent-azure);
-  background: rgba(14, 165, 233, 0.08);
+.nav-bell:hover,
+.nav-bell.active,
+.nav-bell:active,
+.nav-bell:focus {
+  background: rgba(220, 38, 38, 0.1) !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
+  color: var(--accent-azure) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .bell-dot {
@@ -403,7 +415,7 @@
 .mark-read {
   background: transparent;
   border: none;
-  color: #0ea5e9;
+  color: var(--accent-azure);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -579,19 +591,38 @@
   z-index: 2000;
 }
 
+.messenger-fab,
+.messenger-fab * {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 .messenger-fab {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #0ea5e9;
-  color: #fff;
-  border: none;
+  background: rgba(220, 38, 38, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--accent-azure);
+  border: 1.5px solid rgba(220, 38, 38, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.15);
   position: relative;
+}
+
+.messenger-fab:hover,
+.messenger-fab:active,
+.messenger-fab:focus {
+  background: rgba(220, 38, 38, 0.12) !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
+  color: var(--accent-azure) !important;
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.15) !important;
+  transform: none !important;
 }
 
 .fab-badge {
@@ -627,7 +658,7 @@
 
 .messenger-header {
   padding: 16px;
-  background: rgba(14, 165, 233, 0.1);
+  background: rgba(220, 38, 38, 0.1);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -712,7 +743,7 @@
 .msg-send-btn {
   width: 34px;
   height: 34px;
-  background: #0ea5e9;
+  background: var(--accent-azure);
   border: none;
   border-radius: 8px;
   color: #fff;
@@ -722,16 +753,30 @@
   cursor: pointer;
 }
 
+.minimized-messenger,
+.minimized-messenger * {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
 .minimized-messenger {
-  background: rgba(14, 165, 233, 0.1);
+  background: rgba(220, 38, 38, 0.12);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(14, 165, 233, 0.2);
+  border: 1px solid rgba(220, 38, 38, 0.35);
   padding: 8px 16px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 16px;
   cursor: pointer;
+}
+
+.minimized-messenger:hover {
+  background: rgba(220, 38, 38, 0.12) !important;
+  border-color: rgba(220, 38, 38, 0.35) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .minimized-info {
@@ -853,9 +898,9 @@
 .unread-dot {
   width: 8px;
   height: 8px;
-  background: #0ea5e9;
+  background: var(--accent-azure);
   border-radius: 50%;
-  box-shadow: 0 0 8px #0ea5e9;
+  box-shadow: 0 0 8px var(--accent-azure-glow);
 }
 
 .active-chat-view {
@@ -889,7 +934,7 @@
 
 .chat-user-info span {
   font-size: 10px;
-  color: #0ea5e9;
+  color: var(--accent-azure);
   font-weight: 600;
 }
 

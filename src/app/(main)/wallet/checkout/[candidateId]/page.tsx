@@ -1,3 +1,11 @@
 'use client';
 import { PaymentGateway } from '../../../../../views/PaymentGateway';
-export default function PaymentGatewayPage() { return <PaymentGateway />; }
+import { ProtectedRoute } from '../../../../../components/ProtectedRoute';
+
+export default function PaymentGatewayPage() {
+  return (
+    <ProtectedRoute>
+      <PaymentGateway />
+    </ProtectedRoute>
+  );
+}

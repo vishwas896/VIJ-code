@@ -1,3 +1,11 @@
 'use client';
 import { SeekerDashboard } from '../../../../views/SeekerDashboard';
-export default function SeekerDashboardPage() { return <SeekerDashboard />; }
+import { ProtectedRoute } from '../../../../components/ProtectedRoute';
+
+export default function SeekerDashboardPage() {
+  return (
+    <ProtectedRoute>
+      <SeekerDashboard />
+    </ProtectedRoute>
+  );
+}

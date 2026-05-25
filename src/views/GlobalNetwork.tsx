@@ -189,9 +189,14 @@ export const GlobalNetwork: React.FC = () => {
     mapInstance.current = map;
     markersRef.current = L.layerGroup().addTo(map);
 
-    setTimeout(() => map.invalidateSize(), 200);
+    const timer = setTimeout(() => {
+      if (mapInstance.current) {
+        map.invalidateSize();
+      }
+    }, 200);
 
     return () => {
+      clearTimeout(timer);
       map.remove();
       mapInstance.current = null;
     };

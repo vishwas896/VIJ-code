@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -138,31 +138,27 @@ export const FloatingMessenger: React.FC = () => {
       </AnimatePresence>
 
       {isMinimized && (
-        <motion.div 
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
+        <div 
           className="minimized-messenger"
           onClick={() => setIsMinimized(false)}
         >
           <div className="minimized-info">
-            <MessageSquare size={14} color="#0ea5e9" />
+            <MessageSquare size={14} color="var(--accent-azure)" />
             <span>Communication Hub</span>
             <div className="unread-count">1</div>
           </div>
           <Maximize2 size={14} />
-        </motion.div>
+        </div>
       )}
 
       {!isOpen && !isMinimized && (
-        <motion.button
+        <button
           className="messenger-fab"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
           onClick={() => setIsOpen(true)}
         >
           <MessageSquare size={24} />
           <div className="fab-badge">1</div>
-        </motion.button>
+        </button>
       )}
     </div>
   );

@@ -1,1 +1,270 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/company/[companyId]",
+      "regex": "^/company/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcompanyId": "nxtPcompanyId"
+      },
+      "namedRegex": "^/company/(?<nxtPcompanyId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/employees/[companyId]",
+      "regex": "^/employees/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcompanyId": "nxtPcompanyId"
+      },
+      "namedRegex": "^/employees/(?<nxtPcompanyId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/interview/[interviewId]",
+      "regex": "^/interview/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPinterviewId": "nxtPinterviewId"
+      },
+      "namedRegex": "^/interview/(?<nxtPinterviewId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/jobs/tags/[tagId]",
+      "regex": "^/jobs/tags/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPtagId": "nxtPtagId"
+      },
+      "namedRegex": "^/jobs/tags/(?<nxtPtagId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/learning-center/[courseId]",
+      "regex": "^/learning\\-center/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcourseId": "nxtPcourseId"
+      },
+      "namedRegex": "^/learning\\-center/(?<nxtPcourseId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/profile/[username]",
+      "regex": "^/profile/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPusername": "nxtPusername"
+      },
+      "namedRegex": "^/profile/(?<nxtPusername>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/recruiter/jobs/[jobId]",
+      "regex": "^/recruiter/jobs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPjobId": "nxtPjobId"
+      },
+      "namedRegex": "^/recruiter/jobs/(?<nxtPjobId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/settings/[tabId]",
+      "regex": "^/settings/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPtabId": "nxtPtabId"
+      },
+      "namedRegex": "^/settings/(?<nxtPtabId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/wallet/checkout/[candidateId]",
+      "regex": "^/wallet/checkout/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcandidateId": "nxtPcandidateId"
+      },
+      "namedRegex": "^/wallet/checkout/(?<nxtPcandidateId>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/about",
+      "regex": "^/about(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about(?:/)?$"
+    },
+    {
+      "page": "/companies",
+      "regex": "^/companies(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/companies(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
+    },
+    {
+      "page": "/jobs",
+      "regex": "^/jobs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/jobs(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/network",
+      "regex": "^/network(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/network(?:/)?$"
+    },
+    {
+      "page": "/network/connections",
+      "regex": "^/network/connections(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/network/connections(?:/)?$"
+    },
+    {
+      "page": "/network/messages",
+      "regex": "^/network/messages(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/network/messages(?:/)?$"
+    },
+    {
+      "page": "/news",
+      "regex": "^/news(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/news(?:/)?$"
+    },
+    {
+      "page": "/notifications",
+      "regex": "^/notifications(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/notifications(?:/)?$"
+    },
+    {
+      "page": "/onboarding/parameters",
+      "regex": "^/onboarding/parameters(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/parameters(?:/)?$"
+    },
+    {
+      "page": "/onboarding/roadmap-builder",
+      "regex": "^/onboarding/roadmap\\-builder(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding/roadmap\\-builder(?:/)?$"
+    },
+    {
+      "page": "/policy",
+      "regex": "^/policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/policy(?:/)?$"
+    },
+    {
+      "page": "/recruiter/dashboard",
+      "regex": "^/recruiter/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/recruiter/dashboard(?:/)?$"
+    },
+    {
+      "page": "/recruiter/jobs/create",
+      "regex": "^/recruiter/jobs/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/recruiter/jobs/create(?:/)?$"
+    },
+    {
+      "page": "/recruiter/onboarding",
+      "regex": "^/recruiter/onboarding(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/recruiter/onboarding(?:/)?$"
+    },
+    {
+      "page": "/recruiter/profile",
+      "regex": "^/recruiter/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/recruiter/profile(?:/)?$"
+    },
+    {
+      "page": "/register",
+      "regex": "^/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/register(?:/)?$"
+    },
+    {
+      "page": "/roadmaps",
+      "regex": "^/roadmaps(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/roadmaps(?:/)?$"
+    },
+    {
+      "page": "/salary-insights",
+      "regex": "^/salary\\-insights(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/salary\\-insights(?:/)?$"
+    },
+    {
+      "page": "/seeker/dashboard",
+      "regex": "^/seeker/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/seeker/dashboard(?:/)?$"
+    },
+    {
+      "page": "/services",
+      "regex": "^/services(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/services(?:/)?$"
+    },
+    {
+      "page": "/settings",
+      "regex": "^/settings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
