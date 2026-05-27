@@ -28,6 +28,14 @@
       "namedRegex": "^/company/(?<nxtPcompanyId>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/company/[companyId]/careers",
+      "regex": "^/company/([^/]+?)/careers(?:/)?$",
+      "routeKeys": {
+        "nxtPcompanyId": "nxtPcompanyId"
+      },
+      "namedRegex": "^/company/(?<nxtPcompanyId>[^/]+?)/careers(?:/)?$"
+    },
+    {
       "page": "/employees/[companyId]",
       "regex": "^/employees/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -166,6 +174,12 @@
       "namedRegex": "^/notifications(?:/)?$"
     },
     {
+      "page": "/onboarding",
+      "regex": "^/onboarding(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/onboarding(?:/)?$"
+    },
+    {
       "page": "/onboarding/parameters",
       "regex": "^/onboarding/parameters(?:/)?$",
       "routeKeys": {},
@@ -182,6 +196,12 @@
       "regex": "^/policy(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/policy(?:/)?$"
+    },
+    {
+      "page": "/profile/me",
+      "regex": "^/profile/me(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile/me(?:/)?$"
     },
     {
       "page": "/recruiter/dashboard",

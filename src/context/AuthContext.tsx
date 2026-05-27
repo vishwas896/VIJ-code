@@ -1,6 +1,7 @@
 'use client';
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import { MotionConfig } from 'framer-motion';
 
 export type UserDomain =
   | 'engineering'
@@ -25,6 +26,12 @@ interface User {
   email?: string;
   bio?: string;
   roleTitle?: string;
+  // Professional profile fields for AI matching
+  skills?: string[];
+  experience?: number; // years
+  education?: string;
+  certifications?: string[];
+  hasPortfolio?: boolean;
 }
 
 interface AuthContextType {
@@ -93,6 +100,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       domain: domain || 'engineering',
       onboardingCompleted: false,
       appliedJobs: [],
+      // Professional profile defaults for AI matching
+      skills: role === 'seeker' ? ['React', 'TypeScript', 'CSS', 'Next.js', 'Git'] : [],
+      experience: role === 'seeker' ? 4 : 0,
+      education: 'B.Tech',
+      certifications: role === 'seeker' ? ['AWS Cloud Practitioner'] : [],
+      hasPortfolio: true,
     };
     setUser(mockUser);
     localStorage.setItem('vij_auth', 'true');
@@ -176,7 +189,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       hasApplied,
       updateProfile,
     }}>
-      {children}
+      <MotionConfig transition={{ duration: 0 }} reducedMotion="always">
+        {children}
+      </MotionConfig>
     </AuthContext.Provider>
   );
 };
