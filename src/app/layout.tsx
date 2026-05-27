@@ -1,7 +1,8 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '../context/ThemeContext';
 import { AuthProvider } from '../context/AuthContext';
+import { RecruiterProvider } from '../context/RecruiterContext';
 import { CurrencyProvider } from '../context/CurrencyContext';
 import { RoadmapProvider } from '../context/RoadmapContext';
 
@@ -20,11 +21,13 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <AuthProvider>
-            <CurrencyProvider>
-              <RoadmapProvider>
-                {children}
-              </RoadmapProvider>
-            </CurrencyProvider>
+            <RecruiterProvider>
+              <CurrencyProvider>
+                <RoadmapProvider>
+                  {children}
+                </RoadmapProvider>
+              </CurrencyProvider>
+            </RecruiterProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

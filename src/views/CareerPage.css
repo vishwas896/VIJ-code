@@ -1,0 +1,117 @@
+/* Career Page Styles */
+.career-root { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+.career-back { margin-bottom: 24px; }
+
+.career-hero {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.career-hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.career-hero-logo {
+  width: 64px; height: 64px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent-azure), #6366f1);
+  color: white; font-size: 28px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.career-hero-inner h1 { margin: 0; font-size: 28px; font-weight: 800; }
+.career-hero-inner p { margin: 4px 0 0; color: var(--vij-text-muted); font-size: 15px; }
+
+.career-verified {
+  display: flex; align-items: center; gap: 4px; padding: 6px 12px;
+  background: rgba(16,185,129,0.1); color: #10b981;
+  font-size: 12px; font-weight: 700; border-radius: 8px; margin-left: auto; white-space: nowrap;
+}
+
+.career-hero-stats {
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+
+.career-hero-stats > div {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--vij-text-muted);
+}
+
+.career-filters {
+  display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;
+}
+
+.career-search {
+  flex: 1; min-width: 200px; display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px; color: var(--vij-text-muted);
+}
+
+.career-search input {
+  flex: 1; border: none; background: transparent; outline: none;
+  font-size: 14px; color: var(--vij-text-main);
+}
+
+.career-filter-select {
+  padding: 10px 16px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px;
+  background: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;
+  color: var(--vij-text-main); outline: none; cursor: pointer;
+}
+
+.career-jobs-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px;
+}
+
+.career-job-card { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.career-job-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+.career-job-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.career-job-top h3 { margin: 0; font-size: 16px; font-weight: 700; }
+
+.career-match-badge {
+  padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; white-space: nowrap;
+}
+.career-match-badge.eligible { background: rgba(16,185,129,0.1); color: #10b981; }
+.career-match-badge.not-eligible { background: rgba(245,158,11,0.1); color: #f59e0b; }
+
+.career-job-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--vij-text-muted); }
+.career-job-meta span { display: flex; align-items: center; gap: 4px; }
+
+.career-work-type {
+  padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: capitalize;
+}
+.career-work-type.remote { background: rgba(16,185,129,0.1); color: #10b981; }
+.career-work-type.hybrid { background: rgba(14,165,233,0.1); color: var(--accent-azure); }
+.career-work-type.onsite { background: rgba(99,102,241,0.1); color: #6366f1; }
+
+.career-job-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.career-skill {
+  padding: 3px 10px; background: rgba(0,0,0,0.04); border-radius: 6px;
+  font-size: 11px; font-weight: 600; color: var(--vij-text-muted);
+}
+.career-skill.matched { background: rgba(16,185,129,0.1); color: #10b981; }
+
+.career-job-footer {
+  display: flex; justify-content: space-between; font-size: 12px; color: var(--vij-text-muted);
+  border-top: 1px solid rgba(0,0,0,0.05); padding-top: 12px;
+}
+.career-view-link { color: var(--accent-azure); font-weight: 700; }
+
+.career-empty, .career-empty-jobs {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 80px 20px; color: var(--vij-text-muted); text-align: center;
+}
+.career-empty h2, .career-empty-jobs h3 { margin: 16px 0 8px; }
+
+@media (max-width: 768px) {
+  .career-hero-inner { flex-direction: column; text-align: center; }
+  .career-verified { margin: 0 auto; }
+  .career-hero-stats { justify-content: center; }
+}

@@ -156,47 +156,34 @@
   background: rgba(14, 165, 233, 0.08);
 }
 
-.nav-bell,
-.nav-bell * {
-  transition: none !important;
-  transform: none !important;
-  animation: none !important;
-}
-
 .nav-bell {
   position: relative;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(220, 38, 38, 0.35);
-  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid #a3e6cd;
+  background: #e6f6ec;
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--accent-azure);
+  color: #059669;
 }
-
-.nav-bell:hover,
-.nav-bell.active,
-.nav-bell:active,
-.nav-bell:focus {
-  background: rgba(220, 38, 38, 0.1) !important;
-  border-color: rgba(220, 38, 38, 0.35) !important;
-  color: var(--accent-azure) !important;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-.bell-dot {
+.bell-badge {
   position: absolute;
-  top: 7px;
-  right: 8px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  top: -5px;
+  right: -5px;
   background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1.5px solid white;
 }
 
@@ -591,38 +578,21 @@
   z-index: 2000;
 }
 
-.messenger-fab,
-.messenger-fab * {
-  transition: none !important;
-  transform: none !important;
-  animation: none !important;
-}
-
 .messenger-fab {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: rgba(220, 38, 38, 0.12);
+  background: #e6f6ec;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: var(--accent-azure);
-  border: 1.5px solid rgba(220, 38, 38, 0.35);
+  color: #059669;
+  border: 1.5px solid #a3e6cd;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.15);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
   position: relative;
-}
-
-.messenger-fab:hover,
-.messenger-fab:active,
-.messenger-fab:focus {
-  background: rgba(220, 38, 38, 0.12) !important;
-  border-color: rgba(220, 38, 38, 0.35) !important;
-  color: var(--accent-azure) !important;
-  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.15) !important;
-  transform: none !important;
 }
 
 .fab-badge {
@@ -658,7 +628,7 @@
 
 .messenger-header {
   padding: 16px;
-  background: rgba(220, 38, 38, 0.1);
+  background: #e6f6ec;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -753,30 +723,16 @@
   cursor: pointer;
 }
 
-.minimized-messenger,
-.minimized-messenger * {
-  transition: none !important;
-  transform: none !important;
-  animation: none !important;
-}
-
 .minimized-messenger {
-  background: rgba(220, 38, 38, 0.12);
+  background: #e6f6ec;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(220, 38, 38, 0.35);
+  border: 1px solid #a3e6cd;
   padding: 8px 16px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 16px;
   cursor: pointer;
-}
-
-.minimized-messenger:hover {
-  background: rgba(220, 38, 38, 0.12) !important;
-  border-color: rgba(220, 38, 38, 0.35) !important;
-  transform: none !important;
-  box-shadow: none !important;
 }
 
 .minimized-info {

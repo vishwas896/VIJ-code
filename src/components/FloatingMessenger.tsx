@@ -143,7 +143,7 @@ export const FloatingMessenger: React.FC = () => {
           onClick={() => setIsMinimized(false)}
         >
           <div className="minimized-info">
-            <MessageSquare size={14} color="var(--accent-azure)" />
+            <MessageSquare size={14} color="#059669" />
             <span>Communication Hub</span>
             <div className="unread-count">1</div>
           </div>

@@ -9,7 +9,7 @@ import { GuestBanner } from '../components/GuestBanner';
 import { VijLogo } from '../components/VijLogo';
 import { BackJobsBar } from '../components/BackJobsBar';
 import { useAuth } from '../context/AuthContext';
-import { NotificationDropdown } from '../components/NotificationDropdown';
+import { NotificationDropdown, DropdownNotifItem } from '../components/NotificationDropdown';
 import { FloatingMessenger } from '../components/FloatingMessenger';
 import { CurrencySelector } from '../components/CurrencySelector';
 import { useTheme } from '../context/ThemeContext';
@@ -24,6 +24,13 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
   const [showProfile, setShowProfile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const [notifications, setNotifications] = useState<DropdownNotifItem[]>([
+    { id: 1, type: 'job', title: 'New Match: Sr. Frontend Engineer', desc: 'Google (100% match)', time: '2m ago', color: '#0ea5e9', priority: true },
+    { id: 2, type: 'action', title: 'Radar Alert: Near You', desc: '3 professionals just active near you', time: '15m ago', color: '#f59e0b', priority: true },
+    { id: 3, type: 'connection', title: 'New Connection Request', desc: 'Talent Scout from Apple wants to connect', time: '1h ago', color: '#10b981' },
+    { id: 4, type: 'system', title: 'Profile Boost Active', desc: 'Your profile visibility is now boosted for 24h', time: '3h ago', color: '#a855f7' },
+  ]);
 
   // Scroll-aware header detection
   useEffect(() => {
@@ -146,13 +153,17 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
                   onClick={() => setShowNotifs(!showNotifs)}
                 >
                   <Bell size={18} />
-                  <span className="bell-dot" />
-                </button>
-                <AnimatePresence>
-                  {showNotifs && (
-                    <NotificationDropdown onClose={() => setShowNotifs(false)} />
+                  {notifications.length > 0 && (
+                    <span className="bell-badge">{notifications.length}</span>
                   )}
-                </AnimatePresence>
+                </button>
+                {showNotifs && (
+                  <NotificationDropdown 
+                    notifications={notifications}
+                    setNotifications={setNotifications}
+                    onClose={() => setShowNotifs(false)} 
+                  />
+                )}
               </div>
 
               {/* Settings button */}
