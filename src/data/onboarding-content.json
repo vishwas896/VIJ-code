@@ -1,0 +1,26 @@
+{
+  "seeker": {
+    "intentOptions": [
+      { "id": "salary", "label": "Get a higher salary", "icon": "trending-up" },
+      { "id": "switch", "label": "Switch industries", "icon": "refresh-cw" },
+      { "id": "remote", "label": "Find remote work", "icon": "globe" },
+      { "id": "growth", "label": "Career growth & promotion", "icon": "award" }
+    ],
+    "onboardingSteps": [
+      { "step": 1, "title": "Intent & Goal Setting" },
+      { "step": 2, "title": "Profile Foundation" },
+      { "step": 3, "title": "The Instant Roadmap" }
+    ]
+  },
+  "recruiter": {
+    "onboardingSteps": [
+      { "step": 1, "title": "Company & Role Setup" },
+      { "step": 2, "title": "Dashboard Walkthrough" }
+    ],
+    "walkthroughTooltips": [
+      { "target": "manage-jobs", "content": "1. Manage Jobs - Create and edit your open positions here." },
+      { "target": "view-candidates", "content": "2. View Candidates - See your active talent pipeline." },
+      { "target": "search-talent", "content": "3. Search Talent - Use the radar map to find matches." }
+    ]
+  }
+}

@@ -1,28 +1,36 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { useLocation, useOutlet, Link } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Bell, LayoutDashboard, LogOut, User, Menu, X, Settings } from 'lucide-react';
 import { LiquidBackground } from '../components/LiquidBackground';
 import { GuestBanner } from '../components/GuestBanner';
 import { VijLogo } from '../components/VijLogo';
-import { BackJobsBar } from '../components/BackJobsBar';
 import { useAuth } from '../context/AuthContext';
-import { NotificationDropdown } from '../components/NotificationDropdown';
+import { NotificationDropdown, DropdownNotifItem } from '../components/NotificationDropdown';
 import { FloatingMessenger } from '../components/FloatingMessenger';
+import { RightSidebar } from '../components/RightSidebar';
 import { CurrencySelector } from '../components/CurrencySelector';
 import { useTheme } from '../context/ThemeContext';
 import { Footer } from '../components/footer/Footer';
 import './MainLayout.css';
 
-export const MainLayout: React.FC = () => {
-  const location = useLocation();
-  const element = useOutlet();
+export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const pathname = usePathname();
   const { isAuthenticated, user, logout } = useAuth();
   const { preferences } = useTheme();
   const [showNotifs, setShowNotifs] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const [notifications, setNotifications] = useState<DropdownNotifItem[]>([
+    { id: 1, type: 'job', title: 'New Match: Sr. Frontend Engineer', desc: 'Google (100% match)', time: '2m ago', color: '#0ea5e9', priority: true },
+    { id: 2, type: 'action', title: 'Radar Alert: Near You', desc: '3 professionals just active near you', time: '15m ago', color: '#f59e0b', priority: true },
+    { id: 3, type: 'connection', title: 'New Connection Request', desc: 'Talent Scout from Apple wants to connect', time: '1h ago', color: '#10b981' },
+    { id: 4, type: 'system', title: 'Profile Boost Active', desc: 'Your profile visibility is now boosted for 24h', time: '3h ago', color: '#a855f7' },
+  ]);
 
   // Scroll-aware header detection
   useEffect(() => {
@@ -40,10 +48,10 @@ export const MainLayout: React.FC = () => {
   useEffect(() => {
     const timer = window.setTimeout(() => setMobileNavOpen(false), 0);
     return () => window.clearTimeout(timer);
-  }, [location.pathname]);
+  }, [pathname]);
 
   const navLinks = [
-    { to: '/', label: 'Home' },
+    { to: isAuthenticated ? '/home' : '/', label: 'Home' },
     { to: '/jobs', label: 'Jobs' },
     { to: '/news', label: 'News' },
     { to: '/roadmaps', label: 'Roadmaps' },
@@ -73,9 +81,9 @@ export const MainLayout: React.FC = () => {
           }}
         />
       )}
-      <header className={`global-header ${scrolled ? 'header-scrolled' : ''}`}>
+      <header className={`global-header ${scrolled ? 'header-scrolled' : ''} has-sidebar`}>
         {/* ── Logo ── */}
-        <Link to="/" className="logo-container">
+        <Link href={isAuthenticated ? '/home' : '/'} className="logo-container">
           <VijLogo size="sm" theme="light" />
         </Link>
 
@@ -92,12 +100,14 @@ export const MainLayout: React.FC = () => {
         <nav className={`global-nav ${mobileNavOpen ? 'nav-open' : ''}`}>
           {navLinks.map((link) => {
             const isActive = link.to === '/' 
-              ? location.pathname === '/' 
-              : location.pathname.startsWith(link.to);
+              ? pathname === '/' 
+              : link.to === '/home'
+                ? pathname === '/home'
+                : pathname.startsWith(link.to);
             return (
               <Link
                 key={link.to}
-                to={link.to}
+                href={link.to}
                 className={`nav-link ${isActive ? 'nav-active' : ''}`}
               >
                 {link.label}
@@ -117,21 +127,6 @@ export const MainLayout: React.FC = () => {
         <div className="nav-utilities">
           {isAuthenticated ? (
             <>
-              {/* Dashboard Link */}
-              <Link 
-                to={
-                  user?.role === 'recruiter' 
-                    ? '/recruiter/dashboard' 
-                    : user?.onboardingCompleted 
-                      ? '/seeker/dashboard' 
-                      : '/onboarding/parameters'
-                } 
-                className="nav-dashboard-btn"
-              >
-                <LayoutDashboard size={15} />
-                <span>Dashboard</span>
-              </Link>
-
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <CurrencySelector />
                 {/* Wallet hidden — coming soon */}
@@ -145,86 +140,29 @@ export const MainLayout: React.FC = () => {
                   onClick={() => setShowNotifs(!showNotifs)}
                 >
                   <Bell size={18} />
-                  <span className="bell-dot" />
-                </button>
-                <AnimatePresence>
-                  {showNotifs && (
-                    <NotificationDropdown onClose={() => setShowNotifs(false)} />
+                  {notifications.length > 0 && (
+                    <span className="bell-badge">{notifications.length}</span>
                   )}
-                </AnimatePresence>
+                </button>
+                {showNotifs && (
+                  <NotificationDropdown 
+                    notifications={notifications}
+                    setNotifications={setNotifications}
+                    onClose={() => setShowNotifs(false)} 
+                  />
+                )}
               </div>
 
-              {/* Settings button */}
-              <Link 
-                to="/settings" 
-                className="nav-settings-btn"
-                title="Settings"
-              >
-                <Settings size={18} />
-              </Link>
 
-              {/* User Profile Avatar with Dropdown */}
-              <div style={{ position: 'relative' }}>
-                <button 
-                  className="nav-avatar" 
-                  title="My Profile"
-                  onClick={() => setShowProfile(!showProfile)}
-                >
-                  <span>{user?.name?.split(' ').map((n: string) => n[0]).join('') || 'VU'}</span>
-                </button>
-                <AnimatePresence>
-                  {showProfile && (
-                    <motion.div
-                      className="profile-dropdown"
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="profile-dropdown-header">
-                        <h4>{user?.name || 'VIJ User'}</h4>
-                        <span>{user?.role || 'Guest'}</span>
-                      </div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.05 }}
-                      >
-                        <Link to="/profile/me" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
-                          <User size={16} /> My Profile
-                        </Link>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.08 }}
-                      >
-                        <Link to="/settings/account" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
-                          <Settings size={16} /> Settings
-                        </Link>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.12 }}
-                      >
-                        <button className="profile-dropdown-item logout-item" onClick={logout}>
-                          <LogOut size={16} /> Log Out
-                        </button>
-                      </motion.div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
             </>
           ) : (
             <>
               <CurrencySelector />
-              <Link to="/login" className="login-trigger-btn">
+              <Link href="/login" className="login-trigger-btn">
                 Log In
               </Link>
 
-              <Link to="/register" className="join-nav-btn">
+              <Link href="/register" className="join-nav-btn">
                 Join Junction
               </Link>
             </>
@@ -232,11 +170,11 @@ export const MainLayout: React.FC = () => {
         </div>
       </header>
 
-      <BackJobsBar />
-      
-      <main className="main-content" style={{ position: 'relative', overflowX: 'hidden' }}>
+      <main className="main-content has-sidebar" style={{ position: 'relative', overflowX: 'hidden' }}>
         <AnimatePresence mode="wait" initial={false}>
-          {element && React.cloneElement(element, { key: location.pathname })}
+          <motion.div key={pathname} style={{ width: '100%' }}>
+            {children}
+          </motion.div>
         </AnimatePresence>
         
         {!isAuthenticated && <GuestBanner />}
@@ -244,7 +182,8 @@ export const MainLayout: React.FC = () => {
 
       <Footer />
       
-      {isAuthenticated && <FloatingMessenger />}
+      <FloatingMessenger />
+      <RightSidebar />
     </LiquidBackground>
   );
 };

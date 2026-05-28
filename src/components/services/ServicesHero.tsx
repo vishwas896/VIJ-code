@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -250,3 +251,4 @@ export const ServicesHero: React.FC = () => {
     </section>
   );
 };
+

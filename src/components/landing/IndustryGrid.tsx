@@ -1,6 +1,7 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { 
   Laptop, BarChart2, Globe, Heart, Shield, Award, BookOpen, Database, ArrowRight
 } from 'lucide-react';
@@ -9,7 +10,7 @@ import landingData from '../../data/landing.json';
 import './landing.css';
 
 export const IndustryGrid: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { formatCurrency } = useCurrency();
 
   const formatSalary = (valStr: string) => {
@@ -42,7 +43,7 @@ export const IndustryGrid: React.FC = () => {
           <motion.div
             key={ind.code}
             className="ld-bento-cell"
-            onClick={() => navigate(`/roadmaps?industry=${ind.code}`)}
+            onClick={() => router.push(`/roadmaps?industry=${ind.code}`)}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -66,3 +67,4 @@ export const IndustryGrid: React.FC = () => {
     </section>
   );
 };
+

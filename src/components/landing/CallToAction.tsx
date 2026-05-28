@@ -1,11 +1,12 @@
+﻿'use client';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { GlassCard } from '../GlassCard';
 import { GlassButton } from '../GlassButton';
 import './landing.css';
 
 export const CallToAction: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <section className="ld-section" style={{ marginBottom: '60px' }}>
@@ -16,7 +17,7 @@ export const CallToAction: React.FC = () => {
         </p>
         <GlassButton 
           variant="primary"
-          onClick={() => navigate('/register')}
+          onClick={() => router.push('/register')}
           style={{ padding: '14px 32px', fontSize: '15px' }}
         >
           Start My Free Roadmap
@@ -28,3 +29,4 @@ export const CallToAction: React.FC = () => {
     </section>
   );
 };
+

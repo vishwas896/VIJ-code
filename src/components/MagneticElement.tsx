@@ -1,3 +1,4 @@
+﻿'use client';
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
@@ -68,3 +69,4 @@ export const MagneticElement: React.FC<MagneticElementProps> = ({
     </motion.div>
   );
 };
+

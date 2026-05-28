@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ServiceCard } from './ServiceCard';
@@ -70,3 +71,4 @@ export const ServiceCategory: React.FC<ServiceCategoryProps> = ({
     </motion.div>
   );
 };
+

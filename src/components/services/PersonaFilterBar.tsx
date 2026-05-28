@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useServices, type PersonaType } from '../../context/ServicesContext';
@@ -40,3 +41,4 @@ export const PersonaFilterBar: React.FC = () => {
     </div>
   );
 };
+

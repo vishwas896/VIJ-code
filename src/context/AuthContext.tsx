@@ -1,5 +1,7 @@
+'use client';
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import { MotionConfig } from 'framer-motion';
 
 export type UserDomain =
   | 'engineering'
@@ -24,12 +26,19 @@ interface User {
   email?: string;
   bio?: string;
   roleTitle?: string;
+  // Professional profile fields for AI matching
+  skills?: string[];
+  experience?: number; // years
+  education?: string;
+  certifications?: string[];
+  hasPortfolio?: boolean;
 }
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   walletBalance: number;
+  loading: boolean;
   login: (role: 'seeker' | 'recruiter', domain?: UserDomain) => void;
   logout: () => void;
   completeOnboarding: () => void;
@@ -58,18 +67,29 @@ const createUserId = () => {
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // For demo purposes, we'll initialize from localStorage to persist across refreshes
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('vij_auth') === 'true';
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [walletBalance, setWalletBalance] = useState(450);
+  const [loading, setLoading] = useState(true);
 
-  const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem('vij_user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedAuth = localStorage.getItem('vij_auth') === 'true';
+      const savedUser = localStorage.getItem('vij_user');
+      const savedWallet = Number(localStorage.getItem('vij_wallet')) || 450;
 
-  const [walletBalance, setWalletBalance] = useState(() => {
-    return Number(localStorage.getItem('vij_wallet')) || 450;
-  });
+      setIsAuthenticated(savedAuth);
+      if (savedUser) {
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch (e) {
+          console.error("Error parsing user from localStorage", e);
+        }
+      }
+      setWalletBalance(savedWallet);
+      setLoading(false);
+    }
+  }, []);
 
   const login = (role: 'seeker' | 'recruiter', domain?: UserDomain) => {
     setIsAuthenticated(true);
@@ -80,6 +100,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       domain: domain || 'engineering',
       onboardingCompleted: false,
       appliedJobs: [],
+      // Professional profile defaults for AI matching
+      skills: role === 'seeker' ? ['React', 'TypeScript', 'CSS', 'Next.js', 'Git'] : [],
+      experience: role === 'seeker' ? 4 : 0,
+      education: 'B.Tech',
+      certifications: role === 'seeker' ? ['AWS Cloud Practitioner'] : [],
+      hasPortfolio: true,
     };
     setUser(mockUser);
     localStorage.setItem('vij_auth', 'true');
@@ -153,6 +179,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       isAuthenticated, 
       user, 
       walletBalance,
+      loading,
       login, 
       logout, 
       completeOnboarding, 
@@ -162,7 +189,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       hasApplied,
       updateProfile,
     }}>
-      {children}
+      <MotionConfig transition={{ duration: 0 }} reducedMotion="always">
+        {children}
+      </MotionConfig>
     </AuthContext.Provider>
   );
 };
