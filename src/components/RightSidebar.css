@@ -121,6 +121,17 @@
   gap: 12px;
   padding: 20px 12px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-profile-card:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.dark .sidebar-profile-card:hover {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .dark .sidebar-profile-card {

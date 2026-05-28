@@ -138,6 +138,12 @@
       "namedRegex": "^/contact(?:/)?$"
     },
     {
+      "page": "/home",
+      "regex": "^/home(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/home(?:/)?$"
+    },
+    {
       "page": "/jobs",
       "regex": "^/jobs(?:/)?$",
       "routeKeys": {},

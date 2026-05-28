@@ -7,7 +7,6 @@ import { Bell, LayoutDashboard, LogOut, User, Menu, X, Settings } from 'lucide-r
 import { LiquidBackground } from '../components/LiquidBackground';
 import { GuestBanner } from '../components/GuestBanner';
 import { VijLogo } from '../components/VijLogo';
-import { BackJobsBar } from '../components/BackJobsBar';
 import { useAuth } from '../context/AuthContext';
 import { NotificationDropdown, DropdownNotifItem } from '../components/NotificationDropdown';
 import { FloatingMessenger } from '../components/FloatingMessenger';
@@ -52,7 +51,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
   }, [pathname]);
 
   const navLinks = [
-    { to: '/', label: 'Home' },
+    { to: isAuthenticated ? '/home' : '/', label: 'Home' },
     { to: '/jobs', label: 'Jobs' },
     { to: '/news', label: 'News' },
     { to: '/roadmaps', label: 'Roadmaps' },
@@ -84,7 +83,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
       )}
       <header className={`global-header ${scrolled ? 'header-scrolled' : ''} has-sidebar`}>
         {/* ── Logo ── */}
-        <Link href="/" className="logo-container">
+        <Link href={isAuthenticated ? '/home' : '/'} className="logo-container">
           <VijLogo size="sm" theme="light" />
         </Link>
 
@@ -102,7 +101,9 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           {navLinks.map((link) => {
             const isActive = link.to === '/' 
               ? pathname === '/' 
-              : pathname.startsWith(link.to);
+              : link.to === '/home'
+                ? pathname === '/home'
+                : pathname.startsWith(link.to);
             return (
               <Link
                 key={link.to}
@@ -152,21 +153,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
                 )}
               </div>
 
-              {/* User Profile Avatar - Triggers Sidebar drawer */}
-              <button 
-                className="nav-avatar" 
-                title="Toggle Sidebar"
-                style={{ padding: 0, overflow: 'hidden' }}
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent('toggle-right-sidebar'));
-                }}
-              >
-                <img 
-                  src="/profile_avatar.png" 
-                  alt="Profile" 
-                  style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
-                />
-              </button>
+
             </>
           ) : (
             <>
@@ -183,8 +170,6 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         </div>
       </header>
 
-      <BackJobsBar />
-      
       <main className="main-content has-sidebar" style={{ position: 'relative', overflowX: 'hidden' }}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={pathname} style={{ width: '100%' }}>

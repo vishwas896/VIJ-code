@@ -47,6 +47,9 @@ export const RightSidebar: React.FC = () => {
   }, []);
 
   const isRecruiter = user?.role === 'recruiter';
+  const profileHref = isAuthenticated 
+    ? (isRecruiter ? '/recruiter/profile' : '/profile/me') 
+    : '/login';
 
   // Role-specific links inspired by the reference layout, fallback for guests
   const navItems = isAuthenticated ? [
@@ -189,7 +192,7 @@ export const RightSidebar: React.FC = () => {
       </div>
 
       {/* ── User Profile Badge ── */}
-      <div className="sidebar-profile-card">
+      <Link href={profileHref} className="sidebar-profile-card">
         <div className="sidebar-avatar-wrapper">
           {isAuthenticated ? (
             <img 
@@ -217,7 +220,7 @@ export const RightSidebar: React.FC = () => {
             </span>
           </motion.div>
         )}
-      </div>
+      </Link>
 
       {/* ── Navigation Links ── */}
       <nav className="sidebar-nav-links">
