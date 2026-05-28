@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useRouter } from 'next/navigation';
@@ -158,7 +158,7 @@ export const PaymentGateway: React.FC = () => {
                   >
                     <motion.div
                       className="payment-checkout-icon-container"
-                      whileHover={{ rotate: 5, scale: 1.05 }}
+                      whileHover={{ scale: 1.02 }}
                     >
                       <CreditCard size={28} color="white" />
                     </motion.div>

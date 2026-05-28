@@ -11,6 +11,7 @@ import { BackJobsBar } from '../components/BackJobsBar';
 import { useAuth } from '../context/AuthContext';
 import { NotificationDropdown, DropdownNotifItem } from '../components/NotificationDropdown';
 import { FloatingMessenger } from '../components/FloatingMessenger';
+import { RightSidebar } from '../components/RightSidebar';
 import { CurrencySelector } from '../components/CurrencySelector';
 import { useTheme } from '../context/ThemeContext';
 import { Footer } from '../components/footer/Footer';
@@ -81,7 +82,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           }}
         />
       )}
-      <header className={`global-header ${scrolled ? 'header-scrolled' : ''}`}>
+      <header className={`global-header ${scrolled ? 'header-scrolled' : ''} has-sidebar`}>
         {/* ── Logo ── */}
         <Link href="/" className="logo-container">
           <VijLogo size="sm" theme="light" />
@@ -125,21 +126,6 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         <div className="nav-utilities">
           {isAuthenticated ? (
             <>
-              {/* Dashboard Link */}
-              <Link 
-                href={
-                  user?.role === 'recruiter' 
-                    ? '/recruiter/dashboard' 
-                    : user?.onboardingCompleted 
-                      ? '/seeker/dashboard' 
-                      : '/onboarding/parameters'
-                } 
-                className="nav-dashboard-btn"
-              >
-                <LayoutDashboard size={15} />
-                <span>Dashboard</span>
-              </Link>
-
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <CurrencySelector />
                 {/* Wallet hidden — coming soon */}
@@ -166,68 +152,21 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
                 )}
               </div>
 
-              {/* Settings button */}
-              <Link 
-                href="/settings" 
-                className="nav-settings-btn"
-                title="Settings"
+              {/* User Profile Avatar - Triggers Sidebar drawer */}
+              <button 
+                className="nav-avatar" 
+                title="Toggle Sidebar"
+                style={{ padding: 0, overflow: 'hidden' }}
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('toggle-right-sidebar'));
+                }}
               >
-                <Settings size={18} />
-              </Link>
-
-              {/* User Profile Avatar with Dropdown */}
-              <div style={{ position: 'relative' }}>
-                <button 
-                  className="nav-avatar" 
-                  title="My Profile"
-                  onClick={() => setShowProfile(!showProfile)}
-                >
-                  <span>{user?.name?.split(' ').map((n: string) => n[0]).join('') || 'VU'}</span>
-                </button>
-                <AnimatePresence>
-                  {showProfile && (
-                    <motion.div
-                      className="profile-dropdown"
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="profile-dropdown-header">
-                        <h4>{user?.name || 'VIJ User'}</h4>
-                        <span>{user?.role || 'Guest'}</span>
-                      </div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.05 }}
-                      >
-                        <Link href="/profile/me" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
-                          <User size={16} /> My Profile
-                        </Link>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.08 }}
-                      >
-                        <Link href="/settings/account" className="profile-dropdown-item" onClick={() => setShowProfile(false)}>
-                          <Settings size={16} /> Settings
-                        </Link>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.12 }}
-                      >
-                        <button className="profile-dropdown-item logout-item" onClick={logout}>
-                          <LogOut size={16} /> Log Out
-                        </button>
-                      </motion.div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                <img 
+                  src="/profile_avatar.png" 
+                  alt="Profile" 
+                  style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
+                />
+              </button>
             </>
           ) : (
             <>
@@ -246,7 +185,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
 
       <BackJobsBar />
       
-      <main className="main-content" style={{ position: 'relative', overflowX: 'hidden' }}>
+      <main className="main-content has-sidebar" style={{ position: 'relative', overflowX: 'hidden' }}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={pathname} style={{ width: '100%' }}>
             {children}
@@ -258,7 +197,8 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
 
       <Footer />
       
-      {isAuthenticated && <FloatingMessenger />}
+      <FloatingMessenger />
+      <RightSidebar />
     </LiquidBackground>
   );
 };

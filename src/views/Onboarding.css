@@ -61,8 +61,8 @@
 .step-badge {
   display: inline-block;
   padding: 4px 12px;
-  background: rgba(14, 165, 233, 0.1);
-  color: #0ea5e9;
+  background: var(--accent-azure-glow);
+  color: var(--accent-azure);
   border-radius: 8px;
   font-size: 12px;
   font-weight: 800;
@@ -120,14 +120,14 @@
   background: white;
   border: 2px solid rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  color: #0ea5e9;
+  color: var(--accent-azure);
   outline: none;
   transition: all 0.2s;
 }
 
 .otp-box:focus {
-  border-color: #0ea5e9;
-  box-shadow: 0 0 12px rgba(14, 165, 233, 0.1);
+  border-color: var(--accent-azure);
+  box-shadow: 0 0 12px var(--accent-azure-glow);
 }
 
 .resend-text {
@@ -136,7 +136,7 @@
 }
 
 .resend-text span {
-  color: #0ea5e9;
+  color: var(--accent-azure);
   font-weight: 700;
 }
 
@@ -182,10 +182,10 @@
 }
 
 .toggle-option.active {
-  background: #0ea5e9;
+  background: var(--accent-azure);
   color: white;
-  border-color: #0ea5e9;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  border-color: var(--accent-azure);
+  box-shadow: 0 4px 12px var(--accent-azure-glow);
 }
 
 .label-with-action {
@@ -200,7 +200,7 @@
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
-  background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+  background: linear-gradient(135deg, var(--accent-azure), #8b5cf6);
   color: white;
   border: none;
   border-radius: 999px;
@@ -252,7 +252,7 @@
 .suggested-skills button {
   background: none;
   border: none;
-  color: #0ea5e9;
+  color: var(--accent-azure);
   font-weight: 700;
   cursor: pointer;
 }
@@ -272,11 +272,11 @@
 }
 
 .upload-box:hover {
-  border-color: #0ea5e9;
+  border-color: var(--accent-azure);
   background: white;
 }
 
-.upload-box svg { color: #0ea5e9; }
+.upload-box svg { color: var(--accent-azure); }
 
 .upload-btn-label {
   padding: 8px 24px;
@@ -312,15 +312,15 @@
 }
 
 .pulse-azure {
-  color: #0ea5e9;
-  filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.5));
+  color: var(--accent-azure);
+  filter: drop-shadow(0 0 20px var(--accent-azure-glow));
   animation: auth-pulse-b 2s infinite;
 }
 
 .processing-ring {
   position: absolute;
   inset: -20px;
-  border: 2px dashed rgba(14, 165, 233, 0.3);
+  border: 2px dashed var(--accent-azure-glow);
   border-radius: 50%;
 }
 
@@ -358,7 +358,7 @@
 
 .processing-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  background: linear-gradient(90deg, var(--accent-azure), #38bdf8);
   border-radius: 999px;
   transition: width 0.1s linear;
 }
@@ -369,7 +369,7 @@
   right: 0;
   font-weight: 800;
   font-size: 14px;
-  color: #0ea5e9;
+  color: var(--accent-azure);
 }
 
 /* Global / Shared */
@@ -388,8 +388,8 @@
 }
 
 .fluid-input:focus {
-  border-color: #0ea5e9;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+  border-color: var(--accent-azure);
+  box-shadow: 0 4px 12px var(--accent-azure-glow);
 }
 
 .input-group {

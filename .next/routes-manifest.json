@@ -120,6 +120,12 @@
       "namedRegex": "^/about(?:/)?$"
     },
     {
+      "page": "/activity",
+      "regex": "^/activity(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/activity(?:/)?$"
+    },
+    {
       "page": "/companies",
       "regex": "^/companies(?:/)?$",
       "routeKeys": {},

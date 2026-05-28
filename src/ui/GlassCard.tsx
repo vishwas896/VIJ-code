@@ -13,7 +13,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   children, 
   className = '', 
   glowingEdge = 'none',
-  tilt = true,
+  tilt = false,
   ...props 
 }) => {
   const ref = useRef<HTMLDivElement>(null);

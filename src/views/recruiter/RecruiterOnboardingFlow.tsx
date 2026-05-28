@@ -200,7 +200,7 @@ export const RecruiterOnboardingFlow: React.FC = () => {
           {/* ══════ STEP 2: COMPANY DETAILS ══════ */}
           {step === 2 && (
             <motion.div key="step2" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.35 }}>
-              <GlassCard className="ro-card ro-card-wide">
+              <GlassCard className="ro-card">
                 <div className="ro-card-icon"><Building2 size={28} /></div>
                 <h1 className="ro-title">Company Profile</h1>
                 <p className="ro-subtitle">Set up your company's presence on VIJ.</p>
@@ -247,7 +247,7 @@ export const RecruiterOnboardingFlow: React.FC = () => {
           {/* ══════ STEP 3: REVIEW & LAUNCH ══════ */}
           {step === 3 && (
             <motion.div key="step3" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.35 }}>
-              <GlassCard className="ro-card ro-card-wide">
+              <GlassCard className="ro-card">
                 <div className="ro-card-icon success"><ShieldCheck size={28} /></div>
                 <h1 className="ro-title">Review & Launch</h1>
                 <p className="ro-subtitle">Your company profile is ready. Review and launch your career page.</p>

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
@@ -70,7 +70,7 @@ export const TagExplorer: React.FC = () => {
         >
           <motion.div 
             className="tag-explorer-icon-box"
-            whileHover={{ scale: 1.05, rotate: 5 }}
+            whileHover={{ scale: 1.02 }}
           >
             <Hash size={36} color="white" />
           </motion.div>
@@ -115,8 +115,8 @@ export const TagExplorer: React.FC = () => {
             <motion.button
               key={f}
               onClick={() => setActiveFilter(f)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className={`tag-explorer-filter-btn ${activeFilter === f ? 'active' : 'inactive'}`}
             >
               {f}
