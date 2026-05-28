@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+'use client';
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Send, 
   ChevronDown, 
   ChevronUp, 
   CheckCircle2, 
-  AlertCircle
+  AlertCircle,
+  X
 } from 'lucide-react';
 import { GlassCard } from '../GlassCard';
 import { GlassButton } from '../GlassButton';
 import { VijLogo } from '../VijLogo';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
 import './Footer.css';
 
 // Inline brand icon SVGs to support all lucide-react version variations
@@ -66,10 +70,14 @@ interface FooterSection {
 
 export const Footer: React.FC = () => {
   const { preferences } = useTheme();
-  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  const pathname = usePathname();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
   
   // Mobile accordion state (which sections are expanded)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -111,6 +119,20 @@ export const Footer: React.FC = () => {
     }
   ];
 
+  // Auto close on clicking outside if locked
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (footerRef.current && !footerRef.current.contains(event.target as Node)) {
+        if (isLocked) {
+          setIsLocked(false);
+          setIsExpanded(false);
+        }
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isLocked]);
+
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
@@ -148,14 +170,68 @@ export const Footer: React.FC = () => {
     }));
   };
 
+  const handleMouseEnter = () => {
+    if (!isLocked) {
+      setIsExpanded(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isLocked) {
+      setIsExpanded(false);
+    }
+  };
+
+  const toggleLock = () => {
+    setIsLocked(!isLocked);
+    setIsExpanded(!isLocked);
+  };
+
+  const handleCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsLocked(false);
+    setIsExpanded(false);
+  };
+
   return (
-    <footer className={`vij-footer-wrapper ${preferences.darkMode ? 'dark-theme' : 'light-theme'}`}>
+    <footer 
+      ref={footerRef}
+      className={`vij-footer-wrapper ${preferences.darkMode ? 'dark-theme' : 'light-theme'} ${isExpanded ? 'expanded' : 'collapsed'} ${isLocked ? 'locked' : ''} ${isAuthenticated ? 'has-sidebar' : ''}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <GlassCard className="vij-footer-card" glowingEdge="none" tilt={false}>
+        {/* ── Collapsed Handle Bar (visible at bottom when collapsed, acts as header when expanded) ── */}
+        <div className="footer-handle-bar" onClick={toggleLock}>
+          <div className="handle-left">
+            <span>© 2026 Project VIJ</span>
+            <span className="msme-badge-sm">MSME</span>
+          </div>
+          <div className="handle-center">
+            {isExpanded ? <ChevronDown size={14} className="chevron-icon-anim" /> : <ChevronUp size={14} className="chevron-icon-anim" />}
+            <span className="expand-hint-text">
+              {isExpanded ? 'Click to Lock/Collapse' : 'Hover or Click to Expand Directory'}
+            </span>
+          </div>
+          <div className="handle-right">
+            {isExpanded ? (
+              <button className="footer-close-btn" onClick={handleCloseClick} title="Close Footer">
+                <X size={14} />
+              </button>
+            ) : (
+              <div className="handle-status-badge">
+                <span className="status-dot"></span>
+                <span>Active</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Full expanded footer container ── */}
         <div className="vij-footer-container">
-          
           {/* ── Brand description column ── */}
           <div className="footer-brand-col">
-            <Link to="/" className="footer-logo-link" aria-label="Project VIJ Home">
+            <Link href="/" className="footer-logo-link" aria-label="Project VIJ Home">
               <VijLogo size="sm" theme={preferences.darkMode ? 'dark' : 'light'} />
             </Link>
             <p className="footer-tagline">“Your career, mapped by experience.”</p>
@@ -187,11 +263,11 @@ export const Footer: React.FC = () => {
                 className={`footer-links-list ${expandedSections[section.title] ? 'expanded' : ''}`}
               >
                 {section.links.map((link) => {
-                  const isActive = location.pathname === link.to;
+                  const isActive = pathname === link.to;
                   return (
                     <li key={link.label}>
                       <Link 
-                        to={link.to} 
+                        href={link.to} 
                         className={`footer-link ${isActive ? 'active' : ''}`}
                       >
                         {link.label}
@@ -270,67 +346,25 @@ export const Footer: React.FC = () => {
 
             {/* Social media icons */}
             <div className="footer-social-row">
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-btn" 
-                aria-label="VIJ on LinkedIn"
-              >
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="VIJ on LinkedIn">
                 <LinkedinIcon size={20} />
               </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-btn" 
-                aria-label="VIJ on Twitter"
-              >
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="VIJ on Twitter">
                 <TwitterIcon size={20} />
               </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-btn" 
-                aria-label="VIJ on YouTube"
-              >
+              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="VIJ on YouTube">
                 <YoutubeIcon size={20} />
               </a>
-              <a 
-                href="https://discord.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-btn" 
-                aria-label="VIJ on Discord"
-              >
+              <a href="https://discord.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="VIJ on Discord">
                 <DiscordIcon size={20} />
               </a>
-              <a 
-                href="https://github.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="social-btn" 
-                aria-label="VIJ on GitHub"
-              >
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="social-btn" aria-label="VIJ on GitHub">
                 <GithubIcon size={20} />
               </a>
             </div>
 
           </div>
         </div>
-
-        {/* ── Copyright footer bottom ── */}
-        <div className="vij-footer-bottom">
-          <div className="footer-bottom-container">
-            <span>© 2025 Project VIJ. All rights reserved.</span>
-            <div className="footer-bottom-badges">
-              <span className="msme-badge">Registered MSME</span>
-              <span className="status-badge"><span className="status-dot"></span>Platform Active</span>
-            </div>
-          </div>
-        </div>
-
       </GlassCard>
     </footer>
   );

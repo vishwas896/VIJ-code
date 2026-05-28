@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, Sparkles } from 'lucide-react';
@@ -83,3 +84,4 @@ export const PricingPlans: React.FC = () => {
     </section>
   );
 };
+

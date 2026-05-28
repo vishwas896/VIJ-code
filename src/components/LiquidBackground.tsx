@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import './LiquidBackground.css';
@@ -29,3 +30,4 @@ export const LiquidBackground: React.FC<{ children?: React.ReactNode }> = ({ chi
     </div>
   );
 };
+

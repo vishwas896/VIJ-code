@@ -1,188 +1,203 @@
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  MessageSquare, X, Send, Minus, Maximize2, 
-  Users, UserCircle, Bell, Search, MoreHorizontal
+  MessageSquare, X, Users, Briefcase, 
+  DollarSign, ExternalLink, ArrowRight
 } from 'lucide-react';
 import { GlassCard } from './GlassCard';
 
-interface Chat {
+interface ChatItem {
   id: number;
   name: string;
   role: string;
   lastMsg: string;
   time: string;
   online: boolean;
-  unread: number;
-  avatar?: string;
+  unread: boolean;
+  avatar: string;
 }
 
-const recentChats: Chat[] = [
-  { id: 1, name: 'Alex Rivera', role: 'Sr. Recruiter @ Google', lastMsg: 'Your profile matches our latest opening!', time: '2m', online: true, unread: 1 },
-  { id: 2, name: 'Sarah Chen', role: 'Fullstack Dev • Friend', lastMsg: 'Did you see the new roadmap?', time: '1h', online: true, unread: 0 },
-  { id: 3, name: 'Michael Scott', role: 'Engineering Lead', lastMsg: 'Interview scheduled for Thursday.', time: 'Yesterday', online: false, unread: 0 },
+const connectionChats: ChatItem[] = [
+  { id: 1, name: 'Sarah Chen', role: 'Fullstack Dev • Friend', lastMsg: 'Did you see the new roadmap?', time: '1h', online: true, unread: true, avatar: 'SC' },
+  { id: 2, name: 'Arjun Patel', role: 'AI Researcher', lastMsg: 'Let\'s catch up at the tech meetup.', time: '3h', online: true, unread: false, avatar: 'AP' },
+  { id: 3, name: 'Karan Sharma', role: 'Designer', lastMsg: 'Sent you the Figma files.', time: '1d', online: false, unread: false, avatar: 'KS' }
+];
+
+const recruiterChats: ChatItem[] = [
+  { id: 4, name: 'Alex Rivera', role: 'Sr. Recruiter @ Google', lastMsg: 'Your profile matches our latest opening!', time: '2m', online: true, unread: true, avatar: 'AR' },
+  { id: 5, name: 'David Miller', role: 'Talent Lead @ Apple', lastMsg: 'Can we hop on a brief call tomorrow?', time: '4h', online: true, unread: false, avatar: 'DM' },
+  { id: 6, name: 'Sophia Wang', role: 'HR Specialist @ Stripe', lastMsg: 'Thanks for submitting your resume.', time: '2d', online: false, unread: false, avatar: 'SW' }
+];
+
+const clientChats: ChatItem[] = [
+  { id: 7, name: 'John Doe', role: 'Product Manager @ Acme', lastMsg: 'Milestone 1 has been approved and paid.', time: '15m', online: true, unread: true, avatar: 'JD' },
+  { id: 8, name: 'Emma Watson', role: 'Founder @ DesignSpace', lastMsg: 'Can you update the dashboard views?', time: '5h', online: false, unread: false, avatar: 'EW' },
+  { id: 9, name: 'James Wilson', role: 'Director @ InnovaTech', lastMsg: 'Here is the contract for the next sprint.', time: '1d', online: true, unread: false, avatar: 'JW' }
 ];
 
 export const FloatingMessenger: React.FC = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [activeTab, setActiveTab] = useState<'chats' | 'notifs'>('chats');
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [mobileTab, setMobileTab] = useState<'connections' | 'recruiters' | 'clients'>('connections');
+  const messengerRef = useRef<HTMLDivElement>(null);
+
+  // Auto close on clicking outside if open
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (messengerRef.current && !messengerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleOpenPage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push('/network/messages');
+  };
+
+  const renderChatItem = (chat: ChatItem) => (
+    <div 
+      key={chat.id} 
+      className={`messenger-chat-item ${chat.unread ? 'unread' : ''}`}
+      onClick={(e) => handleOpenPage(e)}
+    >
+      <div className="chat-avatar-wrapper">
+        <div className="chat-avatar-circle">
+          <span>{chat.avatar}</span>
+        </div>
+        {chat.online && <span className="online-indicator" />}
+      </div>
+      <div className="chat-info-wrapper">
+        <div className="chat-header-row">
+          <span className="chat-name">{chat.name}</span>
+          <span className="chat-time">{chat.time}</span>
+        </div>
+        <span className="chat-role">{chat.role}</span>
+        <p className="chat-last-msg">{chat.lastMsg}</p>
+      </div>
+      {chat.unread && <span className="chat-unread-dot" />}
+    </div>
+  );
 
   return (
-    <div className="floating-messenger-container">
+    <div ref={messengerRef} className="floating-messenger-container">
       <AnimatePresence>
-        {isOpen && !isMinimized && (
+        {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="messenger-window"
+            exit={{ opacity: 0, y: 30, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="messenger-upside-panel"
           >
-            <GlassCard className="messenger-card" glowingEdge="azure">
+            <GlassCard className="messenger-panel-card" glowingEdge="azure">
               {/* Header */}
-              <div className="messenger-header">
-                <div className="header-nav">
-                  <button 
-                    className={activeTab === 'chats' ? 'active' : ''} 
-                    onClick={() => { setActiveTab('chats'); setSelectedChat(null); }}
-                  >
-                    <MessageSquare size={16} />
-                    <span>Chats</span>
-                  </button>
-                  <button 
-                    className={activeTab === 'notifs' ? 'active' : ''} 
-                    onClick={() => setActiveTab('notifs')}
-                  >
-                    <Bell size={16} />
-                    <span>Updates</span>
-                  </button>
+              <div className="messenger-panel-header">
+                <div className="messenger-header-left" onClick={(e) => handleOpenPage(e)}>
+                  <MessageSquare size={18} className="header-icon" />
+                  <h4>Communication Hub</h4>
+                  <span className="header-badge">3 New</span>
                 </div>
-                <div className="header-actions">
-                  <button onClick={() => setIsMinimized(true)}><Minus size={14} /></button>
-                  <button onClick={() => setIsOpen(false)}><X size={14} /></button>
+                <div className="messenger-header-actions">
+                  <button className="header-action-btn" onClick={(e) => handleOpenPage(e)} title="Open in Full Page">
+                    <ExternalLink size={16} />
+                  </button>
+                  <button className="header-action-btn" onClick={() => setIsOpen(false)} title="Close Panel">
+                    <X size={16} />
+                  </button>
                 </div>
               </div>
 
-              <div className="messenger-body">
-                {selectedChat ? (
-                  <div className="active-chat-view">
-                    <div className="chat-top-bar">
-                      <button className="back-to-list" onClick={() => setSelectedChat(null)}>
-                        <MoreHorizontal size={16} style={{ transform: 'rotate(180deg)' }} />
-                      </button>
-                      <div className="chat-user-info">
-                        <h4>{selectedChat.name}</h4>
-                        <span>{selectedChat.role}</span>
-                      </div>
-                    </div>
-                    <div className="chat-messages-area">
-                      <div className="msg-received">
-                        <div className="msg-bubble">{selectedChat.lastMsg}</div>
-                        <span className="msg-time">{selectedChat.time} ago</span>
-                      </div>
-                    </div>
-                    <div className="messenger-input">
-                      <input type="text" placeholder="Send message..." autoFocus />
-                      <button className="msg-send-btn"><Send size={14} /></button>
-                    </div>
+              {/* Mobile Tab Switcher */}
+              <div className="messenger-mobile-tabs">
+                <button 
+                  className={mobileTab === 'connections' ? 'active' : ''} 
+                  onClick={() => setMobileTab('connections')}
+                >
+                  Connections
+                </button>
+                <button 
+                  className={mobileTab === 'recruiters' ? 'active' : ''} 
+                  onClick={() => setMobileTab('recruiters')}
+                >
+                  Recruiters
+                </button>
+                <button 
+                  className={mobileTab === 'clients' ? 'active' : ''} 
+                  onClick={() => setMobileTab('clients')}
+                >
+                  Clients
+                </button>
+              </div>
+
+              {/* Columns Area */}
+              <div className="messenger-panel-columns">
+                {/* Column 1: Connections */}
+                <div className={`messenger-column ${mobileTab === 'connections' ? 'mobile-visible' : 'mobile-hidden'}`}>
+                  <div className="column-title-bar">
+                    <Users size={14} className="col-icon" />
+                    <h5>Connections</h5>
+                    <span className="col-badge">1</span>
                   </div>
-                ) : activeTab === 'chats' ? (
-                  <div className="chat-list-view">
-                    <div className="messenger-search">
-                      <Search size={14} />
-                      <input type="text" placeholder="Search friends or recruiters..." />
-                    </div>
-                    {recentChats.map(chat => (
-                      <div 
-                        key={chat.id} 
-                        className="chat-item"
-                        onClick={() => setSelectedChat(chat)}
-                      >
-                        <div className="chat-avatar">
-                          <UserCircle size={32} />
-                          {chat.online && <div className="online-status" />}
-                        </div>
-                        <div className="chat-preview">
-                          <div className="chat-row">
-                            <h4>{chat.name}</h4>
-                            <span className="time">{chat.time}</span>
-                          </div>
-                          <p>{chat.lastMsg}</p>
-                        </div>
-                        {chat.unread > 0 && <div className="unread-dot" />}
-                      </div>
-                    ))}
+                  <div className="column-chats-list">
+                    {connectionChats.map(renderChatItem)}
                   </div>
-                ) : (
-                  <div className="updates-list-view">
-                    <div className="update-item">
-                      <div className="update-icon boost"><Sparkles size={14} /></div>
-                      <div className="update-text">
-                        <strong>Profile Boosted!</strong> Your profile appeared in 12 new searches today.
-                      </div>
-                    </div>
-                    <div className="update-item">
-                      <div className="update-icon network"><Users size={14} /></div>
-                      <div className="update-text">
-                        <strong>Network Hit!</strong> Sarah Chen just joined the Junction nearby.
-                      </div>
-                    </div>
+                </div>
+
+                {/* Column 2: Recruiters */}
+                <div className={`messenger-column ${mobileTab === 'recruiters' ? 'mobile-visible' : 'mobile-hidden'}`}>
+                  <div className="column-title-bar">
+                    <Briefcase size={14} className="col-icon" />
+                    <h5>Recruiters</h5>
+                    <span className="col-badge">1</span>
                   </div>
-                )}
+                  <div className="column-chats-list">
+                    {recruiterChats.map(renderChatItem)}
+                  </div>
+                </div>
+
+                {/* Column 3: Clients */}
+                <div className={`messenger-column ${mobileTab === 'clients' ? 'mobile-visible' : 'mobile-hidden'}`}>
+                  <div className="column-title-bar">
+                    <DollarSign size={14} className="col-icon" />
+                    <h5>Clients</h5>
+                    <span className="col-badge">1</span>
+                  </div>
+                  <div className="column-chats-list">
+                    {clientChats.map(renderChatItem)}
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer inside Messenger */}
+              <div className="messenger-panel-footer" onClick={(e) => handleOpenPage(e)}>
+                <span>Access all messages and advanced filters</span>
+                <ArrowRight size={14} />
               </div>
             </GlassCard>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {isMinimized && (
-        <motion.div 
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="minimized-messenger"
-          onClick={() => setIsMinimized(false)}
-        >
-          <div className="minimized-info">
-            <MessageSquare size={14} color="#0ea5e9" />
-            <span>Communication Hub</span>
-            <div className="unread-count">1</div>
-          </div>
-          <Maximize2 size={14} />
-        </motion.div>
-      )}
-
-      {!isOpen && !isMinimized && (
-        <motion.button
-          className="messenger-fab"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+      {/* Docked Collapsed Bar */}
+      {!isOpen && (
+        <div 
+          className="messenger-docked-bar"
           onClick={() => setIsOpen(true)}
         >
-          <MessageSquare size={24} />
-          <div className="fab-badge">1</div>
-        </motion.button>
+          <div className="messenger-docked-left">
+            <MessageSquare size={16} className="message-icon-pulse" />
+            <span className="docked-title">Communication Hub</span>
+          </div>
+          <div className="messenger-docked-badge">
+            <span>!</span>
+          </div>
+        </div>
       )}
     </div>
   );
 };
-
-const Sparkles = ({ size }: { size: number }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-    <path d="M5 3v4" />
-    <path d="M19 17v4" />
-    <path d="M3 5h4" />
-    <path d="M17 19h4" />
-  </svg>
-);

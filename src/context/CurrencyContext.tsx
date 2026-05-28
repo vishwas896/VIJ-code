@@ -1,3 +1,4 @@
+'use client';
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 
@@ -47,7 +48,7 @@ const getInitialCurrency = (): CurrencyCode => {
 
 export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  const [currency, setCurrencyState] = useState<CurrencyCode>(getInitialCurrency);
+  const [currency, setCurrencyState] = useState<CurrencyCode>('INR');
 
   React.useEffect(() => {
     if (!isAuthenticated) {

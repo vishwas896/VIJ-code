@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import './GlassCard.css';
@@ -13,7 +14,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   children, 
   className = '', 
   glowingEdge = 'none',
-  tilt = true,
+  tilt = false,
   ...props 
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -70,3 +71,4 @@ export const GlassCard: React.FC<GlassCardProps> = ({
     </motion.div>
   );
 };
+

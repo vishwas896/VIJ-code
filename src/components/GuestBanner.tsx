@@ -1,6 +1,7 @@
+﻿'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import './GuestBanner.css';
 
@@ -64,7 +65,7 @@ export const GuestBanner: React.FC = () => {
             </div>
             
             <div className="banner-actions">
-              <Link to="/login" className="banner-btn-secondary">
+              <Link href="/login" className="banner-btn-secondary">
                 Log In
               </Link>
               <motion.div
@@ -72,7 +73,7 @@ export const GuestBanner: React.FC = () => {
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
-                <Link to="/register" className="banner-btn-primary">
+                <Link href="/register" className="banner-btn-primary">
                   Join the Junction <ArrowRight size={16} />
                 </Link>
               </motion.div>
@@ -83,3 +84,4 @@ export const GuestBanner: React.FC = () => {
     </AnimatePresence>
   );
 };
+

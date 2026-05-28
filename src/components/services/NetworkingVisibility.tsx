@@ -1,3 +1,4 @@
+﻿'use client';
 import React from 'react';
 import { useServices } from '../../context/ServicesContext';
 import { ServiceCategory } from './ServiceCategory';
@@ -25,3 +26,4 @@ export const NetworkingVisibility: React.FC = () => {
     />
   );
 };
+
