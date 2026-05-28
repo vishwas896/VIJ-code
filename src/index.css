@@ -91,6 +91,55 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ── Typography & Element Resets ── */
+h1 {
+  font-size: var(--font-3xl);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: var(--font-2xl);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+h5 {
+  font-size: var(--font-md);
+  font-weight: 600;
+}
+
+h6 {
+  font-size: var(--font-base);
+  font-weight: 600;
+}
+
+p {
+  font-size: var(--font-base);
+  color: var(--vij-text-muted);
+  line-height: 1.6;
+}
+
+input, select, textarea, button {
+  font-family: var(--font-family, 'Outfit', sans-serif);
+  font-size: inherit;
+  color: inherit;
+}
+
 /* Selection styling */
 ::selection {
   background: rgba(220, 38, 38, 0.15);

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -63,7 +63,7 @@ export const Marketplace: React.FC = () => {
             <div className="marketplace-header-flex">
               <motion.div
                 className="marketplace-icon-wrapper"
-                whileHover={{ rotate: 5, scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
               >
                 <ShoppingBag size={24} color="white" />
               </motion.div>
@@ -145,7 +145,7 @@ export const Marketplace: React.FC = () => {
                       {course.icon}
                     </div>
                     <motion.div
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.05 }}
                       className="marketplace-course-play"
                     >
                       <Play size={16} color="white" className="marketplace-course-play-icon" />
