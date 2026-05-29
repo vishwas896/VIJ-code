@@ -3,9 +3,9 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import { motion, type Variants } from 'framer-motion';
 import { BookOpen, Code, GitBranch, Star, MessageSquare } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
 import './PublicProfile.css';
 
 const sectionVariants: Variants = {

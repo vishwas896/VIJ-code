@@ -1,8 +1,8 @@
 ﻿'use client';
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
 import './EmployeeDirectory.css';
 
 export const EmployeeDirectory: React.FC = () => {

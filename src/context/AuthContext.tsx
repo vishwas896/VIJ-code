@@ -46,14 +46,7 @@ interface AuthContextType {
   addFunds: (amount: number) => void;
   applyToJob: (jobId: number) => void;
   hasApplied: (jobId: number) => boolean;
-  updateProfile: (data: { 
-    name?: string;
-    email?: string;
-    bio?: string;
-    roleTitle?: string;
-    currentCompany?: string;
-    industry?: string;
-  }) => void;
+  updateProfile: (data: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -152,14 +145,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return user?.appliedJobs?.includes(jobId) ?? false;
   };
 
-  const updateProfile = (data: { 
-    name?: string;
-    email?: string;
-    bio?: string;
-    roleTitle?: string;
-    currentCompany?: string;
-    industry?: string;
-  }) => {
+  const updateProfile = (data: Partial<User>) => {
     if (user) {
       const updatedUser = { ...user, ...data };
       setUser(updatedUser);

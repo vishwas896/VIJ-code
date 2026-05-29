@@ -1,6 +1,6 @@
 'use client';
 import { Settings } from '../../../../views/Settings';
-import { ProtectedRoute } from '../../../../components/ProtectedRoute';
+import { ProtectedRoute } from '../../../../components/common/ProtectedRoute';
 
 export default function SettingsTabPage() {
   return (

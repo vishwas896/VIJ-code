@@ -6,9 +6,9 @@ import {
   Check, Trash2, Settings, ShieldCheck, Mail, Volume2, 
   Smartphone, Filter, CheckSquare, Sparkles
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
 import './Notifications.css';
 
 export interface NotificationItem {

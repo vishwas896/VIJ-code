@@ -8,7 +8,7 @@ import {
   TrendingUp, Settings2, Building2, Phone, Globe, Briefcase,
   GraduationCap, Star, AlertCircle
 } from 'lucide-react';
-import { VijLogo } from '../components/VijLogo';
+import { VijLogo } from '../components/common/VijLogo';
 import { useAuth, type UserDomain } from '../context/AuthContext';
 import './Auth.css';
 

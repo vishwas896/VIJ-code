@@ -5,7 +5,7 @@ import {
   Sliders, Compass, ShieldAlert, Award, MessageSquare, FileJson, 
   ArrowRight, Check
 } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
+import { GlassCard } from '../common/GlassCard';
 import { useCurrency } from '../../context/CurrencyContext';
 import './landing.css';
 

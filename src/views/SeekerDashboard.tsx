@@ -6,10 +6,10 @@ import {
   MapPin, Clock, DollarSign,
   Eye, Send, CheckCircle2, Layout, Plus, Filter, UserPlus
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
-import { VijLogo } from '../components/VijLogo';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
+import { VijLogo } from '../components/common/VijLogo';
 import { useAuth } from '../context/AuthContext';
 import './SeekerDashboard.css';
 

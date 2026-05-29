@@ -7,8 +7,8 @@ import {
   Sparkles, Cpu, Trophy, Globe, UserCheck, Newspaper, 
   Video, Wallet, Brain, ArrowUpRight
 } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
-import { GlassButton } from '../GlassButton';
+import { GlassCard } from '../common/GlassCard';
+import { GlassButton } from '../common/GlassButton';
 
 // Icon mapping based on the item ID
 const getIcon = (id: string, size = 20) => {

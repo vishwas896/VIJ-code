@@ -8,9 +8,9 @@ import {
   Search, Shield, Building2, Eye, FileText,
   Clock, Sparkles, Award, Edit2, Save, X, Trash2, ArrowUpRight
 } from 'lucide-react';
-import { PageTransition } from '../../components/PageTransition';
-import { GlassCard } from '../../components/GlassCard';
-import { GlassButton } from '../../components/GlassButton';
+import { PageTransition } from '../../components/common/PageTransition';
+import { GlassCard } from '../../components/common/GlassCard';
+import { GlassButton } from '../../components/common/GlassButton';
 import { useCurrency } from '../../context/CurrencyContext';
 import { useAuth } from '../../context/AuthContext';
 import { useRecruiter } from '../../context/RecruiterContext';

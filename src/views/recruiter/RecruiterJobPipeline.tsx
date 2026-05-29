@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PageTransition } from '../../components/PageTransition';
-import { GlassCard } from '../../components/GlassCard';
-import { GlassButton } from '../../components/GlassButton';
+import { PageTransition } from '../../components/common/PageTransition';
+import { GlassCard } from '../../components/common/GlassCard';
+import { GlassButton } from '../../components/common/GlassButton';
 import { Shield, Search, Calendar, Unlock, AlertCircle, ArrowLeft, CheckCircle, Clock } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
 import { useRecruiter } from '../../context/RecruiterContext';

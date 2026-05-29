@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency } from '../../context/CurrencyContext';
 import { motion } from 'framer-motion';
 
 interface SalaryRangeBarProps {

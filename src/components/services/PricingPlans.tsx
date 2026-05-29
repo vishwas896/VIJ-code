@@ -2,8 +2,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, Sparkles } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
-import { GlassButton } from '../GlassButton';
+import { GlassCard } from '../common/GlassCard';
+import { GlassButton } from '../common/GlassButton';
 import { useServices } from '../../context/ServicesContext';
 import servicesData from '../../data/servicesData.json';
 

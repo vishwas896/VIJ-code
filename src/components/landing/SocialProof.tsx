@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, UserCheck2, Landmark } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
+import { GlassCard } from '../common/GlassCard';
 import landingData from '../../data/landing.json';
 import './landing.css';
 

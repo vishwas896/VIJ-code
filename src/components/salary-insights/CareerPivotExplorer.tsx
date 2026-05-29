@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency } from '../../context/CurrencyContext';
 import { ArrowRight, Compass, CheckCircle } from 'lucide-react';
 
 interface CareerPivot {

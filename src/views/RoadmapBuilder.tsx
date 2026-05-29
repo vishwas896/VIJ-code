@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { motion, Reorder } from 'framer-motion';
 import { GripVertical, Plus, Trash2, Save, X, Clock, ChevronRight } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
 import './RoadmapBuilder.css';
 
 interface RoadmapNode {

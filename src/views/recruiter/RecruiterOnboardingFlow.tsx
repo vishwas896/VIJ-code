@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { PageTransition } from '../../components/PageTransition';
-import { GlassCard } from '../../components/GlassCard';
-import { GlassButton } from '../../components/GlassButton';
+import { PageTransition } from '../../components/common/PageTransition';
+import { GlassCard } from '../../components/common/GlassCard';
+import { GlassButton } from '../../components/common/GlassButton';
 import {
   Mail, Building2, ShieldCheck, CheckCircle, AlertCircle,
   Globe, Users, MapPin, Briefcase, Sparkles, ArrowRight, X, Plus, Loader2

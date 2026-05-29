@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Play, Pause, CheckCircle, Clock, ChevronRight, BookOpen, Award } from 'lucide-react';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
 import './LearningCenter.css';
 
 const modules = [

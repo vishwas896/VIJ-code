@@ -1,9 +1,9 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PageTransition } from '../../components/PageTransition';
-import { GlassCard } from '../../components/GlassCard';
-import { GlassButton } from '../../components/GlassButton';
+import { PageTransition } from '../../components/common/PageTransition';
+import { GlassCard } from '../../components/common/GlassCard';
+import { GlassButton } from '../../components/common/GlassButton';
 import { Building2, Image as ImageIcon, Save, ArrowLeft } from 'lucide-react';
 import './Recruiter.css';
 

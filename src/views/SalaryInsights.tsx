@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
 import { useCurrency } from '../context/CurrencyContext';
-import { AutocompleteDropdown } from '../components/AutocompleteDropdown';
-import { SalaryRangeBar } from '../components/SalaryRangeBar';
-import { CompDonutChart } from '../components/CompDonutChart';
-import { TrendSparkline } from '../components/TrendSparkline';
-import { CareerPivotExplorer } from '../components/CareerPivotExplorer';
-import { AnimatedCounter } from '../components/AnimatedCounter';
+import { AutocompleteDropdown } from '../components/common/AutocompleteDropdown';
+import { SalaryRangeBar } from '../components/salary-insights/SalaryRangeBar';
+import { CompDonutChart } from '../components/salary-insights/CompDonutChart';
+import { TrendSparkline } from '../components/salary-insights/TrendSparkline';
+import { CareerPivotExplorer } from '../components/salary-insights/CareerPivotExplorer';
+import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { ALL_JOB_TITLES } from '../data/salaryData';
 import { 
   Briefcase, 

@@ -11,7 +11,7 @@ import {
   CheckCircle2, X, Send, Users, Clock, MapPin, Sparkles,
   Link as LinkIcon, User, Mail, Award, Check
 } from 'lucide-react';
-import { PageTransition } from '../components/PageTransition';
+import { PageTransition } from '../components/common/PageTransition';
 import { useAuth, type UserDomain } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { getAllJobPosts, getCompanyBySlug, Company } from '../data/recruiterData';
@@ -437,6 +437,23 @@ export const Jobs: React.FC = () => {
     return filteredJobs.slice(0, visibleCount);
   }, [filteredJobs, visibleCount]);
 
+  const gridItems = useMemo(() => {
+    const items: Array<
+      | { type: 'job'; data: JobData; originalIndex: number }
+      | { type: 'ad'; data: typeof mockAds[number]; key: string }
+    > = [];
+    visibleJobs.forEach((job, idx) => {
+      items.push({ type: 'job', data: job, originalIndex: idx });
+      // Insert an ad card after every 4th job card (index 3, 7, etc.)
+      if (idx > 0 && idx % 4 === 3) {
+        const adIndex = Math.floor(idx / 4) % mockAds.length;
+        const ad = mockAds[adIndex];
+        items.push({ type: 'ad', data: ad, key: `ad-${ad.id}-${job.id}` });
+      }
+    });
+    return items;
+  }, [visibleJobs]);
+
   const handleApplyClick = (e: React.MouseEvent, job: JobData) => {
     e.stopPropagation();
     if (!isAuthenticated) {
@@ -617,184 +634,176 @@ export const Jobs: React.FC = () => {
               {/* ── 4-COLUMN JOBS GRID ── */}
               <div className="jobs-grid-container">
                 <AnimatePresence mode="popLayout">
-                  {visibleJobs.map((job, i) => {
-                    const applied = hasApplied(job.id);
-                    const wasJustApplied = justApplied === job.id;
-                    const matchScore = getMatchScore(job);
-                    
-                    // Upgraded status criteria
-                    const isUpgraded = job.salaryMax >= 180000 || matchScore >= 80;
+                  {gridItems.map((item, i) => {
+                    if (item.type === 'job') {
+                      const job = item.data;
+                      const applied = hasApplied(job.id);
+                      const wasJustApplied = justApplied === job.id;
+                      const matchScore = getMatchScore(job);
+                      
+                      // Upgraded status criteria
+                      const isUpgraded = job.salaryMax >= 180000 || matchScore >= 80;
 
-                    const jobCard = (
-                      <motion.div
-                        key={`job-${job.id}`}
-                        className={`exp-job-card ${isUpgraded && isAuthenticated ? 'upgraded-glow' : ''}`}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ delay: 0.02 + i * 0.02 }}
-                        onClick={() => setSelectedJob(getExpandedJob(job))}
-                        layout
-                      >
-                        <div className="exp-job-left">
-                          <div className="exp-job-icon">
-                            {domainIcons[job.domain] || <Zap size={20} />}
-                          </div>
-                          <div style={{ width: '100%' }}>
-                            <h3 className="exp-job-title" title={job.title}>
-                              {job.title}
-                            </h3>
-                            <p className="exp-job-company">
-                              {job.company}
-                            </p>
-                            <span style={{ fontSize: '10px', color: 'var(--vij-text-muted)', display: 'block', margin: '2px 0 6px' }}>
-                              📍 {job.location}
-                            </span>
-                            
-                            {/* Match Score Badge */}
-                            {isAuthenticated && (
-                              <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                                <span 
-                                  className="match-score-badge"
-                                  style={{
-                                    fontSize: '9px',
-                                    fontWeight: 800,
-                                    padding: '2px 6px',
-                                    borderRadius: '4px',
-                                    background: matchScore >= 75 ? 'rgba(5, 150, 105, 0.12)' : 'rgba(0,0,0,0.05)',
-                                    color: matchScore >= 75 ? '#059669' : 'var(--vij-text-muted)',
-                                    border: matchScore >= 75 ? '1px solid rgba(5, 150, 105, 0.3)' : '1px solid rgba(0,0,0,0.05)',
-                                  }}
-                                >
-                                  🎯 {matchScore}% Match
-                                </span>
-                                {isUpgraded && (
+                      return (
+                        <motion.div
+                          key={`job-${job.id}`}
+                          className={`exp-job-card ${isUpgraded && isAuthenticated ? 'upgraded-glow' : ''}`}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ delay: 0.02 + i * 0.02 }}
+                          onClick={() => setSelectedJob(getExpandedJob(job))}
+                          layout
+                        >
+                          <div className="exp-job-left">
+                            <div className="exp-job-icon">
+                              {domainIcons[job.domain] || <Zap size={20} />}
+                            </div>
+                            <div style={{ width: '100%' }}>
+                              <h3 className="exp-job-title" title={job.title}>
+                                {job.title}
+                              </h3>
+                              <p className="exp-job-company">
+                                {job.company}
+                              </p>
+                              <span style={{ fontSize: '10px', color: 'var(--vij-text-muted)', display: 'block', margin: '2px 0 6px' }}>
+                                📍 {job.location}
+                              </span>
+                              
+                              {/* Match Score Badge */}
+                              {isAuthenticated && (
+                                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '8px' }}>
                                   <span 
+                                    className="match-score-badge"
                                     style={{
                                       fontSize: '9px',
                                       fontWeight: 800,
                                       padding: '2px 6px',
                                       borderRadius: '4px',
-                                      background: 'rgba(245, 158, 11, 0.12)',
-                                      color: '#d97706',
-                                      border: '1px solid rgba(245, 158, 11, 0.3)',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      gap: '2px'
+                                      background: matchScore >= 75 ? 'rgba(5, 150, 105, 0.12)' : 'rgba(0,0,0,0.05)',
+                                      color: matchScore >= 75 ? '#059669' : 'var(--vij-text-muted)',
+                                      border: matchScore >= 75 ? '1px solid rgba(5, 150, 105, 0.3)' : '1px solid rgba(0,0,0,0.05)',
                                     }}
                                   >
-                                    <Sparkles size={8} /> Upgraded
+                                    🎯 {matchScore}% Match
                                   </span>
-                                )}
-                              </div>
-                            )}
+                                  {isUpgraded && (
+                                    <span 
+                                      style={{
+                                        fontSize: '9px',
+                                        fontWeight: 800,
+                                        padding: '2px 6px',
+                                        borderRadius: '4px',
+                                        background: 'rgba(245, 158, 11, 0.12)',
+                                        color: '#d97706',
+                                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '2px'
+                                      }}
+                                    >
+                                      <Sparkles size={8} /> Upgraded
+                                    </span>
+                                  )}
+                                </div>
+                              )}
 
-                            <div className="exp-job-chips">
-                              <span className="exp-chip">{job.type}</span>
-                              <span className="exp-chip">
-                                {formatCurrency(job.salaryMin, true)} - {formatCurrency(job.salaryMax, true)}{job.isHourly ? '/hr' : ''}
-                              </span>
-                              <span className={`exp-chip mode-${job.modeColor}`}>{job.mode}</span>
-                            </div>
-                            
-                            <div className="exp-job-skills">
-                              {job.skills.slice(0, 3).map(s => (
-                                <span key={s} className="exp-skill-chip">{s}</span>
-                              ))}
+                              <div className="exp-job-chips">
+                                <span className="exp-chip">{job.type}</span>
+                                <span className="exp-chip">
+                                  {formatCurrency(job.salaryMin, true)} - {formatCurrency(job.salaryMax, true)}{job.isHourly ? '/hr' : ''}
+                                </span>
+                                <span className={`exp-chip mode-${job.modeColor}`}>{job.mode}</span>
+                              </div>
+                              
+                              <div className="exp-job-skills">
+                                {job.skills.slice(0, 3).map(s => (
+                                  <span key={s} className="exp-skill-chip">{s}</span>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className="exp-job-meta-row">
-                          <span className="exp-meta-item"><Clock size={10} /> {job.postedAgo}</span>
-                          <span className="exp-meta-item"><Users size={10} /> {job.applicants} applied</span>
-                        </div>
+                          <div className="exp-job-meta-row">
+                            <span className="exp-meta-item"><Clock size={10} /> {job.postedAgo}</span>
+                            <span className="exp-meta-item"><Users size={10} /> {job.applicants} applied</span>
+                          </div>
 
-                        <div className="exp-job-actions">
-                          <button
-                            className={`exp-bookmark ${saved[job.id] ? 'saved' : ''}`}
-                            onClick={(e) => toggleSave(e, job.id)}
-                            style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
-                          >
-                            <Bookmark size={16} fill={saved[job.id] ? '#dd3a22' : 'none'} />
-                          </button>
-
-                          {applied || wasJustApplied || completedTests[job.id] ? (
+                          <div className="exp-job-actions">
                             <button
-                              className="exp-apply-btn applied"
-                              onClick={(e) => e.stopPropagation()}
-                              style={{ width: 'auto', flex: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+                              className={`exp-bookmark ${saved[job.id] ? 'saved' : ''}`}
+                              onClick={(e) => toggleSave(e, job.id)}
+                              style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
                             >
-                              <CheckCircle2 size={12} />
-                              <span>Applied</span>
+                              <Bookmark size={16} fill={saved[job.id] ? '#dd3a22' : 'none'} />
                             </button>
-                          ) : (
-                            <button
-                              className="exp-apply-btn"
-                              onClick={(e) => handleApplyClick(e, job)}
-                            >
-                              <Send size={12} />
-                              <span>Apply</span>
-                            </button>
-                          )}
-                        </div>
-                      </motion.div>
-                    );
 
-                    // Insert an ad card after every 4th job card (index 3, 7, etc.)
-                    const showAd = i > 0 && i % 4 === 3;
-                    const adIndex = Math.floor(i / 4) % mockAds.length;
-                    const ad = mockAds[adIndex];
-
-                    if (showAd) {
+                            {applied || wasJustApplied || completedTests[job.id] ? (
+                              <button
+                                className="exp-apply-btn applied"
+                                onClick={(e) => e.stopPropagation()}
+                                style={{ width: 'auto', flex: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+                              >
+                                <CheckCircle2 size={12} />
+                                <span>Applied</span>
+                              </button>
+                            ) : (
+                              <button
+                                className="exp-apply-btn"
+                                onClick={(e) => handleApplyClick(e, job)}
+                              >
+                                <Send size={12} />
+                                <span>Apply</span>
+                              </button>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    } else {
+                      const ad = item.data;
                       return (
-                        <React.Fragment key={`group-${job.id}`}>
-                          {jobCard}
-                          <motion.div
-                            key={`ad-${ad.id}`}
-                            className="exp-job-card ad-card"
-                            style={{
-                              background: ad.background,
-                              borderColor: ad.border,
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'space-between',
-                              alignItems: 'stretch',
-                              padding: '16px',
-                              borderRadius: '12px',
-                              borderWidth: '1px',
-                              borderStyle: 'solid',
-                              minHeight: '330px',
-                              cursor: 'default'
-                            }}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            layout
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                                <span style={{ fontSize: '9px', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,0,0,0.06)', color: 'var(--vij-text-muted)', textTransform: 'uppercase' }}>
-                                  Sponsored Ad
-                                </span>
-                                <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--vij-text-main)' }}>{ad.company}</span>
-                              </div>
-                              <h3 style={{ fontSize: '14px', fontWeight: 800, margin: '8px 0 4px 0', color: 'var(--vij-text-main)', lineHeight: 1.3 }}>{ad.title}</h3>
-                              <p style={{ fontSize: '11px', color: 'var(--vij-text-muted)', margin: 0, lineHeight: 1.4 }}>{ad.description}</p>
+                        <motion.div
+                          key={item.key}
+                          className="exp-job-card ad-card"
+                          style={{
+                            background: ad.background,
+                            borderColor: ad.border,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'stretch',
+                            padding: '16px',
+                            borderRadius: '12px',
+                            borderWidth: '1px',
+                            borderStyle: 'solid',
+                            minHeight: '330px',
+                            cursor: 'default'
+                          }}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          layout
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                              <span style={{ fontSize: '9px', fontWeight: 800, padding: '2px 6px', borderRadius: '4px', background: 'rgba(0,0,0,0.06)', color: 'var(--vij-text-muted)', textTransform: 'uppercase' }}>
+                                Sponsored Ad
+                              </span>
+                              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--vij-text-main)' }}>{ad.company}</span>
                             </div>
-                            <button
-                              className="exp-apply-btn"
-                              style={{ width: '100%', background: 'linear-gradient(90deg, #dd3a22, #b45309)', border: 'none', marginTop: '12px', cursor: 'pointer' }}
-                              onClick={() => router.push(ad.link)}
-                            >
-                              {ad.cta}
-                            </button>
-                          </motion.div>
-                        </React.Fragment>
+                            <h3 style={{ fontSize: '14px', fontWeight: 800, margin: '8px 0 4px 0', color: 'var(--vij-text-main)', lineHeight: 1.3 }}>{ad.title}</h3>
+                            <p style={{ fontSize: '11px', color: 'var(--vij-text-muted)', margin: 0, lineHeight: 1.4 }}>{ad.description}</p>
+                          </div>
+                          <button
+                            className="exp-apply-btn"
+                            style={{ width: '100%', background: 'linear-gradient(90deg, #dd3a22, #b45309)', border: 'none', marginTop: '12px', cursor: 'pointer' }}
+                            onClick={() => router.push(ad.link)}
+                          >
+                            {ad.cta}
+                          </button>
+                        </motion.div>
                       );
                     }
-
-                    return jobCard;
                   })}
                 </AnimatePresence>
               </div>

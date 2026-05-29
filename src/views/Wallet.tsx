@@ -5,9 +5,9 @@ import {
   AlertCircle, ArrowUpRight, ArrowDownLeft, RefreshCcw, Download, 
   CreditCard, Building, Settings, CheckCircle2, Smartphone, Wallet2, X, Plus, Trash2 
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
 import { useCurrency } from '../context/CurrencyContext';
 import { useAuth } from '../context/AuthContext';
 import './WalletMarketplace.css';

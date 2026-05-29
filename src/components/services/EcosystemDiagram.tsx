@@ -1,7 +1,7 @@
 ﻿'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GlassCard } from '../GlassCard';
+import { GlassCard } from '../common/GlassCard';
 import { 
   Map, Briefcase, Users, Globe, Wallet, Newspaper, User
 } from 'lucide-react';

@@ -11,9 +11,9 @@ import {
   AlertCircle,
   X
 } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
-import { GlassButton } from '../GlassButton';
-import { VijLogo } from '../VijLogo';
+import { GlassCard } from '../../components/common/GlassCard';
+import { GlassButton } from '../../components/common/GlassButton';
+import { VijLogo } from '../../components/common/VijLogo';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import './Footer.css';

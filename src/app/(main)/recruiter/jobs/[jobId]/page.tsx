@@ -1,6 +1,6 @@
 'use client';
 import { RecruiterJobPipeline } from '../../../../../views/recruiter/RecruiterJobPipeline';
-import { ProtectedRoute } from '../../../../../components/ProtectedRoute';
+import { ProtectedRoute } from '../../../../../components/common/ProtectedRoute';
 
 export default function RecruiterJobPipelinePage() {
   return (

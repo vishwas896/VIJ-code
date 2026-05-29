@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Building2, ExternalLink, Loader2, Info, Sparkles, Lock } from 'lucide-react';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
 import { useAuth } from '../context/AuthContext';
 import './CompaniesSearch.css';
 

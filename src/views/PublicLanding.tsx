@@ -9,10 +9,10 @@ import {
   Target, GraduationCap, Building2, TrendingUp,
   Star, Clock
 } from 'lucide-react';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
-import { ScrollReveal } from '../components/ScrollReveal';
-import { AnimatedCounter } from '../components/AnimatedCounter';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { ScrollReveal } from '../components/landing/ScrollReveal';
+import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
 import './PublicLanding.css';

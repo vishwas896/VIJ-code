@@ -1,8 +1,8 @@
 ﻿'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
 import { Mail, MapPin } from 'lucide-react';
 import './StaticPages.css';
 

@@ -5,8 +5,8 @@ import {
   Play, Map, Globe, Wallet, Video, X 
 } from 'lucide-react';
 import { useServices, type PersonaType } from '../../context/ServicesContext';
-import { GlassButton } from '../GlassButton';
-import { GlassCard } from '../GlassCard';
+import { GlassButton } from '../common/GlassButton';
+import { GlassCard } from '../common/GlassCard';
 
 export const ServicesHero: React.FC = () => {
   const { activePersona, setActivePersona } = useServices();

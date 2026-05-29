@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Briefcase, X } from 'lucide-react';
-import { GlassCard } from './GlassCard';
-import { GlassButton } from './GlassButton';
-import { AutocompleteDropdown } from './AutocompleteDropdown';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { AutocompleteDropdown } from '../components/common/AutocompleteDropdown';
 import { jobTitlesDataset, industriesDataset, sectorsDataset, domainsDataset, responsibilitiesDataset } from '../data/mockDatasets';
 import './ExperienceForm.css';
 

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeft, ChevronRight, Shield, Heart, Lock, CheckCircle
 } from 'lucide-react';
-import { PageTransition } from '../components/PageTransition';
+import { PageTransition } from '../components/common/PageTransition';
 import { ServicesProvider } from '../context/ServicesContext';
 import { ServicesHero } from '../components/services/ServicesHero';
 import { PersonaFilterBar } from '../components/services/PersonaFilterBar';
@@ -17,8 +17,8 @@ import { EcosystemDiagram } from '../components/services/EcosystemDiagram';
 import { PricingPlans } from '../components/services/PricingPlans';
 import { ServicesFAQ } from '../components/services/ServicesFAQ';
 import { ServicesCTA } from '../components/services/ServicesCTA';
-import { AnimatedCounter } from '../components/AnimatedCounter';
-import { GlassCard } from '../components/GlassCard';
+import { AnimatedCounter } from '../components/common/AnimatedCounter';
+import { GlassCard } from '../components/common/GlassCard';
 import servicesData from '../data/servicesData.json';
 import './Services.css';
 

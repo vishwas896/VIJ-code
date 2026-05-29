@@ -2,8 +2,8 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, MessageSquare } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
-import { GlassButton } from '../GlassButton';
+import { GlassCard } from '../common/GlassCard';
+import { GlassButton } from '../common/GlassButton';
 import { useAuth } from '../../context/AuthContext';
 
 export const ServicesCTA: React.FC = () => {

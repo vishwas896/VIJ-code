@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { ProtectedRoute } from '../../components/common/ProtectedRoute';
 import { MainLayout } from '../../layouts/MainLayout';
 
 export default function ProtectedLayout({

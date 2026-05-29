@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MailX, Shuffle, HelpCircle } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
+import { GlassCard } from '../common/GlassCard';
 import landingData from '../../data/landing.json';
 import './landing.css';
 

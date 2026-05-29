@@ -6,7 +6,7 @@ import {
   MessageSquare, X, Users, Briefcase, 
   DollarSign, ExternalLink, ArrowRight
 } from 'lucide-react';
-import { GlassCard } from './GlassCard';
+import { GlassCard } from '../components/common/GlassCard';
 
 interface ChatItem {
   id: number;

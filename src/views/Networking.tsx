@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Send } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { PageTransition } from '../components/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { PageTransition } from '../components/common/PageTransition';
 import './Networking.css';
 
 export const Networking: React.FC = () => {

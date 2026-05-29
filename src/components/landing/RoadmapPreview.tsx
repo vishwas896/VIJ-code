@@ -2,8 +2,8 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Compass } from 'lucide-react';
-import { GlassCard } from '../GlassCard';
-import { GlassButton } from '../GlassButton';
+import { GlassCard } from '../common/GlassCard';
+import { GlassButton } from '../common/GlassButton';
 import './landing.css';
 
 export const RoadmapPreview: React.FC = () => {

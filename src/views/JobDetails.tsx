@@ -7,10 +7,10 @@ import {
   CheckCircle, AlertCircle, Building2, ExternalLink, ShieldCheck,
   Briefcase, Sparkles, X, ArrowRight, Eye, TrendingUp
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
-import { AnimatedCounter } from '../components/AnimatedCounter';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
+import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { getJobById, getCompanyBySlug } from '../data/recruiterData';
 import { calculateMatchScore, type UserProfile, type MatchResult } from '../services/matchingEngine';
 import { useAuth } from '../context/AuthContext';

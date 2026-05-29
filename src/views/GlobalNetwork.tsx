@@ -111,6 +111,37 @@ export const GlobalNetwork: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<NetworkUser | null>(null);
   const [myLocation, setMyLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [statsFilter, setStatsFilter] = useState<'all' | 'hiring' | 'jobseekers'>('all');
+  const [isMapExpanded, setIsMapExpanded] = useState<boolean>(false);
+  
+  // Left Sidebar Collapse/Expand states
+  const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
+  const collapseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleSidebarMouseEnter = () => {
+    if (collapseTimeoutRef.current) {
+      clearTimeout(collapseTimeoutRef.current);
+      collapseTimeoutRef.current = null;
+    }
+    setSidebarExpanded(true);
+  };
+
+  const handleSidebarMouseLeave = () => {
+    if (collapseTimeoutRef.current) {
+      clearTimeout(collapseTimeoutRef.current);
+    }
+    collapseTimeoutRef.current = setTimeout(() => {
+      setSidebarExpanded(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (collapseTimeoutRef.current) {
+        clearTimeout(collapseTimeoutRef.current);
+      }
+    };
+  }, []);
   
   // Map filters
   const [mapFilter, setMapFilter] = useState<{
@@ -176,7 +207,12 @@ export const GlobalNetwork: React.FC = () => {
       zoomControl: false,
       attributionControl: false,
       maxBounds: worldBounds,
-      worldCopyJump: true
+      worldCopyJump: true,
+      doubleClickZoom: false
+    });
+
+    map.on('dblclick', () => {
+      setIsMapExpanded(prev => !prev);
     });
 
     // Light Theme Tile Layer: Voyager
@@ -224,6 +260,16 @@ export const GlobalNetwork: React.FC = () => {
     }
   }, [myLocation]);
 
+  // Handle map resizing on expansion toggle
+  useEffect(() => {
+    if (mapInstance.current) {
+      const timer = setTimeout(() => {
+        mapInstance.current?.invalidateSize();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isMapExpanded]);
+
   // Compute distances dynamically
   const usersWithDist = useMemo(() => {
     if (!myLocation) return MOCK_USERS.map(u => ({ ...u, distance: 9999 }));
@@ -258,6 +304,14 @@ export const GlobalNetwork: React.FC = () => {
       if (mapFilter.openToWorkOnly && !u.openToWork) return false;
       if (mapFilter.verifiedOnly && !u.isVerified) return false;
 
+      // Stats bar filtering
+      if (statsFilter === 'hiring') {
+        if (!u.isRecruiter && !u.openToWork) return false;
+      }
+      if (statsFilter === 'jobseekers') {
+        if (u.isRecruiter || u.openToWork) return false;
+      }
+
       // Text search matching
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -271,7 +325,7 @@ export const GlobalNetwork: React.FC = () => {
 
       return true;
     });
-  }, [usersWithDist, activeSidebarTab, connections, bookmarkedIds, preferences.nearby_radius, mapFilter, searchQuery]);
+  }, [usersWithDist, activeSidebarTab, connections, bookmarkedIds, preferences.nearby_radius, mapFilter, searchQuery, statsFilter]);
 
   // Update Map Markers
   useEffect(() => {
@@ -361,7 +415,7 @@ export const GlobalNetwork: React.FC = () => {
   }, [connectedCount, bookmarkedIds]);
 
   return (
-    <div className="gn-ecosystem-root">
+    <div className={`gn-ecosystem-root mobile-tab-${activeMobileTab}`}>
       
       {/* ── LIVE TOAST NOTIFICATION ── */}
       <AnimatePresence>
@@ -381,7 +435,11 @@ export const GlobalNetwork: React.FC = () => {
       <div className="gn-page-container">
         
         {/* ── LEFT SIDEBAR ── */}
-        <aside className="gn-sidebar-left">
+        <aside 
+          className={`gn-sidebar-left ${sidebarExpanded ? 'expanded' : 'collapsed'}`}
+          onMouseEnter={handleSidebarMouseEnter}
+          onMouseLeave={handleSidebarMouseLeave}
+        >
           <div className="gn-glass-panel">
             <div className="gn-nav-menu">
               <div 
@@ -441,7 +499,7 @@ export const GlobalNetwork: React.FC = () => {
           <div className="gn-glass-panel" style={{ padding: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Radio size={16} style={{ color: '#22c55e' }} />
-              <div>
+              <div className="gn-radar-text">
                 <span style={{ fontSize: '11px', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Radar Scanner</span>
                 <strong style={{ display: 'block', fontSize: '12px', color: '#1e293b' }}>Active Globally</strong>
               </div>
@@ -492,46 +550,6 @@ export const GlobalNetwork: React.FC = () => {
             </div>
           </div>
 
-          {/* Interactive World Map */}
-          {((activeMobileTab === 'map') || (window.innerWidth > 768)) && (
-            <div className="gn-map-panel">
-              <div id="map" ref={mapRef} className="gn-map-container" />
-
-              {/* Map Floating Controls */}
-              <div className="gn-map-controls-group">
-                <button className="gn-map-ctrl-btn" onClick={() => mapInstance.current?.zoomIn()} title="Zoom In"><Plus size={18} /></button>
-                <button className="gn-map-ctrl-btn" onClick={() => mapInstance.current?.zoomOut()} title="Zoom Out"><Minus size={18} /></button>
-                <button 
-                  className="gn-map-ctrl-btn" 
-                  onClick={() => {
-                    if (myLocation) {
-                      mapInstance.current?.setView([myLocation.lat, myLocation.lng], 10);
-                    }
-                  }} 
-                  title="My Location"
-                >
-                  <LocateFixed size={18} />
-                </button>
-                <button className="gn-map-ctrl-btn" onClick={() => mapInstance.current?.setView([20, 0], 2)} title="Whole Globe"><Globe size={18} /></button>
-              </div>
-
-              {/* Map Legend */}
-              <div className="gn-map-legend">
-                <div className="gn-map-legend-item">
-                  <i style={{ background: '#3b82f6' }} />
-                  <span>Online</span>
-                </div>
-                <div className="gn-map-legend-item">
-                  <i style={{ background: '#8b5cf6' }} />
-                  <span>Recruiters</span>
-                </div>
-                <div className="gn-map-legend-item">
-                  <i style={{ background: '#10b981' }} />
-                  <span>Hiring</span>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Map Filters Bar */}
           <div className="gn-filter-pills">
@@ -596,128 +614,259 @@ export const GlobalNetwork: React.FC = () => {
                   <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>Try broadening your filters or updating your search query.</p>
                 </div>
               ) : (
-                <div className={`gn-people-grid ${preferences.card_layout === 'list' ? 'list-view' : ''}`}>
-                  {filteredUsers.map(u => {
-                    const statusRecord = connections.find(c => c.connection_id === u.id);
-                    const isConnected = statusRecord?.status === 'connected';
-                    const isRequested = statusRecord?.status === 'requested_sent';
-                    const isPendingApproval = statusRecord?.status === 'requested_received';
+                <>
+                  <div className={`gn-people-grid ${preferences.card_layout === 'list' ? 'list-view' : ''}`}>
+                    {(activeSidebarTab === 'discover' ? filteredUsers.slice(0, 6) : filteredUsers).map(u => {
+                      const statusRecord = connections.find(c => c.connection_id === u.id);
+                      const isConnected = statusRecord?.status === 'connected';
+                      const isRequested = statusRecord?.status === 'requested_sent';
+                      const isPendingApproval = statusRecord?.status === 'requested_received';
 
-                    return (
-                      <div 
-                        key={u.id} 
-                        className={`gn-people-card ${isConnected ? 'connected-card' : ''}`}
-                        onClick={() => setSelectedUser(u)}
-                      >
-                        <div className="gn-card-top-row">
-                          <div className="gn-card-avatar-area">
-                            <div className={`gn-card-avatar ${u.isRecruiter ? 'recruiter' : ''}`}>
-                              {u.avatar}
+                      return (
+                        <div 
+                          key={u.id} 
+                          className={`gn-people-card ${isConnected ? 'connected-card' : ''}`}
+                          onClick={() => setSelectedUser(u)}
+                        >
+                          <div className="gn-card-top-row">
+                            <div className="gn-card-avatar-area">
+                              <div className={`gn-card-avatar ${u.isRecruiter ? 'recruiter' : ''}`}>
+                                {u.avatar}
+                              </div>
+                              <span className={`gn-online-status-dot ${u.status}`} />
                             </div>
-                            <span className={`gn-online-status-dot ${u.status}`} />
-                          </div>
 
-                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
-                            <div className="gn-match-badge">
-                              <Zap size={10} fill="currentColor" />
-                              <span>{u.matchPercent}% Match</span>
-                            </div>
-                            {u.isRecruiter && (
-                              <span style={{ fontSize: '9px', fontWeight: 800, background: '#f5f3ff', color: '#7c3aed', padding: '2px 6px', borderRadius: '4px', border: '1px solid #ddd6fe' }}>RECRUITER</span>
-                            )}
-                            {u.openToWork && (
-                              <span style={{ fontSize: '9px', fontWeight: 800, background: '#ecfdf5', color: '#10b981', padding: '2px 6px', borderRadius: '4px', border: '1px solid #a7f3d0' }}>HIRING</span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="gn-card-identity">
-                          <h4>
-                            {u.name}
-                            {u.isVerified && <ShieldCheck size={14} style={{ color: '#3b82f6', fill: '#3b82f622' }} />}
-                          </h4>
-                          <p className="gn-card-role">{u.role}</p>
-                          <p className="gn-card-company">{u.company} • {u.location}</p>
-                        </div>
-
-                        {u.distance && (
-                          <div className="gn-card-meta">
-                            <div className="gn-card-meta-item">
-                              <MapPin size={11} />
-                              <span>{u.distance < 1 ? '<1' : u.distance} km away</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
+                              <div className="gn-match-badge">
+                                <Zap size={10} fill="currentColor" />
+                                <span>{u.matchPercent}% Match</span>
+                              </div>
+                              {u.isRecruiter && (
+                                <span style={{ fontSize: '9px', fontWeight: 800, background: '#f5f3ff', color: '#7c3aed', padding: '2px 6px', borderRadius: '4px', border: '1px solid #ddd6fe' }}>RECRUITER</span>
+                              )}
+                              {u.openToWork && (
+                                <span style={{ fontSize: '9px', fontWeight: 800, background: '#ecfdf5', color: '#10b981', padding: '2px 6px', borderRadius: '4px', border: '1px solid #a7f3d0' }}>HIRING</span>
+                              )}
                             </div>
                           </div>
-                        )}
 
-                        <div className="gn-card-skills-row">
-                          {u.skills.map(s => (
-                            <span key={s} className="gn-card-skill-tag">{s}</span>
-                          ))}
-                        </div>
+                          <div className="gn-card-identity">
+                            <h4>
+                              {u.name}
+                              {u.isVerified && <ShieldCheck size={14} style={{ color: '#3b82f6', fill: '#3b82f622' }} />}
+                            </h4>
+                            <p className="gn-card-role">{u.role}</p>
+                            <p className="gn-card-company">{u.company} • {u.location}</p>
+                          </div>
 
-                        <div className="gn-card-actions-row" onClick={e => e.stopPropagation()}>
-                          {isConnected ? (
-                            <>
-                              <button className="gn-card-btn outline">
-                                <MessageCircle size={12} />
-                                <span>Message</span>
-                              </button>
+                          {u.distance && (
+                            <div className="gn-card-meta">
+                              <div className="gn-card-meta-item">
+                                <MapPin size={11} />
+                                <span>{u.distance < 1 ? '<1' : u.distance} km away</span>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="gn-card-skills-row">
+                            {u.skills.map(s => (
+                              <span key={s} className="gn-card-skill-tag">{s}</span>
+                            ))}
+                          </div>
+
+                          <div className="gn-card-actions-row" onClick={e => e.stopPropagation()}>
+                            {isConnected ? (
+                              <>
+                                <button className="gn-card-btn outline">
+                                  <MessageCircle size={12} />
+                                  <span>Message</span>
+                                </button>
+                                <button 
+                                  className="gn-card-btn outline"
+                                  onClick={() => handleDisconnect(u.id, u.name)}
+                                  title="Disconnect"
+                                  style={{ flex: '0 0 36px', padding: 0 }}
+                                >
+                                  <UserMinus size={12} style={{ color: '#ef4444' }} />
+                                </button>
+                              </>
+                            ) : isRequested ? (
                               <button 
-                                className="gn-card-btn outline"
-                                onClick={() => handleDisconnect(u.id, u.name)}
-                                title="Disconnect"
-                                style={{ flex: '0 0 36px', padding: 0 }}
+                                className="gn-card-btn outline danger"
+                                onClick={() => handleConnectClick(u.id, u.name)}
                               >
-                                <UserMinus size={12} style={{ color: '#ef4444' }} />
+                                <X size={12} />
+                                <span>Cancel</span>
                               </button>
-                            </>
-                          ) : isRequested ? (
-                            <button 
-                              className="gn-card-btn outline danger"
-                              onClick={() => handleConnectClick(u.id, u.name)}
-                            >
-                              <X size={12} />
-                              <span>Cancel</span>
-                            </button>
-                          ) : isPendingApproval ? (
-                            <>
+                            ) : isPendingApproval ? (
+                              <>
+                                <button 
+                                  className="gn-card-btn primary"
+                                  onClick={() => handleConnectClick(u.id, u.name)}
+                                >
+                                  <Check size={12} />
+                                  <span>Accept</span>
+                                </button>
+                                <button 
+                                  className="gn-card-btn outline"
+                                  onClick={() => handleDisconnect(u.id, u.name)}
+                                  style={{ flex: '0 0 36px', padding: 0 }}
+                                >
+                                  <X size={12} style={{ color: '#ef4444' }} />
+                                </button>
+                              </>
+                            ) : (
                               <button 
                                 className="gn-card-btn primary"
                                 onClick={() => handleConnectClick(u.id, u.name)}
                               >
-                                <Check size={12} />
-                                <span>Accept</span>
+                                <UserPlus size={12} />
+                                <span>Connect</span>
                               </button>
-                              <button 
-                                className="gn-card-btn outline"
-                                onClick={() => handleDisconnect(u.id, u.name)}
-                                style={{ flex: '0 0 36px', padding: 0 }}
-                              >
-                                <X size={12} style={{ color: '#ef4444' }} />
-                              </button>
-                            </>
-                          ) : (
-                            <button 
-                              className="gn-card-btn primary"
-                              onClick={() => handleConnectClick(u.id, u.name)}
-                            >
-                              <UserPlus size={12} />
-                              <span>Connect</span>
-                            </button>
-                          )}
+                            )}
 
-                          <button 
-                            className="gn-card-btn outline"
-                            onClick={() => toggleBookmark(u.id, u.name)}
-                            style={{ flex: '0 0 36px', padding: 0 }}
-                          >
-                            <Bookmark size={12} style={{ fill: bookmarkedIds.includes(u.id) ? '#3b82f6' : 'none', color: bookmarkedIds.includes(u.id) ? '#3b82f6' : '#64748b' }} />
-                          </button>
+                            <button 
+                              className="gn-card-btn outline"
+                              onClick={() => toggleBookmark(u.id, u.name)}
+                              style={{ flex: '0 0 36px', padding: 0 }}
+                            >
+                              <Bookmark size={12} style={{ fill: bookmarkedIds.includes(u.id) ? '#3b82f6' : 'none', color: bookmarkedIds.includes(u.id) ? '#3b82f6' : '#64748b' }} />
+                            </button>
+                          </div>
                         </div>
+                      );
+                    })}
+                  </div>
+
+                  {activeSidebarTab === 'discover' && filteredUsers.length > 6 && (
+                    <div className="gn-other-professionals-section">
+                      <h3>Other Professionals in your Network</h3>
+                      <div className="gn-list-container">
+                        {filteredUsers.slice(6).map(u => {
+                          const statusRecord = connections.find(c => c.connection_id === u.id);
+                          const isConnected = statusRecord?.status === 'connected';
+                          const isRequested = statusRecord?.status === 'requested_sent';
+                          const isPendingApproval = statusRecord?.status === 'requested_received';
+
+                          return (
+                            <div 
+                              key={u.id} 
+                              className="gn-list-row"
+                              onClick={() => setSelectedUser(u)}
+                            >
+                              <div className="gn-list-row-left">
+                                <div className="gn-list-row-avatar-wrap">
+                                  <div className={`gn-list-row-avatar ${u.isRecruiter ? 'recruiter' : ''}`}>
+                                    {u.avatar}
+                                  </div>
+                                  <span className={`gn-online-status-dot ${u.status}`} />
+                                </div>
+                                <div className="gn-list-row-info">
+                                  <h5>
+                                    {u.name}
+                                    {u.isVerified && <ShieldCheck size={14} style={{ color: '#3b82f6', fill: '#3b82f622' }} />}
+                                    {u.isRecruiter && (
+                                      <span style={{ fontSize: '8px', fontWeight: 800, background: '#f5f3ff', color: '#7c3aed', padding: '1px 4px', borderRadius: '3px', border: '1px solid #ddd6fe', marginLeft: '4px' }}>RECRUITER</span>
+                                    )}
+                                    {u.openToWork && (
+                                      <span style={{ fontSize: '8px', fontWeight: 800, background: '#ecfdf5', color: '#10b981', padding: '1px 4px', borderRadius: '3px', border: '1px solid #a7f3d0', marginLeft: '4px' }}>HIRING</span>
+                                    )}
+                                  </h5>
+                                  <p className="gn-list-row-details">
+                                    <strong>{u.role}</strong> at {u.company} • {u.location}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="gn-list-row-middle">
+                                <div className="gn-match-badge">
+                                  <Zap size={10} fill="currentColor" />
+                                  <span>{u.matchPercent}% Match</span>
+                                </div>
+                                {u.distance && (
+                                  <div className="gn-card-meta" style={{ margin: 0 }}>
+                                    <div className="gn-card-meta-item">
+                                      <MapPin size={11} />
+                                      <span>{u.distance < 1 ? '<1' : u.distance} km away</span>
+                                    </div>
+                                  </div>
+                                )}
+                                <div className="gn-list-row-skills">
+                                  {u.skills.slice(0, 3).map(s => (
+                                    <span key={s} className="gn-list-row-skill">{s}</span>
+                                  ))}
+                                  {u.skills.length > 3 && (
+                                    <span className="gn-list-row-skill" style={{ background: 'transparent', border: '1px dashed #cbd5e1' }}>+{u.skills.length - 3}</span>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="gn-list-row-right" onClick={e => e.stopPropagation()}>
+                                {isConnected ? (
+                                  <>
+                                    <button className="gn-list-row-btn outline">
+                                      <MessageCircle size={12} />
+                                      <span>Message</span>
+                                    </button>
+                                    <button 
+                                      className="gn-list-row-btn outline"
+                                      onClick={() => handleDisconnect(u.id, u.name)}
+                                      title="Disconnect"
+                                      style={{ padding: '6px 8px' }}
+                                    >
+                                      <UserMinus size={12} style={{ color: '#ef4444' }} />
+                                    </button>
+                                  </>
+                                ) : isRequested ? (
+                                  <button 
+                                    className="gn-list-row-btn outline danger"
+                                    onClick={() => handleConnectClick(u.id, u.name)}
+                                  >
+                                    <X size={12} />
+                                    <span>Cancel</span>
+                                  </button>
+                                ) : isPendingApproval ? (
+                                  <>
+                                    <button 
+                                      className="gn-list-row-btn primary"
+                                      onClick={() => handleConnectClick(u.id, u.name)}
+                                    >
+                                      <Check size={12} />
+                                      <span>Accept</span>
+                                    </button>
+                                    <button 
+                                      className="gn-list-row-btn outline"
+                                      onClick={() => handleDisconnect(u.id, u.name)}
+                                      style={{ padding: '6px 8px' }}
+                                    >
+                                      <X size={12} style={{ color: '#ef4444' }} />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <button 
+                                    className="gn-list-row-btn primary"
+                                    onClick={() => handleConnectClick(u.id, u.name)}
+                                  >
+                                    <UserPlus size={12} />
+                                    <span>Connect</span>
+                                  </button>
+                                )}
+
+                                <button 
+                                  className="gn-list-row-btn outline"
+                                  onClick={() => toggleBookmark(u.id, u.name)}
+                                  style={{ padding: '6px 8px' }}
+                                >
+                                  <Bookmark size={12} style={{ fill: bookmarkedIds.includes(u.id) ? '#3b82f6' : 'none', color: bookmarkedIds.includes(u.id) ? '#3b82f6' : '#64748b' }} />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                    );
-                  })}
-                </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
@@ -726,6 +875,85 @@ export const GlobalNetwork: React.FC = () => {
 
         {/* ── RIGHT INSIGHTS SIDEBAR ── */}
         <aside className="gn-sidebar-right">
+          {/* Map Stats Bar */}
+          <div className="gn-map-stats-bar">
+            <div 
+              className={`gn-map-stat-item ${statsFilter === 'all' ? 'active' : ''}`}
+              onClick={() => setStatsFilter('all')}
+            >
+              <span className="gn-map-stat-label">Total Users</span>
+              <span className="gn-map-stat-value">{MOCK_USERS.length}</span>
+            </div>
+            <div 
+              className={`gn-map-stat-item hiring ${statsFilter === 'hiring' ? 'active' : ''}`}
+              onClick={() => setStatsFilter(prev => prev === 'hiring' ? 'all' : 'hiring')}
+            >
+              <span className="gn-map-stat-label">Hiring</span>
+              <span className="gn-map-stat-value">{MOCK_USERS.filter(u => u.isRecruiter || u.openToWork).length}</span>
+            </div>
+            <div 
+              className={`gn-map-stat-item jobseekers ${statsFilter === 'jobseekers' ? 'active' : ''}`}
+              onClick={() => setStatsFilter(prev => prev === 'jobseekers' ? 'all' : 'jobseekers')}
+            >
+              <span className="gn-map-stat-label">Jobseekers</span>
+              <span className="gn-map-stat-value">{MOCK_USERS.filter(u => !u.isRecruiter && !u.openToWork).length}</span>
+            </div>
+          </div>
+
+          {/* Interactive World Map */}
+          {((activeMobileTab === 'map') || (window.innerWidth > 768)) && (
+            <>
+              {isMapExpanded && (
+                <div className="gn-map-backdrop" onClick={() => setIsMapExpanded(false)} />
+              )}
+              <div className={`gn-map-panel ${isMapExpanded ? 'expanded' : ''}`}>
+                {isMapExpanded && (
+                  <button 
+                    className="gn-map-close-btn" 
+                    onClick={() => setIsMapExpanded(false)}
+                    title="Exit Fullscreen"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+                <div id="map" ref={mapRef} className="gn-map-container" />
+
+                {/* Map Floating Controls */}
+                <div className="gn-map-controls-group">
+                  <button className="gn-map-ctrl-btn" onClick={() => mapInstance.current?.zoomIn()} title="Zoom In"><Plus size={13} /></button>
+                  <button className="gn-map-ctrl-btn" onClick={() => mapInstance.current?.zoomOut()} title="Zoom Out"><Minus size={13} /></button>
+                  <button 
+                    className="gn-map-ctrl-btn" 
+                    onClick={() => {
+                      if (myLocation) {
+                        mapInstance.current?.setView([myLocation.lat, myLocation.lng], 10);
+                      }
+                    }} 
+                    title="My Location"
+                  >
+                    <LocateFixed size={13} />
+                  </button>
+                  <button className="gn-map-ctrl-btn" onClick={() => mapInstance.current?.setView([20, 0], 2)} title="Whole Globe"><Globe size={13} /></button>
+                </div>
+
+                {/* Map Legend */}
+                <div className="gn-map-legend">
+                  <div className="gn-map-legend-item">
+                    <i style={{ background: '#3b82f6' }} />
+                    <span>Online</span>
+                  </div>
+                  <div className="gn-map-legend-item">
+                    <i style={{ background: '#8b5cf6' }} />
+                    <span>Recruiters</span>
+                  </div>
+                  <div className="gn-map-legend-item">
+                    <i style={{ background: '#10b981' }} />
+                    <span>Hiring</span>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
           
           {/* Network Strength Widget */}
           <div className="gn-glass-panel">

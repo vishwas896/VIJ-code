@@ -2,9 +2,9 @@
 import React from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { Target, Zap, Shield, Globe, ArrowRight } from 'lucide-react';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
 import { useRouter } from 'next/navigation';
 import './About.css';
 

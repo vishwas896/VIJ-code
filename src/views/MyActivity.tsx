@@ -7,8 +7,8 @@ import {
   CheckCircle2, AlertCircle, ExternalLink, Lock, Unlock, 
   TrendingUp, Wallet, Award, Sparkles, HelpCircle, ArrowRight
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
 import { useAuth } from '../context/AuthContext';
 import './MyActivity.css';
 

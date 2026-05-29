@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { GlassCard } from './GlassCard';
-import { GlassButton } from './GlassButton';
-import { LiquidBackground } from './LiquidBackground';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { LiquidBackground } from '../components/common/LiquidBackground';
 
 export const Placeholder: React.FC<{ title?: string }> = ({ title }) => {
   const params = useParams();

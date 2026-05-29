@@ -5,9 +5,9 @@ import {
   MessageSquare, Heart, Share2, Compass, BookOpen, 
   TrendingUp, Globe, MapPin, Briefcase, Lock, UserPlus, Link2, Repeat, Users
 } from 'lucide-react';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
 import './SocialHub.css';
 
 /* ─── Mock Data & Feed Map ─── */

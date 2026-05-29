@@ -1,9 +1,9 @@
-﻿'use client';
+'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe } from 'lucide-react';
-import { useCurrency } from '../context/CurrencyContext';
-import type { CurrencyCode } from '../context/CurrencyContext';
+import { useCurrency } from '../../context/CurrencyContext';
+import type { CurrencyCode } from '../../context/CurrencyContext';
 import './CurrencySelector.css';
 
 const CURRENCIES: { code: CurrencyCode; label: string; symbol: string }[] = [

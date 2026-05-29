@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Building, CheckCircle } from 'lucide-react';
-import { GlassCard } from './GlassCard';
+import { GlassCard } from '../components/common/GlassCard';
 
 interface Company {
   id: string;

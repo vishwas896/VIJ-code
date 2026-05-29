@@ -7,9 +7,9 @@ import {
   ShieldCheck, Sparkles, Clock, Calendar
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PageTransition } from '../components/PageTransition';
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
 import { getCompanyBySlug, getJobsByCompany, type Company, type JobPost } from '../data/recruiterData';

@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Sparkles, Play, FileText, CheckCircle2 } from 'lucide-react';
-import { GlassButton } from '../GlassButton';
+import { GlassButton } from '../common/GlassButton';
 import './landing.css';
 
 interface TeaserNode {

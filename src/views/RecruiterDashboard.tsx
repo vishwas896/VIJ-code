@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PageTransition } from '../components/PageTransition';
+import { PageTransition } from '../components/common/PageTransition';
 
-import { GlassCard } from '../components/GlassCard';
-import { GlassButton } from '../components/GlassButton';
+import { GlassCard } from '../components/common/GlassCard';
+import { GlassButton } from '../components/common/GlassButton';
 import './RecruiterDashboard.css';
 
 export const RecruiterDashboard: React.FC = () => {

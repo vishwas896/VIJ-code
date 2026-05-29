@@ -6,9 +6,9 @@ import {
   X, Upload, Sparkles,
   CheckCircle2, Loader2, Brain
 } from 'lucide-react';
-import { GlassButton } from '../components/GlassButton';
-import { PageTransition } from '../components/PageTransition';
-import { CompanyMatcher } from '../components/CompanyMatcher';
+import { GlassButton } from '../components/common/GlassButton';
+import { PageTransition } from '../components/common/PageTransition';
+import { CompanyMatcher } from '../components/onboarding/CompanyMatcher';
 import { useAuth } from '../context/AuthContext';
 import './Onboarding.css';
 

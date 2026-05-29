@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, MicOff, Video, VideoOff, MonitorUp, PhoneOff, Lock, Unlock, ArrowLeft, Compass } from 'lucide-react';
-import { VijLogo } from '../components/VijLogo';
-import { PageTransition } from '../components/PageTransition';
+import { VijLogo } from '../components/common/VijLogo';
+import { PageTransition } from '../components/common/PageTransition';
 import './InterviewRoom.css';
 
 // --- MOCK DATA ---

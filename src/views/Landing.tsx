@@ -7,7 +7,7 @@ import { FeatureGrid } from '../components/landing/FeatureGrid';
 import { SocialProof } from '../components/landing/SocialProof';
 import { IndustryGrid } from '../components/landing/IndustryGrid';
 import { CallToAction } from '../components/landing/CallToAction';
-import { PageTransition } from '../components/PageTransition';
+import { PageTransition } from '../components/common/PageTransition';
 
 export const Landing: React.FC = () => {
   return (

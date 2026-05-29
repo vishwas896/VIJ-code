@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Briefcase, Zap, Star, UserPlus, Bell, ArrowRight } from 'lucide-react';
-import { GlassCard } from './GlassCard';
+import { GlassCard } from '../components/common/GlassCard';
 
 export interface DropdownNotifItem {
   id: number;
