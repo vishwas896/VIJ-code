@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Volume2, VolumeX, ChevronLeft, ChevronRight, FileText, ExternalLink, Lock, CheckCircle2 } from 'lucide-react';
 import { InteractionBar } from './InteractionBar';
+import { useAuth } from '../../../../context/AuthContext';
 
 export interface PostAuthor {
   name: string;
@@ -57,6 +58,8 @@ export const FeedCard: React.FC<FeedCardProps> = ({
   globalPrivacyPrefs,
   userIncognitoMode,
 }) => {
+  const { user } = useAuth();
+  const isAuthorCurrentUser = user ? post.author.name === user.name : post.author.name === 'Verified User';
   const [photoIndex, setPhotoIndex] = useState(0);
   const [pdfPageIndex, setPdfPageIndex] = useState(0);
   const [videoMuted, setVideoMuted] = useState(true);
@@ -88,7 +91,7 @@ export const FeedCard: React.FC<FeedCardProps> = ({
   }, [post.type]);
 
   // Masking logics
-  const isAuthorIncognito = post.author.isIncognito || (post.author.name === 'Verified User' && userIncognitoMode);
+  const isAuthorIncognito = post.author.isIncognito || (isAuthorCurrentUser && userIncognitoMode);
   
   // Format Author Name: Masked if Incognito, or professional mask format
   const getDisplayName = () => {
@@ -108,7 +111,8 @@ export const FeedCard: React.FC<FeedCardProps> = ({
   };
 
   const getDisplayCompany = () => {
-    if (globalPrivacyPrefs.hide_current_employer_name || isAuthorIncognito) {
+    const shouldHideEmployer = isAuthorCurrentUser && globalPrivacyPrefs.hide_current_employer_name;
+    if (shouldHideEmployer || isAuthorIncognito) {
       return 'Confidential Employer';
     }
     return post.author.company;
@@ -152,7 +156,7 @@ export const FeedCard: React.FC<FeedCardProps> = ({
                 src={post.author.avatar}
                 alt="Author Avatar"
                 className={`w-full h-full object-cover ${
-                  globalPrivacyPrefs.mask_profile_avatar_to_guests || isAuthorIncognito
+                  (isAuthorCurrentUser && globalPrivacyPrefs.mask_profile_avatar_to_guests) || isAuthorIncognito
                     ? 'feed-card-avatar-masked'
                     : ''
                 }`}
@@ -424,7 +428,7 @@ export const FeedCard: React.FC<FeedCardProps> = ({
                   src={post.author.avatar}
                   alt="Avatar"
                   className={
-                    globalPrivacyPrefs.mask_profile_avatar_to_guests || isAuthorIncognito
+                    (isAuthorCurrentUser && globalPrivacyPrefs.mask_profile_avatar_to_guests) || isAuthorIncognito
                       ? 'feed-card-avatar-masked'
                       : ''
                   }

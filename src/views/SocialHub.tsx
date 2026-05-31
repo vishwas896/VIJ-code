@@ -1,13 +1,15 @@
-﻿'use client';
+'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MessageSquare, Heart, Share2, Compass, BookOpen, 
-  TrendingUp, Globe, MapPin, Briefcase, Lock, UserPlus, Link2, Repeat, Users
+  TrendingUp, Globe, MapPin, Briefcase, Lock, UserPlus, Link2, Repeat, Users,
+  X, ArrowRightLeft
 } from 'lucide-react';
 import { GlassCard } from '../components/common/GlassCard';
 import { GlassButton } from '../components/common/GlassButton';
 import { PageTransition } from '../components/common/PageTransition';
+import { useAuth } from '../context/AuthContext';
 import './SocialHub.css';
 
 /* ─── Mock Data & Feed Map ─── */
@@ -172,7 +174,49 @@ const MOCK_SUGGESTIONS = [
   { id: 103, name: 'James Wilson', role: 'AI Specialist', match: '92%', reason: 'Profile Match', avatar: 'JW' },
 ];
 
+interface Comment {
+  author: string;
+  avatar: string;
+  text: string;
+  time: string;
+}
+
+const MOCK_WRITERS = [
+  { name: 'Alex Mercer', role: 'Lead Infrastructure Engineer', avatar: 'AM' },
+  { name: 'Elena Rostova', role: 'Senior Tech Reporter', avatar: 'ER' },
+  { name: 'Marcus Aurelius', role: 'AI Alignment Researcher', avatar: 'MA' },
+  { name: 'Chloe Fraser', role: 'Staff Product Designer', avatar: 'CF' },
+  { name: 'Nathan Drake', role: 'Developer Relations Lead', avatar: 'ND' },
+  { name: 'Sarah Connor', role: 'Robotics Analyst', avatar: 'SC' },
+  { name: 'Vikram Seth', role: 'Global Tech Economist', avatar: 'VS' },
+];
+
+const MOCK_COMMENTS_POOL = [
+  "This is a major milestone for the industry. Keen to see how this impacts scaling.",
+  "Incredibly detailed write-up. The architectural trade-offs mentioned are spot on.",
+  "We are experiencing a similar shift in our current project pipeline. Great insights!",
+  "Adoptability remains the primary bottleneck here. We need better developer tooling.",
+  "Very interesting perspective! Looking forward to seeing where this goes by next year.",
+  "This makes perfect sense given the recent trends in cloud infrastructure cost optimization.",
+  "Excellent summary. The industry is evolving faster than most organizations can adapt."
+];
+
+const EXCHANGE_RATES: Record<string, Record<string, number>> = {
+  USD: { USD: 1, INR: 83.45, EUR: 0.92, GBP: 0.79 },
+  INR: { USD: 0.012, INR: 1, EUR: 0.011, GBP: 0.0095 },
+  EUR: { USD: 1.09, INR: 90.71, EUR: 1, GBP: 0.86 },
+  GBP: { USD: 1.27, INR: 105.63, EUR: 1.16, GBP: 1 }
+};
+
+const RATE_DELTAS: Record<string, { price: string; delta: string; up: boolean }> = {
+  'USD/INR': { price: '83.45', delta: '+0.12%', up: true },
+  'EUR/USD': { price: '1.09', delta: '-0.05%', up: false },
+  'GBP/USD': { price: '1.27', delta: '+0.22%', up: true },
+  'USD/EUR': { price: '0.92', delta: '+0.08%', up: true },
+};
+
 export const SocialHub: React.FC = () => {
+  const { isAuthenticated, user } = useAuth();
   const [activeTab, setActiveTab] = useState('Global');
   const [loading, setLoading] = useState(false);
   const [isGuest, setIsGuest] = useState(false); // Toggle for auth logic
@@ -188,6 +232,111 @@ export const SocialHub: React.FC = () => {
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [commentsOpen, setCommentsOpen] = useState<Record<string, boolean>>({});
   const [shareOpen, setShareOpen] = useState<Record<string, boolean>>({});
+
+  // Dynamic Post Interactions State
+  const [likesCount, setLikesCount] = useState<Record<string, number>>({});
+  const [postComments, setPostComments] = useState<Record<string, Comment[]>>({});
+  const [postAuthors, setPostAuthors] = useState<Record<string, { name: string; role: string; avatar: string }>>({});
+  const [trendingScores, setTrendingScores] = useState<Record<string, string>>({});
+  const [typingComment, setTypingComment] = useState<Record<string, string>>({});
+  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
+
+  // Currency conversion pop-up state
+  const [isRateModalOpen, setIsRateModalOpen] = useState(false);
+  const [convAmount, setConvAmount] = useState('100');
+  const [convFrom, setConvFrom] = useState('USD');
+  const [convTo, setConvTo] = useState('INR');
+
+  const isRegistered = !isGuest && isAuthenticated;
+
+  const initializeInteractions = (items: NewsItem[]) => {
+    setLikesCount(prev => {
+      const next = { ...prev };
+      items.forEach((item, idx) => {
+        if (next[item.id] === undefined) {
+          next[item.id] = (item.title.charCodeAt(0) * 7) % 180 + 20;
+        }
+      });
+      return next;
+    });
+
+    setPostAuthors(prev => {
+      const next = { ...prev };
+      items.forEach((item) => {
+        if (!next[item.id]) {
+          const authorIdx = (item.title.charCodeAt(1) || 0) % MOCK_WRITERS.length;
+          next[item.id] = MOCK_WRITERS[authorIdx];
+        }
+      });
+      return next;
+    });
+
+    setTrendingScores(prev => {
+      const next = { ...prev };
+      items.forEach((item, idx) => {
+        if (!next[item.id]) {
+          const hotnessIdx = (item.title.charCodeAt(2) || 0) % 3;
+          if (hotnessIdx === 0) {
+            next[item.id] = `🔥 Trending #${(idx % 5) + 1}`;
+          } else if (hotnessIdx === 1) {
+            next[item.id] = `⚡ Hot Topic`;
+          } else {
+            next[item.id] = `📈 ${((item.title.length * 15) % 100) + 10}k views`;
+          }
+        }
+      });
+      return next;
+    });
+
+    setPostComments(prev => {
+      const next = { ...prev };
+      items.forEach((item) => {
+        if (!next[item.id]) {
+          const numComments = (item.title.charCodeAt(3) || 0) % 2 + 2; // 2 or 3 comments
+          const commentsList: Comment[] = [];
+          for (let c = 0; c < numComments; c++) {
+            const commentIdx = ((item.title.charCodeAt(4) || 0) + c) % MOCK_COMMENTS_POOL.length;
+            const writerIdx = ((item.title.charCodeAt(5) || 0) + c) % MOCK_WRITERS.length;
+            commentsList.push({
+              author: MOCK_WRITERS[writerIdx].name,
+              avatar: MOCK_WRITERS[writerIdx].avatar,
+              text: MOCK_COMMENTS_POOL[commentIdx],
+              time: `${c + 1}h ago`
+            });
+          }
+          next[item.id] = commentsList;
+        }
+      });
+      return next;
+    });
+  };
+
+  const handleAddComment = (postId: string) => {
+    const text = typingComment[postId];
+    if (!text || !text.trim()) return;
+
+    if (isGuest) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    const newComment: Comment = {
+      author: user?.name || 'Registered User',
+      avatar: user?.name ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'ME',
+      text: text.trim(),
+      time: 'Just now'
+    };
+
+    setPostComments(prev => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), newComment]
+    }));
+
+    setTypingComment(prev => ({
+      ...prev,
+      [postId]: ''
+    }));
+  };
 
   // Fetch RSS data when activeTab changes
   useEffect(() => {
@@ -205,6 +354,7 @@ export const SocialHub: React.FC = () => {
         if (data.status === 'ok' && data.items && data.items.length > 0) {
           const formattedItems = data.items.map((item, idx) => normalizeNewsItem(item, idx, activeTab));
           
+          initializeInteractions(formattedItems);
           setTopStory(formattedItems[0]);
           setNewsItems(formattedItems.slice(1, 15)); // Next 14 items
         }
@@ -243,7 +393,12 @@ export const SocialHub: React.FC = () => {
     }
     
     if (action === 'like') {
-      setLiked(prev => ({ ...prev, [key]: !prev[key] }));
+      const isAlreadyLiked = liked[key];
+      setLiked(prev => ({ ...prev, [key]: !isAlreadyLiked }));
+      setLikesCount(prev => ({
+        ...prev,
+        [key]: (prev[key] || 0) + (isAlreadyLiked ? -1 : 1)
+      }));
     } else if (action === 'comment') {
       setCommentsOpen(prev => ({ ...prev, [key]: !prev[key] }));
       setShareOpen(prev => ({ ...prev, [key]: false })); // Close share if open
@@ -251,6 +406,231 @@ export const SocialHub: React.FC = () => {
       setShareOpen(prev => ({ ...prev, [key]: !prev[key] }));
       setCommentsOpen(prev => ({ ...prev, [key]: false })); // Close comments if open
     }
+  };
+
+  const renderPostCard = (item: NewsItem, isFeatured: boolean = false, idx: number = 0) => {
+    const author = postAuthors[item.id] || { name: 'Staff Writer', role: 'Platform Tech Writer', avatar: 'SW' };
+    const likes = likesCount[item.id] || 0;
+    const isLiked = liked[item.id] || false;
+    const comments = postComments[item.id] || [];
+    const trending = trendingScores[item.id] || '';
+
+    return (
+      <GlassCard className={`feed-post-card hover-lift ${isFeatured ? 'featured-rich-card' : ''}`} key={item.id} style={isFeatured ? { border: '1px solid rgba(14, 165, 233, 0.45)', background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(14, 165, 233, 0.05))', padding: '24px' } : {}}>
+        <div className="post-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', gap: '14px' }}>
+            <div className="post-avatar" style={{ 
+              background: isFeatured 
+                ? 'linear-gradient(135deg, #0ea5e9, #3b82f6)' 
+                : `linear-gradient(135deg, hsl(${idx * 45 % 360}, 70%, 50%), hsl(${(idx * 45 + 30) % 360}, 80%, 40%))`,
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontWeight: 800,
+              fontSize: '16px',
+              flexShrink: 0
+            }}>
+              {author.avatar}
+            </div>
+            <div className="post-meta">
+              <h4 style={{ margin: '0 0 2px', fontSize: '15px', fontWeight: 700, color: 'var(--vij-text-main)' }}>
+                {author.name}
+              </h4>
+              <p style={{ margin: '0 0 2px', fontSize: '12px', color: 'var(--vij-text-muted)', fontWeight: 500 }}>
+                {author.role} • <strong style={{ color: 'var(--accent-azure)' }}>{item.source}</strong>
+              </p>
+              <span style={{ fontSize: '11px', color: '#a1a1aa' }}>{formatNewsDate(item.pubDate)}</span>
+            </div>
+          </div>
+          
+          {/* Trending Score Badge */}
+          {trending && (
+            <span style={{ 
+              fontSize: '10px', 
+              fontWeight: 800, 
+              padding: '4px 10px', 
+              borderRadius: '999px',
+              background: isFeatured 
+                ? 'linear-gradient(135deg, #ef4444, #f59e0b)'
+                : 'rgba(14, 165, 233, 0.1)',
+              color: isFeatured ? 'white' : 'var(--accent-azure)',
+              boxShadow: isFeatured ? '0 4px 12px rgba(239, 68, 68, 0.25)' : 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              {isFeatured ? '🔥 Top Story' : trending}
+            </span>
+          )}
+        </div>
+      
+        <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="post-body has-thumb" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+            <div className="post-text" style={{ flex: 1 }}>
+              <h3 className="post-headline" style={{ 
+                fontSize: isFeatured ? '22px' : '17px', 
+                fontWeight: 800, 
+                lineHeight: 1.4, 
+                margin: '0 0 8px', 
+                color: 'var(--vij-text-main)' 
+              }} dangerouslySetInnerHTML={{ __html: item.title }} />
+              <div className="post-snippet rss-snippet" style={{ 
+                fontSize: '14px', 
+                lineHeight: 1.5, 
+                color: '#52525b', 
+                margin: 0 
+              }} dangerouslySetInnerHTML={{ __html: item.snippet }} />
+            </div>
+            {item.image && (
+              <div className="post-thumb" style={{ 
+                backgroundImage: `url(${item.image})`, 
+                width: isFeatured ? '140px' : '110px',
+                height: isFeatured ? '140px' : '110px',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                borderRadius: '12px',
+                flexShrink: 0 
+              }}></div>
+            )}
+          </div>
+        </a>
+
+        <div className="post-footer-actions" style={{ 
+          display: 'flex', 
+          gap: '24px', 
+          paddingTop: '14px', 
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+          alignItems: 'center'
+        }}>
+          <button className={`action-btn ${isLiked ? 'liked' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('like', item.id); }}>
+            <Heart size={18} fill={isLiked ? 'url(#vibrantGrad)' : 'transparent'} className="icon-pop" />
+            <span style={{ fontSize: '13px', fontWeight: 600 }}>{likes}</span>
+          </button>
+          <button className={`action-btn ${commentsOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('comment', item.id); }}>
+            <MessageSquare size={18} />
+            <span style={{ fontSize: '13px', fontWeight: 600 }}>{comments.length}</span>
+          </button>
+          <button className={`action-btn ${shareOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('share', item.id); }}>
+            <Share2 size={18} />
+            <span style={{ fontSize: '13px', fontWeight: 600 }}>Share</span>
+          </button>
+        </div>
+
+        {/* Share Drawer */}
+        <AnimatePresence>
+          {shareOpen[item.id] && (
+            <motion.div 
+              className="share-drawer"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <div className="share-drawer-inner">
+                <button className="share-option"><Repeat size={16} /> Repost to my Feed</button>
+                <button className="share-option"><Users size={16} /> Send to Connection</button>
+                <button className="share-option" onClick={() => navigator.clipboard.writeText(item.link)}><Link2 size={16} /> Copy Link</button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Comment Thread */}
+        <AnimatePresence>
+          {commentsOpen[item.id] && (
+            <motion.div 
+              className="comment-thread"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <div className="thread-inner" style={{ marginTop: '16px' }}>
+                <div className="thread-tracing-line" style={{ top: '24px', bottom: '70px' }} />
+                
+                {/* Render Comments list */}
+                <div className="comments-list" style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '16px' }}>
+                  {comments.map((cmt, cIdx) => (
+                    <div key={cIdx} className="comment-item" style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', position: 'relative', zIndex: 2 }}>
+                      <div className="comment-av" style={{ 
+                        width: '32px', 
+                        height: '32px', 
+                        borderRadius: '50%', 
+                        background: 'linear-gradient(135deg, #e2e8f0, #cbd5e1)', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        color: '#475569',
+                        flexShrink: 0
+                      }}>
+                        {cmt.avatar}
+                      </div>
+                      <div className="comment-bubble" style={{ 
+                        background: 'rgba(255, 255, 255, 0.75)', 
+                        padding: '10px 14px', 
+                        borderRadius: '0px 14px 14px 14px',
+                        fontSize: '13px',
+                        flex: 1,
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.01)',
+                        border: '1px solid rgba(0,0,0,0.03)'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                          <strong style={{ fontWeight: 700, color: 'var(--vij-text-main)' }}>{cmt.author}</strong>
+                          <span style={{ fontSize: '10px', color: 'var(--vij-text-muted)' }}>{cmt.time}</span>
+                        </div>
+                        <p style={{ margin: 0, color: '#52525b', lineHeight: 1.4 }}>{cmt.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="comment-input-row" style={{ display: 'flex', gap: '12px', alignItems: 'center', position: 'relative', zIndex: 2 }}>
+                  <div className="post-avatar comment-av me" style={{ 
+                    width: '32px', 
+                    height: '32px', 
+                    borderRadius: '50%', 
+                    background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '11px',
+                    fontWeight: 800
+                  }}>
+                    {user?.name ? user.name.substring(0, 2).toUpperCase() : 'ME'}
+                  </div>
+                  <div style={{ display: 'flex', flex: 1, gap: '8px' }}>
+                    <input 
+                      type="text" 
+                      placeholder="Add a comment..." 
+                      className="thread-input" 
+                      value={typingComment[item.id] || ''}
+                      onChange={(e) => setTypingComment(prev => ({ ...prev, [item.id]: e.target.value }))}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleAddComment(item.id);
+                        }
+                      }}
+                      style={{ flex: 1 }}
+                    />
+                    <GlassButton 
+                      variant="primary" 
+                      onClick={() => handleAddComment(item.id)}
+                      style={{ padding: '4px 14px', fontSize: '12px', height: '36px', borderRadius: '99px' }}
+                    >
+                      Post
+                    </GlassButton>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </GlassCard>
+    );
   };
 
   return (
@@ -292,10 +672,155 @@ export const SocialHub: React.FC = () => {
           )}
         </AnimatePresence>
 
+        {/* ── EXCHANGE RATE CONVERTER MODAL ── */}
+        <AnimatePresence>
+          {isRateModalOpen && (
+            <motion.div 
+              className="rate-modal-overlay"
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              onClick={() => setIsRateModalOpen(false)}
+            >
+              <motion.div 
+                className="rate-modal-content"
+                initial={{ y: 50, opacity: 0, scale: 0.95 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 20, opacity: 0, scale: 0.95 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                onClick={e => e.stopPropagation()}
+              >
+                <div className="rate-modal-header">
+                  <div className="title-area">
+                    <Globe className="globe-icon-spin" size={24} />
+                    <h3>Global Currency Rates</h3>
+                  </div>
+                  <button className="close-modal-btn" onClick={() => setIsRateModalOpen(false)}>
+                    <X size={20} />
+                  </button>
+                </div>
+
+                <div className="rate-modal-body">
+                  {/* Cross Rates Grid */}
+                  <div className="cross-rates-section">
+                    <h4>Cross Currency Exchange Matrix</h4>
+                    <p className="section-subtitle">Value of 1 unit of Base Currency (Row) in Target Currency (Col)</p>
+                    <div className="cross-rates-table-wrapper">
+                      <table className="cross-rates-table">
+                        <thead>
+                          <tr>
+                            <th>Base</th>
+                            <th>USD</th>
+                            <th>INR</th>
+                            <th>EUR</th>
+                            <th>GBP</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Object.keys(EXCHANGE_RATES).map((base) => (
+                            <tr key={base}>
+                              <td className="base-currency-td">{base}</td>
+                              <td>{EXCHANGE_RATES[base]['USD'].toFixed(4)}</td>
+                              <td>{EXCHANGE_RATES[base]['INR'].toFixed(2)}</td>
+                              <td>{EXCHANGE_RATES[base]['EUR'].toFixed(4)}</td>
+                              <td>{EXCHANGE_RATES[base]['GBP'].toFixed(4)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Calculator Section */}
+                  <div className="calculator-section">
+                    <h4>Interactive Converter</h4>
+                    <div className="calculator-grid">
+                      <div className="calc-group">
+                        <label>Amount</label>
+                        <input 
+                          type="number" 
+                          value={convAmount}
+                          onChange={(e) => setConvAmount(e.target.value)}
+                          placeholder="Enter amount"
+                          className="calc-input"
+                          min="0"
+                        />
+                      </div>
+                      
+                      <div className="calc-group">
+                        <label>From</label>
+                        <select 
+                          value={convFrom} 
+                          onChange={(e) => setConvFrom(e.target.value)}
+                          className="calc-select"
+                        >
+                          {Object.keys(EXCHANGE_RATES).map(cur => (
+                            <option key={cur} value={cur}>{cur}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="calc-swap-container">
+                        <button className="swap-btn" onClick={() => {
+                          const temp = convFrom;
+                          setConvFrom(convTo);
+                          setConvTo(temp);
+                        }} title="Swap Currencies">
+                          <ArrowRightLeft size={16} />
+                        </button>
+                      </div>
+
+                      <div className="calc-group">
+                        <label>To</label>
+                        <select 
+                          value={convTo} 
+                          onChange={(e) => setConvTo(e.target.value)}
+                          className="calc-select"
+                        >
+                          {Object.keys(EXCHANGE_RATES).map(cur => (
+                            <option key={cur} value={cur}>{cur}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="calc-result-display">
+                      <div className="result-label">Calculated Result</div>
+                      <div className="result-value">
+                        {(() => {
+                          const amt = parseFloat(convAmount);
+                          if (isNaN(amt)) return '0.00';
+                          const rate = EXCHANGE_RATES[convFrom]?.[convTo] || 1;
+                          const result = amt * rate;
+                          
+                          // Format cleanly depending on value
+                          const formattedAmt = amt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                          const formattedResult = result.toLocaleString(undefined, { 
+                            minimumFractionDigits: convTo === 'INR' ? 2 : 4,
+                            maximumFractionDigits: convTo === 'INR' ? 2 : 4 
+                          });
+                          return `${formattedAmt} ${convFrom} = ${formattedResult} ${convTo}`;
+                        })()}
+                      </div>
+                      <div className="result-sub">
+                        1 {convFrom} = {EXCHANGE_RATES[convFrom]?.[convTo]} {convTo} • Live rates updated in real-time
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="hub-grid">
           
           {/* ══════ LEFT SIDEBAR ══════ */}
-          <aside className="hub-sidebar left-sidebar">
+          <aside 
+            className={`hub-sidebar left-sidebar ${isSidebarHovered ? 'expanded' : 'collapsed'}`}
+            onMouseEnter={() => setIsSidebarHovered(true)}
+            onMouseLeave={() => setIsSidebarHovered(false)}
+          >
             <div className="sticky-pane">
               <nav className="nav-menu">
                 <span className="nav-section-title">Discovery</span>
@@ -310,10 +835,10 @@ export const SocialHub: React.FC = () => {
 
               <nav className="nav-menu">
                 <span className="nav-section-title">Categories</span>
-                <div className={`nav-item ${activeTab === 'Global' ? 'active' : ''}`} onClick={() => setActiveTab('Global')}><Globe size={18} /> Global</div>
-                <div className={`nav-item ${activeTab === 'National' ? 'active' : ''}`} onClick={() => setActiveTab('National')}><MapPin size={18} /> National</div>
-                <div className={`nav-item ${activeTab === 'Business' ? 'active' : ''}`} onClick={() => setActiveTab('Business')}><Briefcase size={18} /> Business</div>
-                <div className={`nav-item ${activeTab === 'Trending' ? 'active' : ''}`} onClick={() => setActiveTab('Trending')}><TrendingUp size={18} /> Trending</div>
+                <div className={`nav-item ${activeTab === 'Global' ? 'active' : ''}`} onClick={() => setActiveTab('Global')}><Globe size={18} /> <span>Global</span></div>
+                <div className={`nav-item ${activeTab === 'National' ? 'active' : ''}`} onClick={() => setActiveTab('National')}><MapPin size={18} /> <span>National</span></div>
+                <div className={`nav-item ${activeTab === 'Business' ? 'active' : ''}`} onClick={() => setActiveTab('Business')}><Briefcase size={18} /> <span>Business</span></div>
+                <div className={`nav-item ${activeTab === 'Trending' ? 'active' : ''}`} onClick={() => setActiveTab('Trending')}><TrendingUp size={18} /> <span>Trending</span></div>
               </nav>
             </div>
           </aside>
@@ -394,96 +919,16 @@ export const SocialHub: React.FC = () => {
                     {/* FEATURED NEWS HERO CARD */}
                     {topStory && (
                       <motion.div variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}>
-                        <a href={topStory.link} target="_blank" rel="noopener noreferrer" className="featured-news-card hover-lift" style={{ textDecoration: 'none', display: 'block' }}>
-                          <div className="featured-bg" style={{ backgroundImage: `url(${topStory.image})` }} />
-                          <div className="featured-content">
-                            <span className="featured-tag">Top Story</span>
-                            <h2 dangerouslySetInnerHTML={{ __html: topStory.title }} />
-                            <span className="featured-meta">{topStory.source} • {formatNewsDate(topStory.pubDate)}</span>
-                          </div>
-                        </a>
+                        {renderPostCard(topStory, true, 0)}
                       </motion.div>
                     )}
 
                     {/* STANDARD POST CARDS FROM RSS */}
                     {newsItems.map((item, idx) => (
                       <motion.div key={item.id} variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}>
-                        <GlassCard className="feed-post-card hover-lift">
-                          <div className="post-header">
-                            <div className="post-avatar" style={{ background: `linear-gradient(135deg, hsl(${idx * 45 % 360}, 70%, 50%), hsl(${(idx * 45 + 30) % 360}, 80%, 40%))` }}>
-                              {item.source.substring(0, 2).toUpperCase()}
-                            </div>
-                            <div className="post-meta">
-                              <h4>{item.source}</h4>
-                              <span>{formatNewsDate(item.pubDate)}</span>
-                            </div>
-                          </div>
-                        
-                        <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                          <div className="post-body has-thumb">
-                            <div className="post-text">
-                              <h3 className="post-headline" dangerouslySetInnerHTML={{ __html: item.title }} />
-                              <div className="post-snippet rss-snippet" dangerouslySetInnerHTML={{ __html: item.snippet }} />
-                            </div>
-                            <div className="post-thumb" style={{ backgroundImage: `url(${item.image})` }}></div>
-                          </div>
-                        </a>
-
-                        <div className="post-footer-actions">
-                          <button className={`action-btn ${liked[item.id] ? 'liked' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('like', item.id); }}>
-                            <Heart size={18} fill={liked[item.id] ? 'url(#vibrantGrad)' : 'transparent'} className="icon-pop" />
-                            <span>{Math.floor((item.id.length || 0) * 2) + 10 + (liked[item.id] ? 1 : 0)}</span>
-                          </button>
-                          <button className={`action-btn ${commentsOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('comment', item.id); }}>
-                            <MessageSquare size={18} />
-                            <span>{Math.floor((item.id.length || 0) / 2) + 2}</span>
-                          </button>
-                          <button className={`action-btn ${shareOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('share', item.id); }}>
-                            <Share2 size={18} />
-                            <span>Share</span>
-                          </button>
-                        </div>
-
-                        {/* Share Drawer */}
-                        <AnimatePresence>
-                          {shareOpen[item.id] && (
-                            <motion.div 
-                              className="share-drawer"
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                            >
-                              <div className="share-drawer-inner">
-                                <button className="share-option"><Repeat size={16} /> Repost to my Feed</button>
-                                <button className="share-option"><Users size={16} /> Send to Connection</button>
-                                <button className="share-option" onClick={() => navigator.clipboard.writeText(item.link)}><Link2 size={16} /> Copy Link</button>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-
-                        {/* Comment Thread */}
-                        <AnimatePresence>
-                          {commentsOpen[item.id] && (
-                            <motion.div 
-                              className="comment-thread"
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                            >
-                              <div className="thread-inner">
-                                <div className="thread-tracing-line" />
-                                <div className="comment-input-row">
-                                  <div className="post-avatar comment-av me">VU</div>
-                                  <input type="text" placeholder="Add a comment..." className="thread-input" />
-                                </div>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </GlassCard>
-                    </motion.div>
-                  ))}
+                        {renderPostCard(item, false, idx + 1)}
+                      </motion.div>
+                    ))}
 
                 </motion.div>
               )}
@@ -492,63 +937,98 @@ export const SocialHub: React.FC = () => {
           </main>
 
           {/* ══════ RIGHT SIDEBAR ══════ */}
-          <aside className="hub-sidebar right-sidebar">
-            <div className="sticky-pane">
-              
-              {/* Suggested Experts (Registered Users Only) */}
-              {!isGuest && (
-                <GlassCard className="pulse-widget suggestions-widget">
-                  <h3 className="widget-title">Suggested Experts</h3>
-                  <div className="sidebar-suggestions-list">
-                    {MOCK_SUGGESTIONS.map((person) => (
-                      <div key={person.id} className="sidebar-suggestion-item">
-                        <div className="suggestion-av-sm">{person.avatar}</div>
-                        <div className="suggestion-details">
-                          <div className="suggestion-top">
-                            <h4>{person.name}</h4>
-                            <span className="match-tag">{person.match}</span>
-                          </div>
-                          <p>{person.role}</p>
-                          <span className="reason-tag">{person.reason}</span>
-                        </div>
-                        <button className="mini-connect-btn"><UserPlus size={14} /></button>
-                      </div>
-                    ))}
+          {isRegistered && (
+            <aside className="hub-sidebar right-sidebar">
+              <div className="sticky-pane">
+                
+                {/* Live Exchange Rates Billboard */}
+                <GlassCard 
+                  className="pulse-widget rates-billboard-widget hover-lift"
+                  onClick={() => setIsRateModalOpen(true)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="billboard-header">
+                    <h3 className="widget-title">Live Exchange Rates</h3>
+                    <span className="live-badge">
+                      <span className="live-dot"></span> LIVE
+                    </span>
                   </div>
-                  <button className="view-all-link">View All Matches</button>
+                  <div className="billboard-ticker-board">
+                    {Object.keys(RATE_DELTAS).map((pair) => {
+                      const data = RATE_DELTAS[pair];
+                      return (
+                        <div key={pair} className="ticker-row">
+                          <span className="ticker-pair">{pair}</span>
+                          <span className="ticker-price">{data.price}</span>
+                          <span className={`ticker-delta ${data.up ? 'delta-up' : 'delta-down'}`}>
+                            {data.up ? '▲' : '▼'} {data.delta}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="billboard-footer">
+                    <span>Click to open converter & cross rates</span>
+                  </div>
                 </GlassCard>
-              )}
 
-              {/* Top Discussions */}
-              <GlassCard className="pulse-widget">
-                <h3 className="widget-title">Top Discussions</h3>
-                <div className="discussions-list">
-                  {trendingTopics.length > 0 ? trendingTopics.map((topic, i) => (
-                    <a href={topic.link} target="_blank" rel="noopener noreferrer" key={i} className="discussion-item" style={{ textDecoration: 'none' }}>
-                      <span className="discussion-rank">{i+1}</span>
-                      <div className="discussion-info">
-                        <h4 dangerouslySetInnerHTML={{ __html: topic.title }} />
-                        <span>{topic.source}</span>
+                {/* Market Insights */}
+                <GlassCard className="pulse-widget insights-widget">
+                  <h3 className="widget-title">Market Insights</h3>
+                  <div className="insights-list">
+                    <div className="insight-item">
+                      <div className="insight-icon-wrapper salary">
+                        <TrendingUp size={16} />
                       </div>
-                    </a>
-                  )) : (
-                    <div className="shimmer-card" style={{ height: 60, marginTop: 8 }}><div className="shimmer-sweep" /></div>
-                  )}
-                </div>
-              </GlassCard>
+                      <div className="insight-content">
+                        <h4>Tech Salary Index</h4>
+                        <p>Global tech salaries increased by <strong>+4.8%</strong> this quarter, driven by AI roles.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="insight-item">
+                      <div className="insight-icon-wrapper remote">
+                        <Globe size={16} />
+                      </div>
+                      <div className="insight-content">
+                        <h4>Remote Hiring Trend</h4>
+                        <p>Remote contracts compose <strong>32.4%</strong> of new tech postings, up from 30.1% last month.</p>
+                      </div>
+                    </div>
 
-              {/* Trending Tags */}
-              <GlassCard className="pulse-widget">
-                <h3 className="widget-title">Trending Tags</h3>
-                <div className="tags-list">
-                  {trendingTags.map((tag, i) => (
-                    <span key={i} className="pulse-tag">{tag}</span>
-                  ))}
-                </div>
-              </GlassCard>
+                    <div className="insight-item">
+                      <div className="insight-icon-wrapper demand">
+                        <Users size={16} />
+                      </div>
+                      <div className="insight-content">
+                        <h4>Talent Supply</h4>
+                        <p>Senior engineer vacancy duration is down to <strong>18 days</strong>, indicating high demand velocity.</p>
+                      </div>
+                    </div>
+                  </div>
+                </GlassCard>
 
-            </div>
-          </aside>
+                {/* Trending News */}
+                <GlassCard className="pulse-widget trending-news-widget">
+                  <h3 className="widget-title">Trending News</h3>
+                  <div className="discussions-list">
+                    {trendingTopics.length > 0 ? trendingTopics.map((topic, i) => (
+                      <a href={topic.link} target="_blank" rel="noopener noreferrer" key={i} className="discussion-item" style={{ textDecoration: 'none' }}>
+                        <span className="discussion-rank">{i+1}</span>
+                        <div className="discussion-info">
+                          <h4 dangerouslySetInnerHTML={{ __html: topic.title }} />
+                          <span>{topic.source}</span>
+                        </div>
+                      </a>
+                    )) : (
+                      <div className="shimmer-card" style={{ height: 60, marginTop: 8 }}><div className="shimmer-sweep" /></div>
+                    )}
+                  </div>
+                </GlassCard>
+
+              </div>
+            </aside>
+          )}
 
         </div>
 

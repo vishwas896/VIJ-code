@@ -16,7 +16,7 @@
 }
 
 .roadmaps-page {
-  background: var(--color-neutral-bg);
+  background: transparent;
   min-height: 100vh;
   padding-top: 80px;
   padding-bottom: 120px;

@@ -105,10 +105,10 @@ const INITIAL_POSTS: Post[] = [
   {
     id: 5,
     author: {
-      name: 'Sophia Lin',
+      name: 'Verified User',
       avatar: '/profile_avatar.png',
       title: 'Security Lead',
-      company: 'VIJ Security',
+      company: 'Google',
       industry: 'Engineering',
       isIncognito: false,
     },

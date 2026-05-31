@@ -5,7 +5,7 @@
 .notif-page-root {
   min-height: calc(100vh - 64px);
   padding: 40px 24px;
-  background: radial-gradient(circle at 10% 20%, rgba(243, 244, 246, 0.5) 0%, rgba(229, 231, 235, 0.2) 90%);
+  background: transparent;
 }
 
 .notif-page-container {
@@ -38,13 +38,11 @@
 
 /* --- Top Header Dashboard Banner --- */
 .notif-page-header-card {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 24px;
   padding: 28px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -215,6 +213,9 @@
 /* --- Left Sidebar (Filters) --- */
 .notif-filter-card {
   padding: 20px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04) !important;
 }
 
 .filter-pill-list {
@@ -352,25 +353,24 @@
 }
 
 .notif-feed-item-card {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   transition: none;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
   position: relative;
 }
 
 .notif-feed-item-card:hover {
-  background: rgba(255, 255, 255, 0.6);
+  background: #fbfbfb;
   border-color: rgba(14, 165, 233, 0.25);
   box-shadow: 0 6px 20px rgba(14, 165, 233, 0.03);
 }
 
 .notif-feed-item-card.unread {
-  background: rgba(255, 255, 255, 0.65);
+  background: #f8fafc;
+  border-color: rgba(14, 165, 233, 0.15);
 }
 
 .notif-feed-item-card.priority-high-border {
@@ -544,8 +544,8 @@
 
 /* --- Empty state card --- */
 .notif-empty-state-card {
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   padding: 48px;
   text-align: center;
@@ -587,6 +587,9 @@
 /* --- Right Sidebar (Preferences) --- */
 .notif-preferences-card {
   padding: 20px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04) !important;
 }
 
 .preferences-toggles-list {

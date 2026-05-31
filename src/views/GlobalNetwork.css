@@ -5,7 +5,7 @@
 /* ── PAGE LAYOUT ── */
 .gn-ecosystem-root {
   min-height: 100vh;
-  background: #f8fafc; /* Soft white/off-white */
+  background: transparent;
   padding-top: 0; /* Clear double header spacing */
   color: #1e293b; /* Deep charcoal */
   font-family: 'Outfit', sans-serif;
@@ -39,6 +39,15 @@
   width: 68px;
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+}
+
+.gn-sidebar-left .gn-glass-panel {
+  border-radius: 34px;
+  transition: border-radius 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gn-sidebar-left.expanded .gn-glass-panel {
+  border-radius: 20px;
 }
 
 .gn-sidebar-left.expanded {

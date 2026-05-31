@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Bell, Menu, X } from 'lucide-react';
 import { VijLogo } from '../../components/common/VijLogo';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { NotificationDropdown, DropdownNotifItem } from '../NotificationDropdown';
 import { CurrencySelector } from '../../components/common/CurrencySelector';
 import './Header.css';
@@ -13,6 +14,7 @@ import './Header.css';
 export const Header: React.FC = () => {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
+  const { preferences } = useTheme();
   const [showNotifs, setShowNotifs] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -55,7 +57,7 @@ export const Header: React.FC = () => {
     <header className={`global-header ${scrolled ? 'header-scrolled' : ''} has-sidebar`}>
       {/* ── Logo ── */}
       <Link href={isAuthenticated ? '/home' : '/'} className="logo-container">
-        <VijLogo size="sm" theme="light" />
+        <VijLogo size="sm" theme={preferences.darkMode ? 'dark' : 'light'} />
       </Link>
 
       {/* ── Mobile Hamburger ── */}

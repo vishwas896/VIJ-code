@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -40,10 +40,9 @@ export const PageTransition: React.FC<PageTransitionProps> = ({
         scale: 0.97
       }}
       transition={{ 
-        type: 'spring', 
-        stiffness: 260, 
-        damping: 22, 
-        mass: 0.8
+        type: 'tween', 
+        ease: 'easeOut',
+        duration: 0.15
       }}
       style={{ width: '100%', minHeight: '100%' }}
     >

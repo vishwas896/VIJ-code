@@ -258,17 +258,22 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     const root = document.documentElement;
     
+    const activePreset = THEME_PRESETS.find(p => p.id === preferences.selectedTheme);
+    const bgVal = preferences.backgroundImage 
+      ? 'transparent' 
+      : (activePreset ? activePreset.bgGradient : (preferences.darkMode ? '#09090b' : '#FAFAFC'));
+
     // Toggle dark mode class
     if (preferences.darkMode) {
       root.classList.add('dark');
-      root.style.setProperty('--vij-bg', preferences.backgroundImage ? 'transparent' : '#09090b');
+      root.style.setProperty('--vij-bg', bgVal);
       root.style.setProperty('--vij-text-main', '#f8fafc');
       root.style.setProperty('--vij-text-muted', '#94a3b8');
       root.style.setProperty('--glass-white', 'rgba(15, 23, 42, 0.45)');
       root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.08)');
     } else {
       root.classList.remove('dark');
-      root.style.setProperty('--vij-bg', preferences.backgroundImage ? 'transparent' : '#FAFAFC');
+      root.style.setProperty('--vij-bg', bgVal);
       root.style.setProperty('--vij-text-main', '#18181b');
       root.style.setProperty('--vij-text-muted', '#52525b');
       root.style.setProperty('--glass-white', 'rgba(255, 255, 255, 0.65)');

@@ -82,7 +82,7 @@ html {
 body {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(14px, 1.5vw, 16px);
-  background-color: var(--vij-bg);
+  background: var(--vij-bg);
   color: var(--vij-text-main);
   min-height: 100vh;
   overflow-x: hidden;

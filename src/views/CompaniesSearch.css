@@ -1,7 +1,7 @@
 .comp-search-root {
   min-height: calc(100vh - 64px);
   padding: 40px 24px;
-  background: #f8fafc;
+  background: transparent;
   display: flex;
   justify-content: center;
   font-family: 'Inter', 'Outfit', sans-serif;

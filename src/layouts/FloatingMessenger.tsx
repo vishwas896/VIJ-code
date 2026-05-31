@@ -7,6 +7,7 @@ import {
   DollarSign, ExternalLink, ArrowRight
 } from 'lucide-react';
 import { GlassCard } from '../components/common/GlassCard';
+import { useAuth } from '../context/AuthContext';
 
 interface ChatItem {
   id: number;
@@ -39,12 +40,14 @@ const clientChats: ChatItem[] = [
 
 export const FloatingMessenger: React.FC = () => {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState<'connections' | 'recruiters' | 'clients'>('connections');
   const messengerRef = useRef<HTMLDivElement>(null);
 
   // Auto close on clicking outside if open
   useEffect(() => {
+    if (!isAuthenticated) return;
     const handleClickOutside = (event: MouseEvent) => {
       if (messengerRef.current && !messengerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
@@ -52,7 +55,9 @@ export const FloatingMessenger: React.FC = () => {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isAuthenticated]);
+
+  if (!isAuthenticated) return null;
 
   const handleOpenPage = (e: React.MouseEvent) => {
     e.stopPropagation();

@@ -4,30 +4,41 @@
 
 .global-header {
   position: fixed;
-  top: 0;
+  top: 12px;
   left: 0;
   width: 100%;
-  height: 64px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid transparent;
-  box-shadow: none;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
   transition: all var(--duration-normal) var(--ease-spring);
 }
 
 /* Scroll-aware state */
 .global-header.header-scrolled {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  top: 8px;
+}
+.global-header.header-scrolled .logo-container,
+.global-header.header-scrolled .global-nav,
+.global-header.header-scrolled .nav-utilities {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+.dark .global-header.header-scrolled .logo-container,
+.dark .global-header.header-scrolled .global-nav,
+.dark .global-header.header-scrolled .nav-utilities {
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 /* ── Logo ── */
@@ -35,6 +46,20 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  padding: 8px 20px;
+  border-radius: 999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  pointer-events: auto;
+  transition: all 0.3s var(--ease-spring);
+}
+.logo-container:hover {
+  border-color: var(--accent-azure);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--accent-azure-glow);
 }
 
 .logo-mark {
@@ -58,6 +83,18 @@
 .global-nav {
   display: flex;
   gap: 8px;
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  padding: 6px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  pointer-events: auto;
+  transition: all 0.3s var(--ease-spring);
+}
+.global-nav:hover {
+  border-color: var(--accent-azure);
 }
 
 .nav-link {
@@ -99,6 +136,18 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
+  padding: 6px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  pointer-events: auto;
+  transition: all 0.3s var(--ease-spring);
+}
+.nav-utilities:hover {
+  border-color: var(--accent-azure);
 }
 
 .wallet-chip {
@@ -250,16 +299,27 @@
 
 .mobile-menu-btn {
   display: none;
-  background: transparent;
-  border: none;
+  background: var(--glass-white);
+  border: 1px solid var(--glass-border);
   color: var(--vij-text-main);
   cursor: pointer;
   z-index: 110;
+  pointer-events: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+.mobile-menu-btn:hover {
+  border-color: var(--accent-azure);
 }
 
 @media (max-width: 768px) {
   .mobile-menu-btn {
-    display: block;
+    display: flex;
   }
   .global-nav {
     position: fixed;
@@ -274,8 +334,13 @@
     padding: 80px 24px;
     gap: 16px;
     z-index: 105;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.05);
     transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.05) !important;
+  }
+  .dark .global-nav {
+    background: rgba(15, 23, 42, 0.98);
   }
   .global-nav.nav-open {
     left: 0;
