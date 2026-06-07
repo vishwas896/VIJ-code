@@ -22,8 +22,8 @@
 /* ── LEFT PANE ── */
 .auth-left-pane {
   background: rgba(24, 24, 27, 0.45);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;

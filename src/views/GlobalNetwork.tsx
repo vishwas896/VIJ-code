@@ -113,6 +113,7 @@ export const GlobalNetwork: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [statsFilter, setStatsFilter] = useState<'all' | 'hiring' | 'jobseekers'>('all');
   const [isMapExpanded, setIsMapExpanded] = useState<boolean>(false);
+  const [mapReady, setMapReady] = useState<boolean>(false);
   
   // Left Sidebar Collapse/Expand states
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
@@ -198,50 +199,56 @@ export const GlobalNetwork: React.FC = () => {
   useEffect(() => {
     if (!mapRef.current || mapInstance.current) return;
     
-    const worldBounds = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
-    const map = L.map(mapRef.current, {
-      center: [20, 0],
-      zoom: 2,
-      minZoom: 2,
-      maxZoom: 18,
-      zoomControl: false,
-      attributionControl: false,
-      maxBounds: worldBounds,
-      worldCopyJump: true,
-      doubleClickZoom: false
-    });
+    let map: L.Map | null = null;
+    const initTimer = setTimeout(() => {
+      if (!mapRef.current || mapInstance.current) return;
+      
+      const worldBounds = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
+      map = L.map(mapRef.current, {
+        center: [20, 0],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 18,
+        zoomControl: false,
+        attributionControl: false,
+        maxBounds: worldBounds,
+        worldCopyJump: true,
+        doubleClickZoom: false
+      });
 
-    map.on('dblclick', () => {
-      setIsMapExpanded(prev => !prev);
-    });
+      map.on('dblclick', () => {
+        setIsMapExpanded(prev => !prev);
+      });
 
-    // Light Theme Tile Layer: Voyager
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      maxZoom: 18,
-      noWrap: true,
-      bounds: worldBounds,
-    }).addTo(map);
+      // Light Theme Tile Layer: Voyager
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 18,
+        noWrap: true,
+        bounds: worldBounds,
+      }).addTo(map);
 
-    mapInstance.current = map;
-    markersRef.current = L.layerGroup().addTo(map);
+      mapInstance.current = map;
+      markersRef.current = L.layerGroup().addTo(map);
+      setMapReady(true);
 
-    const timer = setTimeout(() => {
-      if (mapInstance.current) {
-        map.invalidateSize();
-      }
-    }, 200);
+      // Trigger redraw sizing after rendering stabilizes
+      map.invalidateSize();
+    }, 150);
 
     return () => {
-      clearTimeout(timer);
-      map.remove();
+      clearTimeout(initTimer);
+      if (map) {
+        map.remove();
+      }
       mapInstance.current = null;
+      setMapReady(false);
     };
   }, []);
 
   // Sync My Location Marker
   const myMarkerRef = useRef<L.Marker | null>(null);
   useEffect(() => {
-    if (myLocation && mapInstance.current) {
+    if (mapReady && myLocation && mapInstance.current) {
       if (myMarkerRef.current) myMarkerRef.current.remove();
       
       const myIcon = L.divIcon({
@@ -258,7 +265,7 @@ export const GlobalNetwork: React.FC = () => {
         .addTo(mapInstance.current)
         .bindPopup(`<div style="padding: 8px; font-weight: 700; font-size:12px; color:#1e293b;">You are here</div>`);
     }
-  }, [myLocation]);
+  }, [myLocation, mapReady]);
 
   // Handle map resizing on expansion toggle
   useEffect(() => {
@@ -329,7 +336,7 @@ export const GlobalNetwork: React.FC = () => {
 
   // Update Map Markers
   useEffect(() => {
-    if (!markersRef.current || !mapInstance.current) return;
+    if (!mapReady || !markersRef.current || !mapInstance.current) return;
     markersRef.current.clearLayers();
 
     filteredUsers.forEach(u => {
@@ -375,7 +382,7 @@ export const GlobalNetwork: React.FC = () => {
 
       markersRef.current?.addLayer(marker);
     });
-  }, [filteredUsers]);
+  }, [filteredUsers, mapReady]);
 
   // Handle Connections
   const handleConnectClick = (id: number, name: string) => {

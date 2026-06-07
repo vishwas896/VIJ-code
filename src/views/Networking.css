@@ -74,7 +74,7 @@
 .chat-window {
   flex: 1;
   background: var(--glass-white);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   display: flex;

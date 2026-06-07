@@ -9,7 +9,7 @@
 .learning-header {
   padding: 12px 24px;
   background: var(--glass-white);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,0,0,0.06);
   display: flex;
   justify-content: space-between;
