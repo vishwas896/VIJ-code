@@ -15,7 +15,7 @@
 
 .gn-page-container {
   display: grid;
-  grid-template-columns: auto 1fr 320px;
+  grid-template-columns: 1fr 320px;
   gap: 24px;
   max-width: 1560px;
   margin: 0 auto;
@@ -913,11 +913,13 @@
   background: #e2e8f0;
   border-radius: 2px;
   -webkit-appearance: none;
+  appearance: none;
   outline: none;
 }
 
 .gn-slider-container input::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: 14px;
   height: 14px;
   border-radius: 50%;

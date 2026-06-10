@@ -9,12 +9,15 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { NotificationDropdown, DropdownNotifItem } from '../NotificationDropdown';
 import { CurrencySelector } from '../../components/common/CurrencySelector';
+import { LanguageSelector } from '../../components/common/LanguageSelector';
+import { useLanguage } from '../../context/LanguageContext';
 import './Header.css';
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
   const { preferences } = useTheme();
+  const { t } = useLanguage();
   const [showNotifs, setShowNotifs] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -45,12 +48,12 @@ export const Header: React.FC = () => {
   }, [pathname]);
 
   const navLinks = [
-    { to: isAuthenticated ? '/home' : '/', label: 'Home' },
-    { to: '/jobs', label: 'Jobs' },
-    { to: '/news', label: 'News' },
-    { to: '/roadmaps', label: 'Roadmaps' },
-    { to: '/network', label: 'Network' },
-    { to: '/services', label: 'Services' },
+    { to: isAuthenticated ? '/home' : '/', label: t('nav.home') },
+    { to: '/jobs', label: t('nav.jobs') },
+    { to: '/news', label: t('nav.news') },
+    { to: '/roadmaps', label: t('nav.roadmaps') },
+    { to: '/network', label: t('nav.network') },
+    { to: '/services', label: t('nav.services') },
   ];
 
   return (
@@ -100,7 +103,8 @@ export const Header: React.FC = () => {
       <div className="nav-utilities">
         {isAuthenticated ? (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <LanguageSelector />
               <CurrencySelector />
             </div>
 
@@ -127,13 +131,16 @@ export const Header: React.FC = () => {
           </>
         ) : (
           <>
-            <CurrencySelector />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <LanguageSelector />
+              <CurrencySelector />
+            </div>
             <Link href="/login" className="login-trigger-btn">
-              Log In
+              {t('nav.login')}
             </Link>
 
             <Link href="/register" className="join-nav-btn">
-              Join Junction
+              {t('nav.join')}
             </Link>
           </>
         )}

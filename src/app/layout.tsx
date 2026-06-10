@@ -5,6 +5,7 @@ import { AuthProvider } from '../context/AuthContext';
 import { RecruiterProvider } from '../context/RecruiterContext';
 import { CurrencyProvider } from '../context/CurrencyContext';
 import { RoadmapProvider } from '../context/RoadmapContext';
+import { LanguageProvider } from '../context/LanguageContext';
 
 export const metadata: Metadata = {
   title: 'Project VIJ – Virtual Intelligent Junction',
@@ -23,9 +24,11 @@ export default function RootLayout({
           <AuthProvider>
             <RecruiterProvider>
               <CurrencyProvider>
-                <RoadmapProvider>
-                  {children}
-                </RoadmapProvider>
+                <LanguageProvider>
+                  <RoadmapProvider>
+                    {children}
+                  </RoadmapProvider>
+                </LanguageProvider>
               </CurrencyProvider>
             </RecruiterProvider>
           </AuthProvider>
@@ -34,4 +37,3 @@ export default function RootLayout({
     </html>
   );
 }
-

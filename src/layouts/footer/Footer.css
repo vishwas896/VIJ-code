@@ -147,6 +147,7 @@
   overflow: hidden;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
+  background: rgba(255, 245, 245, 0.95) !important; /* white-reddish */
 }
 
 
@@ -168,8 +169,8 @@
 
 /* Theme adaptation */
 .vij-footer-wrapper.light-theme .vij-footer-card {
-  background: rgba(10, 110, 110, 0.04) !important;
-  border-top: 1px solid rgba(10, 110, 110, 0.08) !important;
+  background: rgba(255, 245, 245, 0.95) !important;
+  border-top: 1px solid rgba(255, 107, 107, 0.2) !important;
 }
 
 .vij-footer-wrapper.dark-theme .vij-footer-card {

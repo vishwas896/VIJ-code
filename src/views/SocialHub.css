@@ -15,7 +15,7 @@
 
 .hub-grid {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 0;
   align-items: stretch;
   height: 100%;
@@ -257,7 +257,7 @@
   font-weight: 500;
   resize: none;
   min-height: 52px;
-  height: 52px;
+  height: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -284,16 +284,15 @@
   gap: 24px;
 }
 
-.hover-lift {
-  /* static */
-}
+
 
 /* Featured News Hero */
 .featured-news-card {
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  height: 320px;
+  min-height: 320px;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -753,7 +752,8 @@
   gap: 24px;
 }
 .shimmer-card {
-  height: 240px;
+  min-height: 240px;
+  height: auto;
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);

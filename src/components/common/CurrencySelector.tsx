@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Globe } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
 import type { CurrencyCode } from '../../context/CurrencyContext';
+import { useLanguage } from '../../context/LanguageContext';
 import './CurrencySelector.css';
 
 const CURRENCIES: { code: CurrencyCode; label: string; symbol: string }[] = [
@@ -15,6 +16,7 @@ const CURRENCIES: { code: CurrencyCode; label: string; symbol: string }[] = [
 
 export const CurrencySelector: React.FC = () => {
   const { currency, setCurrency } = useCurrency();
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +37,7 @@ export const CurrencySelector: React.FC = () => {
       <button 
         className="currency-trigger-btn"
         onClick={() => setIsOpen(!isOpen)}
-        title="Select Currency"
+        title={t('currency.select')}
       >
         <Globe size={16} />
         <span>{activeCurrency?.code}</span>
@@ -51,7 +53,7 @@ export const CurrencySelector: React.FC = () => {
             transition={{ duration: 0.2 }}
           >
             <div className="currency-dropdown-header">
-              <h4>Display Currency</h4>
+              <h4>{t('currency.select')}</h4>
             </div>
             <div className="currency-options">
               {CURRENCIES.map((c) => (

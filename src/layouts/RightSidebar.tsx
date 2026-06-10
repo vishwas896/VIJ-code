@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { VijLogo } from '../components/common/VijLogo';
 import './RightSidebar.css';
 
 export const RightSidebar: React.FC = () => {
@@ -176,8 +177,7 @@ export const RightSidebar: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <Rocket size={22} className="brand-rocket-icon" />
-              <span className="brand-text-vij">VIJ</span>
+              <VijLogo size="sm" showText={true} theme={preferences.darkMode ? 'dark' : 'light'} />
             </motion.div>
             
             <button 

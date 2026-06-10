@@ -8,6 +8,7 @@ interface CurrencyContextType {
   currency: CurrencyCode;
   setCurrency: (code: CurrencyCode) => void;
   formatCurrency: (amountInUSD: number, isCompact?: boolean) => string;
+  detectedCountry: string | null;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -49,13 +50,9 @@ const getInitialCurrency = (): CurrencyCode => {
 export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
   const [currency, setCurrencyState] = useState<CurrencyCode>('INR');
+  const [detectedCountry, setDetectedCountry] = useState<string | null>(null);
 
   React.useEffect(() => {
-    if (!isAuthenticated) {
-      setCurrencyState('INR');
-      return;
-    }
-
     if (typeof localStorage !== 'undefined') {
       const saved = localStorage.getItem('vij-currency-pref');
       if (saved && Object.keys(RATES).includes(saved)) {
@@ -70,6 +67,9 @@ export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }
         return res.json();
       })
       .then(data => {
+        if (data && data.country_code) {
+          setDetectedCountry(data.country_code);
+        }
         if (data && data.currency) {
           const code = data.currency.toUpperCase();
           if (['USD', 'INR', 'EUR', 'GBP'].includes(code)) {
@@ -113,7 +113,7 @@ export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatCurrency }}>
+    <CurrencyContext.Provider value={{ currency, setCurrency, formatCurrency, detectedCountry }}>
       {children}
     </CurrencyContext.Provider>
   );

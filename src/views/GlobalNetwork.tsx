@@ -441,78 +441,7 @@ export const GlobalNetwork: React.FC = () => {
 
       <div className="gn-page-container">
         
-        {/* ── LEFT SIDEBAR ── */}
-        <aside 
-          className={`gn-sidebar-left ${sidebarExpanded ? 'expanded' : 'collapsed'}`}
-          onMouseEnter={handleSidebarMouseEnter}
-          onMouseLeave={handleSidebarMouseLeave}
-        >
-          <div className="gn-glass-panel">
-            <div className="gn-nav-menu">
-              <div 
-                className={`gn-nav-item ${activeSidebarTab === 'discover' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('discover'); setActiveMobileTab('discover'); }}
-              >
-                <Compass size={16} />
-                <span>Discover Talent</span>
-              </div>
-              <div 
-                className={`gn-nav-item ${activeSidebarTab === 'connections' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('connections'); setActiveMobileTab('connections'); }}
-              >
-                <Network size={16} />
-                <span>My Connections</span>
-                {connectedCount > 0 && <span className="gn-nav-badge">{connectedCount}</span>}
-              </div>
-              <div 
-                className={`gn-nav-item ${activeSidebarTab === 'requests' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('requests'); setActiveMobileTab('connections'); }}
-              >
-                <UserCheck size={16} />
-                <span>Requests</span>
-                {requestsCount > 0 && <span className="gn-nav-badge urgent">{requestsCount}</span>}
-              </div>
-              <div 
-                className={`gn-nav-item ${activeSidebarTab === 'nearby' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('nearby'); setActiveMobileTab('discover'); }}
-              >
-                <MapPin size={16} />
-                <span>Nearby People</span>
-              </div>
 
-              <div className="gn-divider" />
-
-              <div className="gn-nav-item">
-                <Users size={16} />
-                <span>Industry Groups</span>
-                <span className="gn-nav-badge">6</span>
-              </div>
-              <div className="gn-nav-item">
-                <Calendar size={16} />
-                <span>Events</span>
-              </div>
-              <div 
-                className={`gn-nav-item ${activeSidebarTab === 'saved' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('saved'); setActiveMobileTab('discover'); }}
-              >
-                <Bookmark size={16} />
-                <span>Saved Profiles</span>
-                {bookmarkedIds.length > 0 && <span className="gn-nav-badge">{bookmarkedIds.length}</span>}
-              </div>
-            </div>
-          </div>
-          
-          {/* Quick Active Status */}
-          <div className="gn-glass-panel" style={{ padding: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Radio size={16} style={{ color: '#22c55e' }} />
-              <div className="gn-radar-text">
-                <span style={{ fontSize: '11px', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Radar Scanner</span>
-                <strong style={{ display: 'block', fontSize: '12px', color: '#1e293b' }}>Active Globally</strong>
-              </div>
-            </div>
-          </div>
-        </aside>
 
         {/* ── CENTER AREA: MAP AND DISCOVER ── */}
         <main className="gn-center-content">

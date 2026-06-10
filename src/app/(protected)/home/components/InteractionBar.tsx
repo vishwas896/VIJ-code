@@ -71,43 +71,55 @@ export const InteractionBar: React.FC<InteractionBarProps> = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       {/* ── Action buttons ── */}
-      <div className="interaction-bar-container">
-        <div className="interaction-actions">
-          {/* Applaud Button with spring scale animation */}
+      <div className="interaction-bar-container" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '4px', marginTop: '8px', display: 'flex', justifyContent: 'space-between' }}>
+        <div className="interaction-actions" style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+          {/* Like Button with spring scale animation */}
           <motion.button
-            className={`interaction-btn ${isApplauded ? 'applauded' : ''}`}
+            className={`interaction-btn linkedin-btn ${isApplauded ? 'applauded' : ''}`}
             onClick={handleApplaud}
             whileTap={{ scale: 0.85 }}
             transition={{ type: 'spring', stiffness: 500, damping: 15 }}
+            style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: isApplauded ? '#0a66c2' : '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}
           >
-            <Heart size={16} fill={isApplauded ? '#dc2626' : 'none'} />
-            <span>👏 Applaud ({applauds})</span>
+            <Heart size={18} fill={isApplauded ? '#0a66c2' : 'none'} />
+            <span>Like ({applauds})</span>
           </motion.button>
 
-          {/* Discuss Button */}
+          {/* Comment Button */}
           <button
-            className={`interaction-btn ${showComments ? 'active' : ''}`}
+            className={`interaction-btn linkedin-btn ${showComments ? 'active' : ''}`}
             onClick={() => {
               setShowComments(!showComments);
               if (showShare) setShowShare(false);
             }}
+            style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}
           >
-            <MessageSquare size={16} />
-            <span>Discuss ({comments.length})</span>
+            <MessageSquare size={18} />
+            <span>Comment ({comments.length})</span>
+          </button>
+          
+          {/* Repost Button */}
+          <button
+            className={`interaction-btn linkedin-btn ${showShare ? 'active' : ''}`}
+            onClick={() => {
+              setShowShare(!showShare);
+              if (showComments) setShowComments(false);
+            }}
+            style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}
+          >
+            <Repeat2 size={18} />
+            <span>Repost</span>
+          </button>
+
+          {/* Send Button */}
+          <button
+            className={`interaction-btn linkedin-btn`}
+            style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}
+          >
+            <Send size={18} />
+            <span>Send</span>
           </button>
         </div>
-
-        {/* Circulate Button */}
-        <button
-          className={`interaction-btn ${showShare ? 'active' : ''}`}
-          onClick={() => {
-            setShowShare(!showShare);
-            if (showComments) setShowComments(false);
-          }}
-        >
-          <Share2 size={16} />
-          <span>Circulate</span>
-        </button>
       </div>
 
       {/* ── Discuss comments panel ── */}

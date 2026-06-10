@@ -73,6 +73,25 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Ensure text never overflows bounds in any language */
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Prevent Google Translate from messing up the global layout */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+/* Hide default Google Translate widget and tooltips */
+.skiptranslate, 
+.goog-te-banner-frame,
+#goog-gt-tt {
+  display: none !important;
+}
+font {
+  background: transparent !important;
 }
 
 html {

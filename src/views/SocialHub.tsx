@@ -4,12 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MessageSquare, Heart, Share2, Compass, BookOpen, 
   TrendingUp, Globe, MapPin, Briefcase, Lock, UserPlus, Link2, Repeat, Users,
-  X, ArrowRightLeft
+  X, ArrowRightLeft, ThumbsUp, Send, Plus
 } from 'lucide-react';
 import { GlassCard } from '../components/common/GlassCard';
 import { GlassButton } from '../components/common/GlassButton';
 import { PageTransition } from '../components/common/PageTransition';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import './SocialHub.css';
 
 /* ─── Mock Data & Feed Map ─── */
@@ -217,6 +218,7 @@ const RATE_DELTAS: Record<string, { price: string; delta: string; up: boolean }>
 
 export const SocialHub: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('Global');
   const [loading, setLoading] = useState(false);
   const [isGuest, setIsGuest] = useState(false); // Toggle for auth logic
@@ -416,13 +418,11 @@ export const SocialHub: React.FC = () => {
     const trending = trendingScores[item.id] || '';
 
     return (
-      <GlassCard className={`feed-post-card hover-lift ${isFeatured ? 'featured-rich-card' : ''}`} key={item.id} style={isFeatured ? { border: '1px solid rgba(14, 165, 233, 0.45)', background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(14, 165, 233, 0.05))', padding: '24px' } : {}}>
+      <GlassCard className={`feed-post-card hover-lift`} key={item.id} style={{ padding: '24px', paddingBottom: '16px' }}>
         <div className="post-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-          <div style={{ display: 'flex', gap: '14px' }}>
+          <div style={{ display: 'flex', gap: '12px' }}>
             <div className="post-avatar" style={{ 
-              background: isFeatured 
-                ? 'linear-gradient(135deg, #0ea5e9, #3b82f6)' 
-                : `linear-gradient(135deg, hsl(${idx * 45 % 360}, 70%, 50%), hsl(${(idx * 45 + 30) % 360}, 80%, 40%))`,
+              background: `linear-gradient(135deg, hsl(${idx * 45 % 360}, 70%, 50%), hsl(${(idx * 45 + 30) % 360}, 80%, 40%))`,
               width: '48px',
               height: '48px',
               borderRadius: '50%',
@@ -437,85 +437,90 @@ export const SocialHub: React.FC = () => {
               {author.avatar}
             </div>
             <div className="post-meta">
-              <h4 style={{ margin: '0 0 2px', fontSize: '15px', fontWeight: 700, color: 'var(--vij-text-main)' }}>
+              <h4 style={{ margin: '0 0 2px', fontSize: '15px', fontWeight: 700, color: 'var(--vij-text-main)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 {author.name}
+                <span style={{ color: '#64748b', fontSize: '13px', fontWeight: 500 }}>• 2nd</span>
               </h4>
               <p style={{ margin: '0 0 2px', fontSize: '12px', color: 'var(--vij-text-muted)', fontWeight: 500 }}>
-                {author.role} • <strong style={{ color: 'var(--accent-azure)' }}>{item.source}</strong>
+                {author.role} | <strong style={{ color: 'var(--accent-azure)' }}>{item.source}</strong>
               </p>
-              <span style={{ fontSize: '11px', color: '#a1a1aa' }}>{formatNewsDate(item.pubDate)}</span>
+              <span style={{ fontSize: '11px', color: '#a1a1aa', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                {formatNewsDate(item.pubDate)} • <Globe size={10} />
+              </span>
             </div>
           </div>
           
-          {/* Trending Score Badge */}
-          {trending && (
-            <span style={{ 
-              fontSize: '10px', 
-              fontWeight: 800, 
-              padding: '4px 10px', 
-              borderRadius: '999px',
-              background: isFeatured 
-                ? 'linear-gradient(135deg, #ef4444, #f59e0b)'
-                : 'rgba(14, 165, 233, 0.1)',
-              color: isFeatured ? 'white' : 'var(--accent-azure)',
-              boxShadow: isFeatured ? '0 4px 12px rgba(239, 68, 68, 0.25)' : 'none',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}>
-              {isFeatured ? '🔥 Top Story' : trending}
-            </span>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button style={{ background: 'transparent', border: 'none', color: 'var(--accent-azure)', fontWeight: 600, fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Plus size={16} /> Follow
+            </button>
+          </div>
         </div>
       
-        <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <div className="post-body has-thumb" style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-            <div className="post-text" style={{ flex: 1 }}>
-              <h3 className="post-headline" style={{ 
-                fontSize: isFeatured ? '22px' : '17px', 
-                fontWeight: 800, 
-                lineHeight: 1.4, 
-                margin: '0 0 8px', 
-                color: 'var(--vij-text-main)' 
-              }} dangerouslySetInnerHTML={{ __html: item.title }} />
-              <div className="post-snippet rss-snippet" style={{ 
-                fontSize: '14px', 
-                lineHeight: 1.5, 
-                color: '#52525b', 
-                margin: 0 
-              }} dangerouslySetInnerHTML={{ __html: item.snippet }} />
-            </div>
-            {item.image && (
-              <div className="post-thumb" style={{ 
+        <div className="post-body" style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
+          <div className="post-text">
+            <h3 className="post-headline" style={{ 
+              fontSize: '15px', 
+              fontWeight: 600, 
+              lineHeight: 1.4, 
+              margin: '0 0 4px', 
+              color: 'var(--vij-text-main)' 
+            }} dangerouslySetInnerHTML={{ __html: item.title }} />
+            <div className="post-snippet rss-snippet" style={{ 
+              fontSize: '14px', 
+              lineHeight: 1.5, 
+              color: 'var(--vij-text-muted)', 
+              margin: 0 
+            }} dangerouslySetInnerHTML={{ __html: item.snippet }} />
+          </div>
+          {item.image && (
+            <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none' }}>
+              <div className="post-full-image" style={{ 
                 backgroundImage: `url(${item.image})`, 
-                width: isFeatured ? '140px' : '110px',
-                height: isFeatured ? '140px' : '110px',
+                width: '100%',
+                paddingTop: '56.25%', // 16:9 Aspect Ratio
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                borderRadius: '12px',
-                flexShrink: 0 
+                borderRadius: '8px',
+                border: '1px solid rgba(0,0,0,0.05)',
+                marginTop: '8px'
               }}></div>
-            )}
+            </a>
+          )}
+        </div>
+
+        <div className="post-engagement-counts" style={{ display: 'flex', justifyContent: 'space-between', padding: '0 4px 8px', borderBottom: '1px solid rgba(0,0,0,0.06)', fontSize: '12px', color: '#64748b' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#e0f2fe', color: '#0284c7', borderRadius: '50%', width: '16px', height: '16px' }}>👍</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#dcfce7', color: '#16a34a', borderRadius: '50%', width: '16px', height: '16px', marginLeft: '-6px' }}>👏</div>
+            <span style={{ marginLeft: '4px' }}>{likes}</span>
           </div>
-        </a>
+          <div>
+            {comments.length} comments • 2 reposts
+          </div>
+        </div>
 
         <div className="post-footer-actions" style={{ 
           display: 'flex', 
-          gap: '24px', 
-          paddingTop: '14px', 
-          borderTop: '1px solid rgba(0,0,0,0.06)',
+          justifyContent: 'space-between',
+          paddingTop: '8px', 
           alignItems: 'center'
         }}>
-          <button className={`action-btn ${isLiked ? 'liked' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('like', item.id); }}>
-            <Heart size={18} fill={isLiked ? 'url(#vibrantGrad)' : 'transparent'} className="icon-pop" />
-            <span style={{ fontSize: '13px', fontWeight: 600 }}>{likes}</span>
+          <button className={`action-btn linkedin-btn ${isLiked ? 'liked' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('like', item.id); }} style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: isLiked ? '#0a66c2' : '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}>
+            <ThumbsUp size={18} fill={isLiked ? '#0a66c2' : 'transparent'} />
+            <span>Like</span>
           </button>
-          <button className={`action-btn ${commentsOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('comment', item.id); }}>
+          <button className={`action-btn linkedin-btn ${commentsOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('comment', item.id); }} style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}>
             <MessageSquare size={18} />
-            <span style={{ fontSize: '13px', fontWeight: 600 }}>{comments.length}</span>
+            <span>Comment</span>
           </button>
-          <button className={`action-btn ${shareOpen[item.id] ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); handleInteract('share', item.id); }}>
-            <Share2 size={18} />
-            <span style={{ fontSize: '13px', fontWeight: 600 }}>Share</span>
+          <button className={`action-btn linkedin-btn`} onClick={(e) => { e.preventDefault(); handleInteract('share', item.id); }} style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}>
+            <Repeat size={18} />
+            <span>Repost</span>
+          </button>
+          <button className={`action-btn linkedin-btn`} style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '4px', background: 'transparent', border: 'none', color: '#64748b', fontWeight: 600, fontSize: '14px', cursor: 'pointer', transition: 'background 0.2s' }}>
+            <Send size={18} />
+            <span>Send</span>
           </button>
         </div>
 
@@ -815,53 +820,20 @@ export const SocialHub: React.FC = () => {
 
         <div className="hub-grid">
           
-          {/* ══════ LEFT SIDEBAR ══════ */}
-          <aside 
-            className={`hub-sidebar left-sidebar ${isSidebarHovered ? 'expanded' : 'collapsed'}`}
-            onMouseEnter={() => setIsSidebarHovered(true)}
-            onMouseLeave={() => setIsSidebarHovered(false)}
-          >
-            <div className="sticky-pane">
-              <nav className="nav-menu">
-                <span className="nav-section-title">Discovery</span>
-                {sideLinks.map(link => (
-                  <div key={link.label} className={`nav-item ${link.active ? 'active' : ''}`}>
-                    {link.icon} <span>{link.label}</span>
-                  </div>
-                ))}
-              </nav>
 
-              <hr className="pane-divider" />
-
-              <nav className="nav-menu">
-                <span className="nav-section-title">Categories</span>
-                <div className={`nav-item ${activeTab === 'Global' ? 'active' : ''}`} onClick={() => setActiveTab('Global')}><Globe size={18} /> <span>Global</span></div>
-                <div className={`nav-item ${activeTab === 'National' ? 'active' : ''}`} onClick={() => setActiveTab('National')}><MapPin size={18} /> <span>National</span></div>
-                <div className={`nav-item ${activeTab === 'Business' ? 'active' : ''}`} onClick={() => setActiveTab('Business')}><Briefcase size={18} /> <span>Business</span></div>
-                <div className={`nav-item ${activeTab === 'Trending' ? 'active' : ''}`} onClick={() => setActiveTab('Trending')}><TrendingUp size={18} /> <span>Trending</span></div>
-              </nav>
-            </div>
-          </aside>
 
           {/* ══════ CENTER FEED ══════ */}
           <main className="hub-feed">
             
             {/* ── Category Tabs (Pill Toggles) ── */}
-            <div className="feed-header-tabs">
-              {categories.map((tab) => (
+            <div className="hub-tabs">
+              {['Global', 'National', 'Business', 'Trending'].map((tab) => (
                 <button
                   key={tab}
-                  className={`pill-tab ${activeTab === tab ? 'active' : ''}`}
+                  className={`hub-tab ${activeTab === tab ? 'active' : ''}`}
                   onClick={() => setActiveTab(tab)}
                 >
-                  {activeTab === tab && (
-                    <motion.div 
-                      layoutId="pill-glow" 
-                      className="pill-tab-glow"
-                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                  <span className="pill-tab-label">{tab}</span>
+                  {t(`news.${tab.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -1010,7 +982,9 @@ export const SocialHub: React.FC = () => {
 
                 {/* Trending News */}
                 <GlassCard className="pulse-widget trending-news-widget">
-                  <h3 className="widget-title">Trending News</h3>
+                  <h3 className="widget-title">
+                    {t('news.trending')} News
+                  </h3>
                   <div className="discussions-list">
                     {trendingTopics.length > 0 ? trendingTopics.map((topic, i) => (
                       <a href={topic.link} target="_blank" rel="noopener noreferrer" key={i} className="discussion-item" style={{ textDecoration: 'none' }}>
