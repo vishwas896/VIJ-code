@@ -104,7 +104,7 @@ export const Header: React.FC = () => {
         {isAuthenticated ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {user?.role === 'recruiter' && (
+              {(user?.role === 'recruiter' && user?.isVerified) && (
                 <Link 
                   href="/my-company" 
                   className="nav-link"

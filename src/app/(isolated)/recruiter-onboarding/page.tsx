@@ -65,8 +65,13 @@ export default function RecruiterOnboarding() {
     setLoading(true);
     // Simulate API call to save all data
     setTimeout(() => {
-      // Mark as recruiter
-      updateProfile({ role: 'recruiter', currentCompany: formData.companyName, roleTitle: formData.personalTitle });
+      // Mark as recruiter and verified
+      updateProfile({ 
+        role: 'recruiter', 
+        currentCompany: formData.companyName, 
+        roleTitle: formData.personalTitle,
+        isVerified: true 
+      });
       completeOnboarding();
       router.push('/home');
     }, 1500);

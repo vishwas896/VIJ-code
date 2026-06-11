@@ -26,6 +26,7 @@ interface User {
   email?: string;
   bio?: string;
   roleTitle?: string;
+  isVerified?: boolean;
   // Professional profile fields for AI matching
   skills?: string[];
   experience?: number; // years
