@@ -1371,7 +1371,6 @@
   }
   .main-content.has-sidebar {
     padding-right: 68px !important;
-    padding-left: 260px !important; /* Left Sidebar space */
   }
 }
 

@@ -15,7 +15,7 @@
 
 .gn-page-container {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: auto 1fr 320px;
   gap: 24px;
   max-width: 1560px;
   margin: 0 auto;

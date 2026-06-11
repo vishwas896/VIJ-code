@@ -46,20 +46,15 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  background: var(--glass-white);
-  border: 1px solid var(--glass-border);
+  background: transparent;
+  border: 1px solid transparent;
   padding: 8px 20px;
   border-radius: 999px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   pointer-events: auto;
   transition: all 0.3s var(--ease-spring);
 }
 .logo-container:hover {
-  border-color: var(--accent-azure);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px var(--accent-azure-glow);
+  transform: scale(1.02) translateY(-1px);
 }
 
 .logo-mark {

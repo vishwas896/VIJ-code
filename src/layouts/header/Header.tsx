@@ -15,7 +15,7 @@ import './Header.css';
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { preferences } = useTheme();
   const { t } = useLanguage();
   const [showNotifs, setShowNotifs] = useState(false);
@@ -104,6 +104,15 @@ export const Header: React.FC = () => {
         {isAuthenticated ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {user?.role === 'recruiter' && (
+                <Link 
+                  href="/my-company" 
+                  className="nav-link"
+                  style={{ color: '#ef4444', fontWeight: 800, border: '1px dashed #ef4444', padding: '4px 12px', borderRadius: '12px' }}
+                >
+                  My Company
+                </Link>
+              )}
               <LanguageSelector />
               <CurrencySelector />
             </div>

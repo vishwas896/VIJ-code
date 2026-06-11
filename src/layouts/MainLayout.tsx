@@ -10,7 +10,6 @@ import { RightSidebar } from './RightSidebar';
 import { useTheme } from '../context/ThemeContext';
 import { Header } from './header/Header';
 import { Footer } from './footer/Footer';
-import { LeftSidebar } from './LeftSidebar';
 import './MainLayout.css';
 
 export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -41,9 +40,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         />
       )}
       
-      
       <Header />
-      <LeftSidebar />
 
       <main className="main-content has-sidebar" style={{ position: 'relative', overflowX: 'hidden' }}>
         <AnimatePresence mode="wait" initial={false}>

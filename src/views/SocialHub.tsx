@@ -818,9 +818,33 @@ export const SocialHub: React.FC = () => {
           )}
         </AnimatePresence>
 
-        <div className="hub-grid">
-          
+        <div className="hub-grid">          {/* ══════ LEFT SIDEBAR ══════ */}
+          <aside 
+            className={`hub-sidebar left-sidebar ${isSidebarHovered ? 'expanded' : 'collapsed'}`}
+            onMouseEnter={() => setIsSidebarHovered(true)}
+            onMouseLeave={() => setIsSidebarHovered(false)}
+          >
+            <div className="sticky-pane">
+              <nav className="nav-menu">
+                <span className="nav-section-title">Discovery</span>
+                {sideLinks.map(link => (
+                  <div key={link.label} className={`nav-item ${link.active ? 'active' : ''}`}>
+                    {link.icon} <span>{link.label}</span>
+                  </div>
+                ))}
+              </nav>
 
+              <hr className="pane-divider" />
+
+              <nav className="nav-menu">
+                <span className="nav-section-title">Categories</span>
+                <div className={`nav-item ${activeTab === 'Global' ? 'active' : ''}`} onClick={() => setActiveTab('Global')}><Globe size={18} /> <span>{t('news.global')}</span></div>
+                <div className={`nav-item ${activeTab === 'National' ? 'active' : ''}`} onClick={() => setActiveTab('National')}><MapPin size={18} /> <span>{t('news.national')}</span></div>
+                <div className={`nav-item ${activeTab === 'Business' ? 'active' : ''}`} onClick={() => setActiveTab('Business')}><Briefcase size={18} /> <span>{t('news.business')}</span></div>
+                <div className={`nav-item ${activeTab === 'Trending' ? 'active' : ''}`} onClick={() => setActiveTab('Trending')}><TrendingUp size={18} /> <span>{t('news.trending')}</span></div>
+              </nav>
+            </div>
+          </aside>
 
           {/* ══════ CENTER FEED ══════ */}
           <main className="hub-feed">

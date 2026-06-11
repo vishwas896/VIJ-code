@@ -13,6 +13,18 @@ import 'leaflet/dist/leaflet.css';
 import { useAuth } from '../context/AuthContext';
 import './GlobalNetwork.css';
 
+const MOCK_GROUPS = [
+  { id: 'g1', name: 'Global Tech Leadership', members: '14.2k', type: 'Private', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=150&q=80' },
+  { id: 'g2', name: 'Web3 & Blockchain', members: '8.4k', type: 'Public', image: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=150&q=80' },
+  { id: 'g3', name: 'UI/UX Design Global', members: '32.1k', type: 'Public', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=150&q=80' },
+];
+
+const MOCK_EVENTS = [
+  { id: 'e1', name: 'Future of AI Summit', date: 'Oct 24, 2026', location: 'San Francisco & Online', attendees: '2.1k' },
+  { id: 'e2', name: 'React Native Conf', date: 'Nov 12, 2026', location: 'London, UK', attendees: '850' },
+  { id: 'e3', name: 'Global Design Week', date: 'Dec 05, 2026', location: 'Online', attendees: '5.4k' },
+];
+
 // ── TYPES ──
 interface NetworkUser {
   id: number;
@@ -440,8 +452,84 @@ export const GlobalNetwork: React.FC = () => {
       </AnimatePresence>
 
       <div className="gn-page-container">
-        
+        {/* ── LEFT SIDEBAR ── */}
+        <aside 
+          className={`gn-sidebar-left ${sidebarExpanded ? 'expanded' : 'collapsed'}`}
+          onMouseEnter={handleSidebarMouseEnter}
+          onMouseLeave={handleSidebarMouseLeave}
+        >
+          <div className="gn-glass-panel">
+            <div className="gn-nav-menu">
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'discover' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('discover'); setActiveMobileTab('discover'); }}
+              >
+                <Compass size={16} />
+                <span>Discover Talent</span>
+              </div>
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'connections' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('connections'); setActiveMobileTab('connections'); }}
+              >
+                <Network size={16} />
+                <span>My Connections</span>
+                {connectedCount > 0 && <span className="gn-nav-badge">{connectedCount}</span>}
+              </div>
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'requests' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('requests'); setActiveMobileTab('connections'); }}
+              >
+                <UserCheck size={16} />
+                <span>Requests</span>
+                {requestsCount > 0 && <span className="gn-nav-badge urgent">{requestsCount}</span>}
+              </div>
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'nearby' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('nearby'); setActiveMobileTab('discover'); }}
+              >
+                <MapPin size={16} />
+                <span>Nearby People</span>
+              </div>
 
+              <div className="gn-divider" />
+
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'groups' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('groups'); setActiveMobileTab('discover'); }}
+              >
+                <Users size={16} />
+                <span>Industry Groups</span>
+                <span className="gn-nav-badge">6</span>
+              </div>
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'events' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('events'); setActiveMobileTab('discover'); }}
+              >
+                <Calendar size={16} />
+                <span>Events</span>
+              </div>
+              <div 
+                className={`gn-nav-item ${activeSidebarTab === 'saved' ? 'active' : ''}`}
+                onClick={() => { setActiveSidebarTab('saved'); setActiveMobileTab('discover'); }}
+              >
+                <Bookmark size={16} />
+                <span>Saved Profiles</span>
+                {bookmarkedIds.length > 0 && <span className="gn-nav-badge">{bookmarkedIds.length}</span>}
+              </div>
+            </div>
+          </div>
+          
+          {/* Quick Active Status */}
+          <div className="gn-glass-panel" style={{ padding: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Radio size={16} style={{ color: '#22c55e' }} />
+              <div className="gn-radar-text">
+                <span style={{ fontSize: '11px', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>Radar Scanner</span>
+                <strong style={{ display: 'block', fontSize: '12px', color: '#1e293b' }}>Active Globally</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
 
         {/* ── CENTER AREA: MAP AND DISCOVER ── */}
         <main className="gn-center-content">
@@ -525,6 +613,8 @@ export const GlobalNetwork: React.FC = () => {
                   {activeSidebarTab === 'requests' && 'Pending Invitations'}
                   {activeSidebarTab === 'nearby' && 'Professionals Nearby'}
                   {activeSidebarTab === 'saved' && 'Bookmarked Profiles'}
+                  {activeSidebarTab === 'groups' && 'Industry Groups'}
+                  {activeSidebarTab === 'events' && 'Upcoming Events'}
                 </h3>
                 
                 <div className="gn-layout-toggles">
@@ -543,11 +633,47 @@ export const GlobalNetwork: React.FC = () => {
                 </div>
               </div>
 
-              {filteredUsers.length === 0 ? (
+              {activeSidebarTab === 'groups' ? (
+                <div className={`gn-discover-container ${preferences.card_layout === 'list' ? 'list-view' : ''}`}>
+                  {MOCK_GROUPS.map(g => (
+                    <div key={g.id} className="gn-card" style={{ display: 'flex', flexDirection: preferences.card_layout === 'list' ? 'row' : 'column', padding: '16px', gap: '16px', alignItems: preferences.card_layout === 'list' ? 'center' : 'flex-start' }}>
+                      <img src={g.image} alt={g.name} style={{ width: preferences.card_layout === 'list' ? 60 : '100%', height: preferences.card_layout === 'list' ? 60 : 120, borderRadius: 8, objectFit: 'cover' }} />
+                      <div style={{ flex: 1 }}>
+                        <h4 style={{ margin: '0 0 4px', fontSize: '16px' }}>{g.name}</h4>
+                        <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>{g.type} • {g.members} Members</p>
+                      </div>
+                      <button className="gn-card-btn outline" style={{ width: preferences.card_layout === 'list' ? 'auto' : '100%', padding: '8px 16px' }}>Join Group</button>
+                    </div>
+                  ))}
+                </div>
+              ) : activeSidebarTab === 'events' ? (
+                <div className={`gn-discover-container ${preferences.card_layout === 'list' ? 'list-view' : ''}`}>
+                  {MOCK_EVENTS.map(e => (
+                    <div key={e.id} className="gn-card" style={{ padding: '16px', display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ flex: 1 }}>
+                        <h4 style={{ margin: '0 0 8px', fontSize: '16px' }}>{e.name}</h4>
+                        <p style={{ margin: '0 0 4px', fontSize: '13px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}><Calendar size={12} />{e.date}</p>
+                        <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={12} />{e.location} • {e.attendees} attending</p>
+                      </div>
+                      <button className="gn-card-btn primary" style={{ width: '100%' }}>RSVP</button>
+                    </div>
+                  ))}
+                </div>
+              ) : filteredUsers.length === 0 ? (
                 <div className="gn-glass-panel" style={{ textAlign: 'center', padding: '48px 24px' }}>
-                  <Users size={32} style={{ color: '#94a3b8', marginBottom: '12px' }} />
-                  <h4 style={{ margin: '0 0 4px', color: '#1e293b' }}>No connections found</h4>
-                  <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>Try broadening your filters or updating your search query.</p>
+                  {activeSidebarTab === 'saved' ? (
+                    <>
+                      <Bookmark size={32} style={{ color: '#94a3b8', marginBottom: '12px' }} />
+                      <h4 style={{ margin: '0 0 4px', color: '#1e293b' }}>No saved profiles</h4>
+                      <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>Profiles you bookmark will appear here.</p>
+                    </>
+                  ) : (
+                    <>
+                      <Users size={32} style={{ color: '#94a3b8', marginBottom: '12px' }} />
+                      <h4 style={{ margin: '0 0 4px', color: '#1e293b' }}>No connections found</h4>
+                      <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>Try broadening your filters or updating your search query.</p>
+                    </>
+                  )}
                 </div>
               ) : (
                 <>

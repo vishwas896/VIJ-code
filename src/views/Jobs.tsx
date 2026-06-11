@@ -524,7 +524,43 @@ export const Jobs: React.FC = () => {
         {/* ══════ 3-COLUMN LAYOUT ══════ */}
         <div className="exp-columns">
 
+          {/* ── LEFT SIDEBAR ── */}
+          <aside className="exp-sidebar">
+            {!isAuthenticated && (
+              <div className="exp-sidebar-cta-box">
+                <p className="exp-sidebar-cta-label">Get Access</p>
+                <p className="exp-sidebar-cta-sub">Sign up to apply for jobs &amp; unlock profiles.</p>
+              </div>
+            )}
 
+            <nav className="exp-sidebar-nav">
+              {sideLinks.map(link => {
+                const label = link.label === 'Jobs' ? t('nav.jobs') :
+                              link.label === 'Roadmaps' ? t('nav.roadmaps') :
+                              link.label;
+                return (
+                  <a
+                    key={link.label}
+                    className={`exp-sidebar-link ${link.active ? 'active' : ''}`}
+                    onClick={() => router.push(link.to)}
+                  >
+                    {link.icon} {label}
+                  </a>
+                );
+              })}
+            </nav>
+
+            {!isAuthenticated && (
+              <button className="exp-sidebar-start-btn" onClick={() => router.push('/register')}>
+                Get Started <ArrowRight size={14} />
+              </button>
+            )}
+
+            <div className="exp-sidebar-bottom">
+              <a className="exp-sidebar-link"><HelpCircle size={20} /> Help Center</a>
+              <a className="exp-sidebar-link"><ShieldCheck size={20} /> Privacy</a>
+            </div>
+          </aside>
 
           {/* ── MAIN FEED ── */}
           <main className="exp-feed">
