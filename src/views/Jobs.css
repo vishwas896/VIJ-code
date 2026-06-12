@@ -435,6 +435,8 @@
   z-index: 9999;
   background: rgba(0,0,0,0.5);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1170,6 +1172,8 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(4px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   z-index: 1000;
   display: flex;
   justify-content: flex-end;
@@ -1181,6 +1185,8 @@
   height: 100vh;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-left: 1px solid rgba(255, 255, 255, 0.45);
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.12);
   padding: 24px;
@@ -1308,6 +1314,8 @@
 .load-more-roles-btn {
   background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.65);
   color: var(--vij-text-main);
   padding: 10px 24px;
@@ -1348,4 +1356,5 @@
     grid-template-columns: 1fr !important;
   }
 }
+
 

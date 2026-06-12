@@ -12,7 +12,11 @@
   z-index: 90;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -26,6 +30,8 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   font-size: 13px;
   font-weight: 600;
   color: var(--vij-text-main, #1c1e26);
@@ -89,3 +95,4 @@
     padding: 5px 12px 5px 10px;
   }
 }
+

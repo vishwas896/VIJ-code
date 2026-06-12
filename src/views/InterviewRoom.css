@@ -14,7 +14,11 @@
   z-index: 100;
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -78,7 +82,11 @@
   z-index: 50;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 8px 16px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -126,7 +134,11 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
   overflow: hidden;
 }
@@ -289,6 +301,8 @@
   border-radius: 6px;
   background: rgba(239, 68, 68, 0.8);
   backdrop-filter: blur(4px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   color: white;
   font-size: 12px;
   font-weight: 700;
@@ -369,6 +383,8 @@
   padding: 4px 12px;
   border-radius: 8px;
   backdrop-filter: blur(4px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
 }
 
 .ir-self-view {
@@ -419,7 +435,11 @@
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
@@ -572,7 +592,11 @@
   position: absolute;
   inset: 0;
   backdrop-filter: blur(2px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(2px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   background: rgba(255, 255, 255, 0.4);
   display: flex;
   flex-direction: column;
@@ -607,3 +631,4 @@
 .ir-paywall-blurred-content p {
   margin: 0;
 }
+

@@ -10,6 +10,8 @@
   padding: 12px 24px;
   background: var(--glass-white);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   display: flex;
   justify-content: space-between;
@@ -222,6 +224,8 @@
   border-radius: 50%;
   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -401,3 +405,4 @@
     height: 64px;
   }
 }
+

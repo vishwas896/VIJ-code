@@ -75,6 +75,8 @@
   flex: 1;
   background: var(--glass-white);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   display: flex;
@@ -397,3 +399,4 @@
   .chat-header { padding: 12px 16px; }
   .view-toggle button { padding: 6px 16px; font-size: 13px; }
 }
+

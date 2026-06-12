@@ -532,6 +532,8 @@
   bottom: 32px;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 16px 32px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.6);
@@ -652,3 +654,4 @@
   .wizard-steps { gap: 8px; }
   .candidate-card { padding: 16px; }
 }
+

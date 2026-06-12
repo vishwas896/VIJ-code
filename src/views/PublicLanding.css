@@ -56,6 +56,8 @@
   align-items: center;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-pill);
   padding: 8px 12px;
@@ -205,6 +207,8 @@
   justify-content: center;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-lg);
   padding: 40px;
@@ -490,6 +494,8 @@
   padding: 15px 36px;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   color: var(--vij-text-main);
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-pill);
@@ -695,3 +701,4 @@
   .law-photo-pair { grid-template-columns: 1fr; }
   .law-stat-row { grid-template-columns: repeat(3, 1fr); }
 }
+

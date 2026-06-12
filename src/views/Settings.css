@@ -27,6 +27,8 @@
   display: flex;
   background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid var(--glass-border);
   border-radius: 12px;
   padding: 4px;
@@ -582,6 +584,8 @@
   right: 8px;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   color: #fff;
   font-size: 10px;
   font-weight: 700;
@@ -847,6 +851,8 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 16px 24px;
   border-radius: 16px;
 }
@@ -943,6 +949,8 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -1024,4 +1032,5 @@
   border: 2px solid var(--glass-border);
   border-radius: 50%;
 }
+
 

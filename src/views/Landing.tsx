@@ -1,6 +1,12 @@
-﻿'use client';
+'use client';
 import React from 'react';
-import { HeroSection } from '../components/landing/HeroSection';
+import dynamic from 'next/dynamic';
+
+const HeroSection = dynamic(
+  () => import('../components/landing/HeroSection').then((mod) => mod.HeroSection),
+  { ssr: false }
+);
+
 import { ProblemStatement } from '../components/landing/ProblemStatement';
 import { HowItWorks } from '../components/landing/HowItWorks';
 import { FeatureGrid } from '../components/landing/FeatureGrid';

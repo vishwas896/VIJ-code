@@ -101,7 +101,11 @@
   width: 100%;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
@@ -152,3 +156,4 @@
   .autocomplete-wrapper { max-width: 100%; }
   .autocomplete-dropdown { max-height: 200px; }
 }
+

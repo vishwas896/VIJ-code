@@ -36,7 +36,11 @@
   border-radius: 999px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   max-width: 520px;
   margin: 0 auto;
   user-select: none;
@@ -146,7 +150,11 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(12px) !important;
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px) !important;
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   background: rgba(255, 245, 245, 0.95) !important; /* white-reddish */
 }
 
@@ -654,3 +662,4 @@
     text-align: center;
   }
 }
+

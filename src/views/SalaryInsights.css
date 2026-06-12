@@ -35,7 +35,11 @@
 .glass-select {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
@@ -226,3 +230,4 @@
     margin-top: 8px;
   }
 }
+

@@ -84,12 +84,14 @@ export const SalaryRangeBar: React.FC<SalaryRangeBarProps> = ({
         {/* Main Gradient Bar between p10 and p90 */}
         <motion.div
           className="range-fill"
-          initial={{ width: 0, left: '0%' }}
-          animate={{ width: '100%', left: '0%' }}
+          initial={{ scaleX: 0, originX: 0 }}
+          animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           style={{
             height: '100%',
+            width: '100%',
             position: 'absolute',
+            left: 0,
             background: 'linear-gradient(90deg, #0A6E6E 0%, #dc2626 50%, #10b981 100%)',
             borderRadius: '999px',
             opacity: 0.85,

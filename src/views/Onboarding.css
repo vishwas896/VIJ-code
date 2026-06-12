@@ -16,6 +16,8 @@
   max-width: 680px;
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 60px;
   border-radius: 40px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -442,4 +444,5 @@
   .otp-box { width: 36px; height: 36px; font-size: 16px; }
   .wizard-container { padding: 20px 14px; }
 }
+
 

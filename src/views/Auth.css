@@ -23,7 +23,11 @@
 .auth-left-pane {
   background: rgba(24, 24, 27, 0.45);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -546,3 +550,4 @@
   .auth-field-row { grid-template-columns: 1fr; }
   .auth-seeker-type-row { grid-template-columns: 1fr; }
 }
+

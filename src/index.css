@@ -210,7 +210,11 @@ a, button {
 .vij-glass {
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: var(--shadow-glass);
 }
@@ -218,7 +222,11 @@ a, button {
 .vij-glass-dark {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -458,5 +466,6 @@ a, button {
     -webkit-overflow-scrolling: touch !important;
   }
 }
+
 
 

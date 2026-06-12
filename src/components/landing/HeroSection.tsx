@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -30,6 +30,7 @@ export const HeroSection: React.FC = () => {
     if (!ctx) return;
 
     let animationId: number;
+    let isRunning = true;
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
 
@@ -45,14 +46,19 @@ export const HeroSection: React.FC = () => {
       });
     }
 
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (!canvas) return;
+        width = canvas.width = canvas.offsetWidth;
+        height = canvas.height = canvas.offsetHeight;
+      }, 150);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     const animate = () => {
+      if (!isRunning) return;
       ctx.clearRect(0, 0, width, height);
       ctx.strokeStyle = 'rgba(10, 110, 110, 0.05)';
       ctx.lineWidth = 0.6;
@@ -90,6 +96,7 @@ export const HeroSection: React.FC = () => {
     animate();
 
     return () => {
+      isRunning = false;
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', handleResize);
     };

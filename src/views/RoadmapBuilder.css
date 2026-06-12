@@ -198,6 +198,8 @@
   padding: 14px 24px;
   background: var(--glass-white);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -333,3 +335,4 @@
     padding: 12px 16px;
   }
 }
+

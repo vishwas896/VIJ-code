@@ -23,6 +23,8 @@
   right: 24px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(16, 185, 129, 0.3);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   padding: 12px 20px;
@@ -693,3 +695,4 @@
     grid-template-columns: 1fr;
   }
 }
+

@@ -31,7 +31,11 @@
   width: 220px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: var(--radius-lg);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -120,3 +124,4 @@
   .currency-selector-btn { padding: 6px 10px; font-size: 12px; }
   .currency-dropdown { min-width: 160px; right: 0; }
 }
+

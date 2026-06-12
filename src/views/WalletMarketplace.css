@@ -43,6 +43,8 @@
   border-radius: 20px;
   background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255,255,255,0.4);
   box-shadow: 0 30px 50px rgba(0,0,0,0.1), inset 0 0 20px rgba(255,255,255,0.5);
   padding: 24px;
@@ -214,3 +216,4 @@
   .action-buttons { flex-direction: column; width: 100%; }
   .course-grid { grid-template-columns: 1fr; }
 }
+

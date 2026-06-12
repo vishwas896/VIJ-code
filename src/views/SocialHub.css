@@ -36,7 +36,11 @@
   border-right: 1px solid rgba(0, 0, 0, 0.08);
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 24px 12px;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
@@ -51,7 +55,11 @@
   border-left: 1px solid rgba(0, 0, 0, 0.08);
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 24px;
   box-sizing: border-box;
 }
@@ -59,7 +67,11 @@
 .left-sidebar .sticky-pane {
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
   padding: 16px;
@@ -184,7 +196,11 @@
   display: flex;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   padding: 6px;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -469,6 +485,8 @@
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(255,255,255,0.4);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-radius: var(--radius-lg);
   padding: 12px;
   display: flex;
@@ -778,7 +796,11 @@
   inset: 0;
   background: rgba(0,0,0,0.4);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -789,7 +811,11 @@
 .auth-modal-content {
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid white;
   border-radius: 24px;
   padding: 40px;
@@ -1019,7 +1045,11 @@
   inset: 0;
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   z-index: 1100;
   display: flex;
   align-items: center;
@@ -1030,7 +1060,11 @@
 .rate-modal-content {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 24px;
   padding: 32px;

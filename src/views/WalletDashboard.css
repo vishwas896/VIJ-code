@@ -148,6 +148,8 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -158,6 +160,8 @@
 .glass-modal {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
   width: 100%;
@@ -384,3 +388,4 @@
 /* ── ACTION BTN WRAP (tooltip host) ── */
 .wlt-btn-wrap { position: relative; display: inline-block; }
 .action-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+

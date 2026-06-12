@@ -5,6 +5,8 @@
 .career-hero {
   background: rgba(255,255,255,0.4);
   backdrop-filter: blur(12px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255,255,255,0.5);
   border-radius: var(--radius-xl);
   padding: 32px;
@@ -115,3 +117,4 @@
   .career-verified { margin: 0 auto; }
   .career-hero-stats { justify-content: center; }
 }
+

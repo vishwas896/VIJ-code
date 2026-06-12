@@ -17,7 +17,11 @@
   pointer-events: auto;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   -webkit-backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
   padding: 20px 32px;
@@ -174,3 +178,4 @@
   .banner-context { flex-direction: column; gap: 12px; }
   .banner-actions { width: 100%; justify-content: center; }
 }
+

@@ -207,6 +207,8 @@
   justify-content: center;
   background: rgba(250, 250, 252, 0.05);
   backdrop-filter: blur(12px) saturate(180%);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   margin-left: -24px;
   margin-right: -24px;
@@ -1265,3 +1267,4 @@
     font-size: 12.5px;
   }
 }
+

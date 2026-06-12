@@ -217,6 +217,8 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -230,3 +232,4 @@
   border-color: var(--accent-azure);
   box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
+
