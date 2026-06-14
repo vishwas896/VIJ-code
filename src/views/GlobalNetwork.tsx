@@ -55,10 +55,30 @@ const MOCK_USERS: NetworkUser[] = [
   { id: 7, name: "Amit Verma", role: "Data Platform Architect", company: "Capital Solutions", skills: ["Python", "Spark", "Scala", "AWS Glue"], lat: 12.9716, lng: 77.5946, status: "recent", matchPercent: 85, isRecruiter: false, openToWork: false, isVerified: true, location: "Bengaluru, India", avatar: "AV" },
   { id: 8, name: "Neha Gupta", role: "Product Innovation Director", company: "Nexus Apps", skills: ["Product Roadmap", "Agile", "User Research"], lat: 28.7041, lng: 77.1025, status: "online", matchPercent: 92, isRecruiter: false, openToWork: false, isVerified: true, location: "Gurugram, India", avatar: "NG" },
   { id: 9, name: "David Miller", role: "Senior Recruiter", company: "Global Talent Corp", skills: ["Executive Search", "HR Consulting", "Recruiting"], lat: 51.5074, lng: -0.1278, status: "offline", matchPercent: 75, isRecruiter: true, openToWork: false, isVerified: false, location: "London, UK", avatar: "DM" },
-  { id: 10, name: "Yuki Tanaka", role: "Mobile Software Engineer", company: "Kono Mobile", skills: ["Swift", "Kotlin", "React Native"], lat: 35.6762, lng: 139.6503, status: "online", matchPercent: 89, isRecruiter: false, openToWork: true, isVerified: true, location: "Tokyo, Japan", avatar: "YT" },
+  { id: 10, name: "Yuki Tanaka", role: "Student (Computer Science)", company: "Tokyo University", skills: ["C++", "Java", "Algorithms"], lat: 35.6762, lng: 139.6503, status: "online", matchPercent: 89, isRecruiter: false, openToWork: true, isVerified: true, location: "Tokyo, Japan", avatar: "YT" },
   { id: 11, name: "Carlos Mendez", role: "Full Stack Engineer", company: "Solaris Tech", skills: ["React", "Ruby on Rails", "PostgreSQL"], lat: 19.4326, lng: -99.1332, status: "recent", matchPercent: 87, isRecruiter: false, openToWork: false, isVerified: false, location: "Mexico City, Mexico", avatar: "CM" },
   { id: 12, name: "Fatima Al-Rashid", role: "Security Engineer", company: "CyberFort", skills: ["Penetration Testing", "Security Auditing", "OAuth"], lat: 25.2048, lng: 55.2708, status: "online", matchPercent: 90, isRecruiter: false, openToWork: false, isVerified: true, location: "Dubai, UAE", avatar: "FA" }
 ];
+
+// Role-aware content priority sorting
+export const sortUsersByRolePriority = (users: NetworkUser[], userRole?: string) => {
+  return [...users].sort((a, b) => {
+    if (userRole === 'student') {
+      // Students see Recruiter/Mentors first, then students
+      if (a.isRecruiter && !b.isRecruiter) return -1;
+      if (!a.isRecruiter && b.isRecruiter) return 1;
+    } else if (userRole === 'recruiter') {
+      // Recruiters see OpenToWork first, then highest match percent
+      if (a.openToWork && !b.openToWork) return -1;
+      if (!a.openToWork && b.openToWork) return 1;
+    } else if (userRole === 'job_seeker') {
+      // Job seekers see Recruiters first, then high match percent
+      if (a.isRecruiter && !b.isRecruiter) return -1;
+      if (!a.isRecruiter && b.isRecruiter) return 1;
+    }
+    return b.matchPercent - a.matchPercent;
+  });
+};
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371; // Earth radius in km
@@ -300,7 +320,7 @@ export const GlobalNetwork: React.FC = () => {
 
   // Filters mapping
   const filteredUsers = useMemo(() => {
-    return usersWithDist.filter(u => {
+    const filtered = usersWithDist.filter(u => {
       // Sidebar tab filtering
       if (activeSidebarTab === 'connections') {
         const record = connections.find(c => c.connection_id === u.id);
@@ -344,7 +364,14 @@ export const GlobalNetwork: React.FC = () => {
 
       return true;
     });
-  }, [usersWithDist, activeSidebarTab, connections, bookmarkedIds, preferences.nearby_radius, mapFilter, searchQuery, statsFilter]);
+    
+    // Apply role-aware sorting for discover feed
+    if (activeSidebarTab === 'discover') {
+      return sortUsersByRolePriority(filtered, user?.role);
+    }
+    
+    return filtered;
+  }, [usersWithDist, activeSidebarTab, connections, bookmarkedIds, preferences.nearby_radius, mapFilter, searchQuery, statsFilter, user?.role]);
 
   // Update Map Markers
   useEffect(() => {

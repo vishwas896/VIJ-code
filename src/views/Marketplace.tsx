@@ -36,17 +36,13 @@ const courses = [
 
 export const Marketplace: React.FC = () => {
   const router = useRouter();
-  const [processing, setProcessing] = useState<number | null>(null);
+  const [processing] = useState<number | null>(null);
   const [purchased, setPurchased] = useState<number[]>([]);
   const [searchValue, setSearchValue] = useState('');
 
   const handlePurchase = (id: number) => {
-    setProcessing(id);
-    setTimeout(() => {
-      setProcessing(null);
-      setPurchased(prev => [...prev, id]);
-      setTimeout(() => router.push(`/learning-center/${id}`), 800);
-    }, 1500);
+    setPurchased(prev => [...prev, id]);
+    router.push(`/learning-center/${id}`);
   };
 
   return (

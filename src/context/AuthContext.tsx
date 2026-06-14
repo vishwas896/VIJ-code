@@ -3,6 +3,12 @@
 import React, { createContext, useContext, useState, type ReactNode } from 'react';
 import { MotionConfig } from 'framer-motion';
 
+/* ═══════════════════════════════════════════════
+   VIJ IDENTITY TYPES
+   ═══════════════════════════════════════════════ */
+
+export type UserRole = 'student' | 'job_seeker' | 'recruiter';
+
 export type UserDomain =
   | 'engineering'
   | 'design'
@@ -13,23 +19,47 @@ export type UserDomain =
   | 'data-science'
   | 'operations';
 
-interface User {
+export type VerificationLevel = 0 | 1 | 2 | 3 | 4;
+
+export interface PersonalProfile {
+  photo?: string;
+  fullName: string;
+  username?: string;
+  bio?: string;
+  dob?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  signature?: string;
+  maritalStatus?: 'single' | 'married' | 'divorced' | 'widowed';
+  dependency?: string;
+  loanEmi?: string;
+  familyConnections?: string[];
+}
+
+export interface User {
   id: string;
+  vijId: string;                     // VIJ-STU-2026-000145 format
   name: string;
-  role: 'seeker' | 'recruiter';
+  role: UserRole;
   domain?: UserDomain;
+  personalProfile?: PersonalProfile;
+  
+  // Legacy compat fields (used across existing views)
   currentCompany?: string;
   industry?: string;
   onboardingCompleted?: boolean;
-  purchasedItems?: string[]; // IDs of courses, skills, or services
-  appliedJobs?: number[];   // IDs of jobs the user has applied to
+  purchasedItems?: string[];
+  appliedJobs?: number[];
   email?: string;
   bio?: string;
   roleTitle?: string;
   isVerified?: boolean;
-  // Professional profile fields for AI matching
+  verificationLevel?: VerificationLevel;
+  
+  // Professional profile fields
   skills?: string[];
-  experience?: number; // years
+  experience?: number;
   education?: string;
   certifications?: string[];
   hasPortfolio?: boolean;
@@ -40,7 +70,7 @@ interface AuthContextType {
   user: User | null;
   walletBalance: number;
   loading: boolean;
-  login: (role: 'seeker' | 'recruiter', domain?: UserDomain) => void;
+  login: (role: UserRole, domain?: UserDomain) => void;
   logout: () => void;
   completeOnboarding: () => void;
   purchaseItem: (id: string) => void;
@@ -52,20 +82,42 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const createUserId = () => {
-  const buffer = new Uint32Array(1);
-  globalThis.crypto?.getRandomValues(buffer);
-  const suffix = (buffer[0] % 9000) + 1000;
-  return `USR-${suffix}`;
+/* ═══════════════════════════════════════════════
+   VIJ ID GENERATOR
+   Format: VIJ-{ROLE}-{YEAR}-{6-DIGIT}
+   ═══════════════════════════════════════════════ */
+const ROLE_PREFIX_MAP: Record<UserRole, string> = {
+  student: 'STU',
+  job_seeker: 'JOB',
+  recruiter: 'REC',
 };
 
+const generateVijId = (role: UserRole): string => {
+  const prefix = ROLE_PREFIX_MAP[role];
+  const year = new Date().getFullYear();
+  
+  // Read counter from localStorage for sequential IDs
+  const counterKey = `vij_id_counter_${role}`;
+  let counter = 1;
+  if (typeof window !== 'undefined') {
+    counter = parseInt(localStorage.getItem(counterKey) || '0', 10) + 1;
+    localStorage.setItem(counterKey, counter.toString());
+  }
+  
+  const padded = counter.toString().padStart(6, '0');
+  return `VIJ-${prefix}-${year}-${padded}`;
+};
+
+/* ═══════════════════════════════════════════════
+   AUTH PROVIDER
+   ═══════════════════════════════════════════════ */
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // For demo purposes, we'll initialize from localStorage to persist across refreshes
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [walletBalance, setWalletBalance] = useState(450);
   const [loading, setLoading] = useState(true);
 
+  // Hydrate from localStorage
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedAuth = localStorage.getItem('vij_auth') === 'true';
@@ -85,21 +137,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  const login = (role: 'seeker' | 'recruiter', domain?: UserDomain) => {
+  const login = (role: UserRole, domain?: UserDomain) => {
     setIsAuthenticated(true);
+    const vijId = generateVijId(role);
     const mockUser: User = { 
-      id: createUserId(),
+      id: vijId,
+      vijId,
       name: 'Verified User', 
       role,
       domain: domain || 'engineering',
       onboardingCompleted: false,
       appliedJobs: [],
-      // Professional profile defaults for AI matching
-      skills: role === 'seeker' ? ['React', 'TypeScript', 'CSS', 'Next.js', 'Git'] : [],
-      experience: role === 'seeker' ? 4 : 0,
+      skills: role === 'job_seeker' ? ['React', 'TypeScript', 'CSS', 'Next.js', 'Git'] : [],
+      experience: role === 'job_seeker' ? 4 : 0,
       education: 'B.Tech',
-      certifications: role === 'seeker' ? ['AWS Cloud Practitioner'] : [],
+      certifications: role === 'job_seeker' ? ['AWS Cloud Practitioner'] : [],
       hasPortfolio: true,
+      verificationLevel: 0,
     };
     setUser(mockUser);
     localStorage.setItem('vij_auth', 'true');
@@ -113,33 +167,38 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const completeOnboarding = () => {
-    if (user) {
-      const updatedUser = { ...user, onboardingCompleted: true };
-      setUser(updatedUser);
+    setUser(prev => {
+      if (!prev) return prev;
+      const updatedUser = { ...prev, onboardingCompleted: true };
       localStorage.setItem('vij_user', JSON.stringify(updatedUser));
-    }
+      return updatedUser;
+    });
   };
 
   const purchaseItem = (id: string) => {
-    if (user) {
-      const currentPurchased = user.purchasedItems || [];
+    setUser(prev => {
+      if (!prev) return prev;
+      const currentPurchased = prev.purchasedItems || [];
       if (!currentPurchased.includes(id)) {
-        const updatedUser = { ...user, purchasedItems: [...currentPurchased, id] };
-        setUser(updatedUser);
+        const updatedUser = { ...prev, purchasedItems: [...currentPurchased, id] };
         localStorage.setItem('vij_user', JSON.stringify(updatedUser));
+        return updatedUser;
       }
-    }
+      return prev;
+    });
   };
 
   const applyToJob = (jobId: number) => {
-    if (user) {
-      const currentApplied = user.appliedJobs || [];
+    setUser(prev => {
+      if (!prev) return prev;
+      const currentApplied = prev.appliedJobs || [];
       if (!currentApplied.includes(jobId)) {
-        const updatedUser = { ...user, appliedJobs: [...currentApplied, jobId] };
-        setUser(updatedUser);
+        const updatedUser = { ...prev, appliedJobs: [...currentApplied, jobId] };
         localStorage.setItem('vij_user', JSON.stringify(updatedUser));
+        return updatedUser;
       }
-    }
+      return prev;
+    });
   };
 
   const hasApplied = (jobId: number): boolean => {
@@ -147,11 +206,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const updateProfile = (data: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...data };
-      setUser(updatedUser);
+    setUser(prev => {
+      if (!prev) return prev;
+      const updatedUser = { ...prev, ...data };
       localStorage.setItem('vij_user', JSON.stringify(updatedUser));
-    }
+      return updatedUser;
+    });
   };
 
   const logout = () => {
@@ -176,7 +236,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       hasApplied,
       updateProfile,
     }}>
-      <MotionConfig transition={{ duration: 0 }} reducedMotion="always">
+      <MotionConfig>
         {children}
       </MotionConfig>
     </AuthContext.Provider>

@@ -1,0 +1,131 @@
+/* ═══════════════════════════════════════════════
+   JOB SEEKER PROFILE LEVEL 2
+   Theme: Liquid Glass
+   ═══════════════════════════════════════════════ */
+
+.seeker-profile-root {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: 'Inter', sans-serif;
+}
+
+.jsp-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dark .jsp-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.jsp-banner-text h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--vij-text-h1);
+  margin: 0 0 8px;
+}
+
+.jsp-banner-text p {
+  font-size: 15px;
+  color: var(--vij-text-muted);
+  margin: 0;
+}
+
+.jsp-section {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+}
+.dark .jsp-section {
+  background: rgba(15, 23, 42, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.jsp-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--vij-text-h1);
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jsp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.jsp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.jsp-field.full {
+  grid-column: 1 / -1;
+}
+
+.jsp-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vij-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.jsp-input {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--vij-text-body);
+  transition: all 0.2s;
+}
+.jsp-input:focus {
+  outline: none;
+  border-color: var(--accent-azure);
+  background: #fff;
+}
+.dark .jsp-input {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.dark .jsp-input:focus {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.jsp-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.jsp-save-btn {
+  padding: 12px 24px;
+  background: var(--accent-azure);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-end;
+}
+.jsp-save-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

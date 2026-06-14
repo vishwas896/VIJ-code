@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { ArrowLeft, Check, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import './OnboardingFlow.css';
 
 interface FlowProps {
@@ -8,6 +9,7 @@ interface FlowProps {
 }
 
 export const JobSeekerFlow: React.FC<FlowProps> = ({ onBack }) => {
+  const router = useRouter();
   const [step, setStep] = useState(1);
 
   return (
@@ -55,7 +57,7 @@ export const JobSeekerFlow: React.FC<FlowProps> = ({ onBack }) => {
               <div className="roadmap-item"><Check size={16} color="var(--accent-azure)" /> Complete Advanced System Design Challenge</div>
               <div className="roadmap-item"><Check size={16} color="var(--accent-azure)" /> Start applying to top matches</div>
             </div>
-            <button className="primary-btn complete-btn" onClick={() => window.location.href='/seeker/dashboard'}>
+            <button className="primary-btn complete-btn" onClick={() => router.push('/seeker/dashboard')}>
               Go to Dashboard <ArrowRight size={16} />
             </button>
           </div>

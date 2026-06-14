@@ -138,6 +138,50 @@
   background: var(--glass-white);
   border: 1px solid var(--glass-border);
   padding: 6px 16px;
+}
+
+.header-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 99px;
+  padding: 4px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+.dark .header-search-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-search-box:focus-within {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--accent-azure);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+}
+
+.dark .header-search-box:focus-within {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.header-search-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--vij-text-body);
+  font-size: 13px;
+  width: 140px;
+  transition: width 0.2s;
+}
+
+.header-search-box input:focus {
+  width: 180px;
+}
+
+/* Let's finish the previous .nav-utilities rule */
+.nav-utilities {
   border-radius: 999px;
   backdrop-filter: blur(12px);
   transform: translateZ(0);

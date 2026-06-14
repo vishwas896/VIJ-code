@@ -1,270 +1,162 @@
 'use client';
 import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Zap, TrendingUp, Users, MessageSquare, Bell, Search, 
-  MapPin, Clock, DollarSign,
-  Eye, Send, CheckCircle2, Layout, Plus, Filter, UserPlus
-} from 'lucide-react';
-import { GlassCard } from '../components/common/GlassCard';
-import { GlassButton } from '../components/common/GlassButton';
-import { PageTransition } from '../components/common/PageTransition';
-import { VijLogo } from '../components/common/VijLogo';
 import { useAuth } from '../context/AuthContext';
+import { PageTransition } from '../components/common/PageTransition';
+import { Briefcase, Target, Users, ArrowUpRight, CheckCircle2, TrendingUp, Zap, FileText, Send } from 'lucide-react';
 import './SeekerDashboard.css';
 
 export const SeekerDashboard: React.FC = () => {
   const { user } = useAuth();
-  
-  const [dashboardCustomization, setDashboardCustomization] = React.useState({
-    showJobAnalytics: true,
-    showProfileViews: true,
-    showApplications: true,
-    showAISuggestions: true,
-    showIndustryTrends: true
-  });
 
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`vij_dashboard_customization_${user?.id || 'guest'}`);
-      if (saved) {
-        try {
-          setDashboardCustomization(JSON.parse(saved));
-        } catch (e) {}
-      }
-    }
-  }, [user]);
-
-  const matches = [
-    {
-      id: 1,
-      title: "AI Product Engineer",
-      company: "Google DeepMind",
-      matchScore: 94,
-      salary: "₹18L – ₹24L",
-      location: "Remote",
-      skills: ["React", "TensorFlow", "Node.js"],
-      posted: "2h ago"
-    },
-    {
-      id: 2,
-      title: "Senior UX Architect",
-      company: "Stripe",
-      matchScore: 89,
-      salary: "₹22L – ₹30L",
-      location: "Hybrid (Bangalore)",
-      skills: ["Figma", "Design Systems", "A/B Testing"],
-      posted: "5h ago"
-    },
-    {
-      id: 3,
-      title: "Fullstack Web3 Developer",
-      company: "Polygon",
-      matchScore: 82,
-      salary: "₹15L – ₹20L",
-      location: "Remote",
-      skills: ["Solidity", "Next.js", "Ethereum"],
-      posted: "1d ago"
-    }
-  ];
+  if (!user || user.role !== 'job_seeker') return null;
 
   return (
     <PageTransition>
-      <div className="seeker-dashboard-container">
+      <div className="seeker-dash-root">
         
-        {/* --- TOP NAVIGATION --- */}
-        <nav className="dashboard-nav">
-          <div className="nav-left">
-            <VijLogo size="sm" showText={false} />
-            <div className="search-bar-glass">
-              <Search size={18} />
-              <input type="text" placeholder="Search matches, companies..." />
-            </div>
+        {/* Header */}
+        <div className="seeker-dash-header">
+          <div>
+            <h1 className="seeker-dash-title">Job Seeker Hub</h1>
+            <p className="seeker-dash-subtitle">Welcome back, {user.name}. Track your applications and career growth.</p>
           </div>
-          <div className="nav-right">
-            <button className="nav-icon-btn"><MessageSquare size={20} /><span className="badge">3</span></button>
-            <button className="nav-icon-btn"><Bell size={20} /><span className="badge">1</span></button>
-            <div className="profile-pill">
-              <div className="profile-strength-mini">84%</div>
-              <div className="avatar-circle">V</div>
-            </div>
-          </div>
-        </nav>
+        </div>
 
-        <main className="dashboard-main">
+        {/* KPIs */}
+        <div className="seeker-kpi-grid">
+          <div className="seeker-kpi-card">
+            <div className="kpi-header">
+              <span className="kpi-title">Resume Score</span>
+              <div className="kpi-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}><FileText size={20} /></div>
+            </div>
+            <div>
+              <div className="kpi-value">92/100</div>
+              <div className="kpi-trend positive"><ArrowUpRight size={14} /> Outstanding</div>
+            </div>
+          </div>
           
-          {/* --- HERO SECTION --- */}
-          <section className="hero-section">
-            <div className="hero-content">
-              <motion.h1 
-                initial={{ y: 20, opacity: 0 }} 
-                animate={{ y: 0, opacity: 1 }}
-              >
-                Good evening, Vishwas 👋
-              </motion.h1>
-              <p>Your match engine found 12 new opportunities today.</p>
+          <div className="seeker-kpi-card">
+            <div className="kpi-header">
+              <span className="kpi-title">Interviews Scheduled</span>
+              <div className="kpi-icon" style={{ background: 'rgba(14, 165, 233, 0.1)', color: '#0ea5e9' }}><Users size={20} /></div>
             </div>
-            <div className="hero-actions">
-              <GlassButton variant="primary"><Plus size={18} /> Add Resume</GlassButton>
+            <div>
+              <div className="kpi-value">3</div>
+              <div className="kpi-trend positive"><ArrowUpRight size={14} /> This week</div>
             </div>
-          </section>
+          </div>
 
-          <div className="dashboard-grid">
-            
-            {/* --- LEFT COLUMN: MATCHES --- */}
-            <div className="grid-left">
-              <header className="section-header">
-                <h3>Recommended Matches</h3>
-                <div className="header-filters">
-                  <button className="filter-chip active">All</button>
-                  <button className="filter-chip">Remote</button>
-                  <button className="filter-chip">High Match</button>
-                  <Filter size={18} className="filter-icon" />
+          <div className="seeker-kpi-card">
+            <div className="kpi-header">
+              <span className="kpi-title">Offers Received</span>
+              <div className="kpi-icon" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}><CheckCircle2 size={20} /></div>
+            </div>
+            <div>
+              <div className="kpi-value">1</div>
+              <div className="kpi-trend positive">Awaiting decision</div>
+            </div>
+          </div>
+
+          <div className="seeker-kpi-card">
+            <div className="kpi-header">
+              <span className="kpi-title">Skill Gap Score</span>
+              <div className="kpi-icon" style={{ background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6' }}><Zap size={20} /></div>
+            </div>
+            <div>
+              <div className="kpi-value">Low</div>
+              <div className="kpi-trend positive">Ready for target roles</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Modules Grid */}
+        <div className="seeker-modules-grid">
+          
+          {/* Main Column */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="seeker-module">
+              <div className="module-header">
+                <h2 className="module-title"><Target size={20} color="var(--accent-azure)" /> Recommended Jobs</h2>
+                <button className="item-action">Search Jobs</button>
+              </div>
+              <div className="module-list">
+                <div className="module-list-item">
+                  <div className="item-icon" style={{ background: 'rgba(14, 165, 233, 0.1)', color: '#0ea5e9' }}>S</div>
+                  <div className="item-content">
+                    <h3 className="item-title">Senior Frontend Engineer</h3>
+                    <p className="item-subtitle">Stripe • Remote • ₹35L - ₹45L</p>
+                  </div>
+                  <button className="item-action" style={{ background: 'var(--accent-azure)', color: '#fff' }}>Apply</button>
                 </div>
-              </header>
-
-              <div className="match-cards-container">
-                {matches.map((job, i) => (
-                  <motion.div 
-                    key={job.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <GlassCard className="job-match-card">
-                      <div className="card-top">
-                        <div className="match-score">
-                          <div className="score-ring">
-                            <svg viewBox="0 0 36 36" className="circular-chart">
-                              <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                              <path className="circle" strokeDasharray={`${job.matchScore}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            </svg>
-                            <span className="score-text">{job.matchScore}%</span>
-                          </div>
-                          <span>Match</span>
-                        </div>
-                        <div className="job-info">
-                          <h4>{job.title}</h4>
-                          <p>{job.company}</p>
-                        </div>
-                        <button className="quick-apply-btn">Quick Apply</button>
-                      </div>
-                      
-                      <div className="card-details">
-                        <div className="detail-item"><DollarSign size={14} /> {job.salary}</div>
-                        <div className="detail-item"><MapPin size={14} /> {job.location}</div>
-                        <div className="detail-item"><Clock size={14} /> {job.posted}</div>
-                      </div>
-
-                      <div className="skill-overlap">
-                        {job.skills.map(skill => (
-                          <span key={skill} className="overlap-tag">{skill}</span>
-                        ))}
-                        <span className="overlap-count">+4 more overlap</span>
-                      </div>
-                    </GlassCard>
-                  </motion.div>
-                ))}
+                <div className="module-list-item">
+                  <div className="item-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>M</div>
+                  <div className="item-content">
+                    <h3 className="item-title">Full Stack Developer</h3>
+                    <p className="item-subtitle">Microsoft • Bangalore • ₹25L - ₹30L</p>
+                  </div>
+                  <button className="item-action" style={{ background: 'var(--accent-azure)', color: '#fff' }}>Apply</button>
+                </div>
               </div>
             </div>
 
-            {/* --- RIGHT COLUMN: ANALYTICS & WIDGETS --- */}
-            <div className="grid-right">
-              
-              {/* Analytics Hub */}
-              {(dashboardCustomization.showProfileViews || dashboardCustomization.showApplications || dashboardCustomization.showJobAnalytics) && (
-                <div className="analytics-section">
-                  <h3>Personal Analytics</h3>
-                  <div className="analytics-grid">
-                    {dashboardCustomization.showProfileViews && (
-                      <div className="analytics-card">
-                        <div className="card-label">Profile Views <Eye size={14} /></div>
-                        <div className="card-value">128</div>
-                        <div className="card-trend up"><TrendingUp size={12} /> 12%</div>
-                      </div>
-                    )}
-                    {dashboardCustomization.showApplications && (
-                      <div className="analytics-card">
-                        <div className="card-label">Applications <Send size={14} /></div>
-                        <div className="card-value">42</div>
-                        <div className="card-trend">Stable</div>
-                      </div>
-                    )}
-                    {dashboardCustomization.showJobAnalytics && (
-                      <>
-                        <div className="analytics-card">
-                          <div className="card-label">Response Rate <Zap size={14} /></div>
-                          <div className="card-value">18%</div>
-                          <div className="card-trend up"><TrendingUp size={12} /> 5%</div>
-                        </div>
-                        <div className="analytics-card">
-                          <div className="card-label">Skill Trends <TrendingUp size={14} /></div>
-                          <div className="card-value">+12%</div>
-                          <div className="card-sub">React demand</div>
-                        </div>
-                      </>
-                    )}
+            <div className="seeker-module">
+              <div className="module-header">
+                <h2 className="module-title"><Send size={20} color="var(--accent-azure)" /> Applied Jobs & Interviews</h2>
+                <button className="item-action">View All</button>
+              </div>
+              <div className="module-list">
+                <div className="module-list-item">
+                  <div className="item-icon" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}>A</div>
+                  <div className="item-content">
+                    <h3 className="item-title">Frontend Lead</h3>
+                    <p className="item-subtitle">Amazon • Technical Round Scheduled</p>
                   </div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#f59e0b', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 8px', borderRadius: '4px' }}>In Progress</div>
                 </div>
-              )}
-
-              {/* Profile Strength Widget */}
-              {dashboardCustomization.showAISuggestions && (
-                <GlassCard className="profile-strength-widget">
-                  <div className="widget-header">
-                    <div className="strength-progress">
-                      <div className="strength-fill" style={{ width: '84%' }} />
-                    </div>
-                    <span className="strength-value">84% Strength</span>
+                <div className="module-list-item">
+                  <div className="item-icon" style={{ background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6' }}>N</div>
+                  <div className="item-content">
+                    <h3 className="item-title">React Developer</h3>
+                    <p className="item-subtitle">Netflix • Under Review</p>
                   </div>
-                  <h4>Complete your identity</h4>
-                  <p>Profiles with 95%+ strength get 4x more visibility.</p>
-                  <ul className="suggestion-list">
-                    <li><Plus size={14} /> Add your portfolio link</li>
-                    <li><Plus size={14} /> Verify your email address</li>
-                    <li><CheckCircle2 size={14} className="done" /> Phone verified</li>
-                  </ul>
-                </GlassCard>
-              )}
-
-              {/* Networking Snapshot */}
-              {dashboardCustomization.showIndustryTrends && (
-                <div className="networking-snapshot">
-                  <div className="section-header">
-                    <h3>Network</h3>
-                    <button className="view-all">View Map</button>
-                  </div>
-                  <div className="network-cards">
-                    {[1, 2].map(i => (
-                      <div key={i} className="network-mini-card">
-                        <div className="avatar-mini">J</div>
-                        <div className="mini-info">
-                          <h5>John Doe</h5>
-                          <span>Principal at Google</span>
-                        </div>
-                        <button className="connect-btn"><UserPlus size={14} /></button>
-                      </div>
-                    ))}
-                  </div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#8b5cf6', background: 'rgba(139, 92, 246, 0.1)', padding: '4px 8px', borderRadius: '4px' }}>Applied</div>
                 </div>
-              )}
+              </div>
+            </div>
+          </div>
 
+          {/* Sidebar Column */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="seeker-module">
+              <div className="module-header">
+                <h2 className="module-title"><TrendingUp size={20} color="var(--accent-azure)" /> Salary Benchmark</h2>
+              </div>
+              <div style={{ padding: '16px', background: 'rgba(255,255,255,0.5)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.6)' }}>
+                <p style={{ margin: '0 0 16px', fontSize: '14px', color: 'var(--vij-text-body)' }}>Your expected salary matches the top 15% of the industry for your skills.</p>
+                <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--vij-text-h1)', marginBottom: '8px' }}>₹25L <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--vij-text-muted)' }}>Average</span></div>
+                <button className="item-action" style={{ width: '100%' }}>View Insights</button>
+              </div>
             </div>
 
+            <div className="seeker-module">
+              <div className="module-header">
+                <h2 className="module-title"><Briefcase size={20} color="var(--accent-azure)" /> Saved Jobs</h2>
+              </div>
+              <div className="module-list">
+                <div className="module-list-item" style={{ padding: '12px 8px' }}>
+                  <div className="item-icon" style={{ width: '36px', height: '36px', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444' }}>O</div>
+                  <div className="item-content">
+                    <h3 className="item-title" style={{ fontSize: '13px' }}>UI Engineer</h3>
+                    <p className="item-subtitle">OpenAI • Remote</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </main>
 
-        {/* --- MOBILE BOTTOM NAV --- */}
-        <nav className="mobile-bottom-nav">
-          <button className="mobile-nav-item active"><Layout size={24} /><span>Home</span></button>
-          <button className="mobile-nav-item"><Search size={24} /><span>Jobs</span></button>
-          <button className="mobile-nav-item center"><div className="scan-btn"><Zap size={24} /></div></button>
-          <button className="mobile-nav-item"><MessageSquare size={24} /><span>Inbox</span></button>
-          <button className="mobile-nav-item"><Users size={24} /><span>Network</span></button>
-        </nav>
+        </div>
 
       </div>
     </PageTransition>
   );
 };
-

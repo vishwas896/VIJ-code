@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════
+   GLOBAL LEFT SIDEBAR
+   Theme: Liquid Glass
+   ═══════════════════════════════════════════════ */
+
+.global-left-sidebar {
+  width: 260px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 100px 20px 24px; /* Padding top accounts for header */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  z-index: 40;
+}
+
+.dark .global-left-sidebar {
+  background: rgba(15, 23, 42, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .sidebar-footer {
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--vij-text-body);
+  transition: all 0.2s;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateX(4px);
+}
+
+.dark .sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav-item.active {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--accent-azure);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.dark .sidebar-nav-item.active {
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--accent-azure);
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.sidebar-nav-item.active .nav-label {
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .global-left-sidebar {
+    display: none; /* Hide on mobile, use bottom nav or hamburger menu */
+  }
+}

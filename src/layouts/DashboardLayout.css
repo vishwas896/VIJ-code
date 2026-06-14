@@ -1,0 +1,195 @@
+/* ═══════════════════════════════════════════════
+   DUAL IDENTITY DASHBOARD LAYOUT
+   Theme: Liquid Glass
+   ═══════════════════════════════════════════════ */
+
+.dashboard-root {
+  min-height: 100vh;
+  background: var(--vij-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Navbar ── */
+.dash-navbar {
+  height: 72px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.dark .dash-navbar {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dash-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-logo {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-azure), #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+/* Identity Toggle */
+.identity-toggle-container {
+  display: flex;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 100px;
+  padding: 4px;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark .identity-toggle-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.identity-btn {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--vij-text-muted);
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.identity-btn.active {
+  color: #fff;
+}
+.dark .identity-btn.active {
+  color: #1e293b;
+}
+
+.identity-pill-slider {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: calc(50% - 4px);
+  background: var(--vij-text-h1);
+  border-radius: 100px;
+  z-index: 1;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.dark .identity-pill-slider {
+  background: #fff;
+}
+
+/* ── Main Layout (Sidebar + Content) ── */
+.dash-layout {
+  display: flex;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px;
+  gap: 24px;
+}
+
+/* ── Dynamic Sidebar ── */
+.dash-sidebar {
+  width: 260px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: fit-content;
+  position: sticky;
+  top: 96px;
+}
+.dark .dash-sidebar {
+  background: rgba(30, 41, 59, 0.4);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-role-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-azure);
+  background: rgba(14, 165, 233, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
+
+.dash-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--vij-text-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.dash-nav-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+.dark .dash-nav-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dash-nav-item.active {
+  background: var(--accent-azure);
+  color: white;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+.dash-nav-item.logout {
+  margin-top: auto;
+  color: #ef4444;
+}
+.dash-nav-item.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── Content Area ── */
+.dash-content {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 32px;
+  min-height: 500px;
+}
+.dark .dash-content {
+  background: rgba(15, 23, 42, 0.4);
+  border-color: rgba(255, 255, 255, 0.05);
+}

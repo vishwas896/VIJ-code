@@ -1,7 +1,9 @@
-﻿'use client';
+'use client';
 import React, { useRef, useCallback } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import './GlassButton.css';
+
+import Link from 'next/link';
 
 interface GlassButtonProps extends React.ComponentProps<typeof motion.button> {
   children: React.ReactNode;
@@ -10,6 +12,7 @@ interface GlassButtonProps extends React.ComponentProps<typeof motion.button> {
   icon?: React.ReactNode;
   glowingEdge?: 'azure' | 'gold' | 'none';
   loading?: boolean;
+  href?: string;
 }
 
 export const GlassButton: React.FC<GlassButtonProps> = ({ 
@@ -20,9 +23,10 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
   glowingEdge,
   loading = false,
   onClick,
+  href,
   ...props 
 }) => {
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<any>(null);
   const edgeClass = glowingEdge && glowingEdge !== 'none' ? `glow-${glowingEdge}` : '';
 
   // Magnetic hover
@@ -46,7 +50,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
   };
 
   // Ripple effect
-  const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = useCallback((e: React.MouseEvent<any>) => {
     if (!btnRef.current) return;
     const rect = btnRef.current.getBoundingClientRect();
     const rippleX = e.clientX - rect.left;
@@ -61,20 +65,8 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
     onClick?.(e);
   }, [onClick]);
 
-  return (
-    <motion.button
-      ref={btnRef}
-      className={`glass-button variant-${variant} ${edgeClass} ${loading ? 'is-loading' : ''} ${className}`}
-      style={{ x: springX, y: springY }}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.96, rotate: -0.5 }}
-      transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      disabled={loading}
-      {...props}
-    >
+  const buttonContent = (
+    <>
       {loading ? (
         <span className="btn-spinner" />
       ) : (
@@ -83,7 +75,34 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
           <span className="btn-text">{children}</span>
         </>
       )}
-    </motion.button>
+    </>
   );
+
+  const MotionComponent = href ? motion.a : motion.button;
+  const linkProps = href ? { href, ref: btnRef as any } : { ref: btnRef as any };
+
+  const buttonElement = (
+    <MotionComponent
+      {...linkProps}
+      className={`glass-button variant-${variant} ${edgeClass} ${loading ? 'is-loading' : ''} ${className}`}
+      style={{ x: springX, y: springY, textDecoration: 'none', display: 'inline-flex' }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.96, rotate: -0.5 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      disabled={loading}
+      {...(props as any)}
+    >
+      {buttonContent}
+    </MotionComponent>
+  );
+
+  if (href) {
+    return <Link href={href} passHref legacyBehavior>{buttonElement}</Link>;
+  }
+
+  return buttonElement;
 };
 

@@ -239,6 +239,67 @@
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
 }
 
+/* ── SOCIAL LOGIN BUTTONS ── */
+.auth-social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.auth-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1.5px solid #e4e4e7;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3f3f46;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.auth-social-btn:hover:not(:disabled) {
+  border-color: #a1a1aa;
+  background: #fafafa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.auth-social-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── DIVIDER ── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e4e4e7;
+}
+
+.auth-divider span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a1a1aa;
+  white-space: nowrap;
+}
+
 /* ── ROLE TOGGLE ── */
 .auth-role-toggle {
   display: grid;

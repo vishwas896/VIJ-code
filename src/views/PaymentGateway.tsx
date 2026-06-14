@@ -15,22 +15,11 @@ export const PaymentGateway: React.FC = () => {
   const { formatCurrency } = useCurrency();
   const [isProcessing, setIsProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [progressWidth, setProgressWidth] = useState(0);
+  const [progressWidth] = useState(0);
 
   const handlePayment = () => {
-    setIsProcessing(true);
-    setProgressWidth(0);
-    
-    // Animate progress
-    const steps = [20, 45, 70, 90, 100];
-    steps.forEach((width, i) => {
-      setTimeout(() => setProgressWidth(width), (i + 1) * 400);
-    });
-    
-    setTimeout(() => {
-      setIsProcessing(false);
-      setSuccess(true);
-    }, 2200);
+    setIsProcessing(false);
+    setSuccess(true);
   };
 
   return (

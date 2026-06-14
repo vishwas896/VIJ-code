@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client';
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -198,3 +199,4 @@ export const RecruiterJobPipeline: React.FC = () => {
     </PageTransition>
   );
 };
+

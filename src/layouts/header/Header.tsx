@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Bell, Menu, X } from 'lucide-react';
+import { Bell, Menu, X, Search } from 'lucide-react';
 import { VijLogo } from '../../components/common/VijLogo';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -103,16 +103,14 @@ export const Header: React.FC = () => {
       <div className="nav-utilities">
         {isAuthenticated ? (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {(user?.role === 'recruiter' && user?.isVerified) && (
-                <Link 
-                  href="/my-company" 
-                  className="nav-link"
-                  style={{ color: '#ef4444', fontWeight: 800, border: '1px dashed #ef4444', padding: '4px 12px', borderRadius: '12px' }}
-                >
-                  My Company
-                </Link>
-              )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              
+              {/* Global Search */}
+              <div className="header-search-box">
+                <Search size={16} />
+                <input type="text" placeholder="Search jobs, people..." />
+              </div>
+
               <LanguageSelector />
               <CurrencySelector />
             </div>
@@ -137,6 +135,13 @@ export const Header: React.FC = () => {
                 />
               )}
             </div>
+
+            {/* Profile Avatar / Switcher */}
+            <Link href="/settings" className="header-avatar" style={{ marginLeft: '8px' }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--accent-azure)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>
+                {user?.name?.charAt(0) || 'U'}
+              </div>
+            </Link>
           </>
         ) : (
           <>

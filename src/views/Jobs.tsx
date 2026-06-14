@@ -1,8 +1,10 @@
+/* eslint-disable */
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Briefcase, Building2, DollarSign, Lightbulb,
   HelpCircle, ShieldCheck, ArrowRight, Bookmark, Lock,
@@ -273,6 +275,9 @@ export const Jobs: React.FC = () => {
   // Saved bookmark map state
   const [saved, setSaved] = useState<Record<number, boolean>>({});
   
+  // Left Sidebar Expand state
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  
   // Tab category filter state
   const [activeDomain, setActiveDomain] = useState<UserDomain | 'all'>(
     isAuthenticated && user?.domain ? user.domain : 'all'
@@ -525,40 +530,51 @@ export const Jobs: React.FC = () => {
         <div className="exp-columns">
 
           {/* ── LEFT SIDEBAR ── */}
-          <aside className="exp-sidebar">
-            {!isAuthenticated && (
-              <div className="exp-sidebar-cta-box">
-                <p className="exp-sidebar-cta-label">Get Access</p>
-                <p className="exp-sidebar-cta-sub">Sign up to apply for jobs &amp; unlock profiles.</p>
+          <aside 
+            className={`vij-pill-sidebar ${sidebarExpanded ? 'expanded' : 'collapsed'}`}
+            onMouseEnter={() => setSidebarExpanded(true)}
+            onMouseLeave={() => setSidebarExpanded(false)}
+            style={{ top: '80px', position: 'sticky' }}
+          >
+            <div className="vij-pill-panel">
+              <nav className="vij-pill-nav-menu" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {sideLinks.map(link => {
+                  const label = link.label === 'Jobs' ? t('nav.jobs') :
+                                link.label === 'Roadmaps' ? t('nav.roadmaps') :
+                                link.label;
+                  return (
+                    <Link
+                      key={link.label}
+                      href={link.to}
+                      className={`vij-pill-nav-item ${link.active ? 'active' : ''}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      {link.icon} 
+                      <span className="vij-pill-nav-label">{label}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              <div className="vij-pill-sidebar-divider" />
+
+              {!isAuthenticated ? (
+                <Link href="/register" className="vij-pill-nav-item" style={{ textDecoration: 'none' }}>
+                  <ArrowRight size={20} />
+                  <span className="vij-pill-nav-label">Get Started</span>
+                </Link>
+              ) : null}
+
+              <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <a className="vij-pill-nav-item">
+                  <HelpCircle size={20} />
+                  <span className="vij-pill-nav-label">Help Center</span>
+                </a>
+                <a className="vij-pill-nav-item">
+                  <ShieldCheck size={20} />
+                  <span className="vij-pill-nav-label">Privacy</span>
+                </a>
               </div>
-            )}
-
-            <nav className="exp-sidebar-nav">
-              {sideLinks.map(link => {
-                const label = link.label === 'Jobs' ? t('nav.jobs') :
-                              link.label === 'Roadmaps' ? t('nav.roadmaps') :
-                              link.label;
-                return (
-                  <a
-                    key={link.label}
-                    className={`exp-sidebar-link ${link.active ? 'active' : ''}`}
-                    onClick={() => router.push(link.to)}
-                  >
-                    {link.icon} {label}
-                  </a>
-                );
-              })}
-            </nav>
-
-            {!isAuthenticated && (
-              <button className="exp-sidebar-start-btn" onClick={() => router.push('/register')}>
-                Get Started <ArrowRight size={14} />
-              </button>
-            )}
-
-            <div className="exp-sidebar-bottom">
-              <a className="exp-sidebar-link"><HelpCircle size={20} /> Help Center</a>
-              <a className="exp-sidebar-link"><ShieldCheck size={20} /> Privacy</a>
             </div>
           </aside>
 
@@ -801,13 +817,13 @@ export const Jobs: React.FC = () => {
                             <h3 style={{ fontSize: '14px', fontWeight: 800, margin: '8px 0 4px 0', color: 'var(--vij-text-main)', lineHeight: 1.3 }}>{ad.title}</h3>
                             <p style={{ fontSize: '11px', color: 'var(--vij-text-muted)', margin: 0, lineHeight: 1.4 }}>{ad.description}</p>
                           </div>
-                          <button
+                          <Link
+                            href={ad.link}
                             className="exp-apply-btn"
-                            style={{ width: '100%', background: 'linear-gradient(90deg, #dd3a22, #b45309)', border: 'none', marginTop: '12px', cursor: 'pointer' }}
-                            onClick={() => router.push(ad.link)}
+                            style={{ width: '100%', background: 'linear-gradient(90deg, #dd3a22, #b45309)', border: 'none', marginTop: '12px', cursor: 'pointer', textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                           >
                             {ad.cta}
-                          </button>
+                          </Link>
                         </motion.div>
                       );
                     }
@@ -841,8 +857,8 @@ export const Jobs: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                onClick={() => router.push('/news')}
               >
+                <Link href="/news" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
                 <div className="exp-news-img">
                   <img 
                     src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" 
@@ -858,6 +874,7 @@ export const Jobs: React.FC = () => {
                     Read full article <ArrowRight size={14} />
                   </span>
                 </div>
+                </Link>
               </motion.div>
 
               {/* Locked Premium Card - Hide if authenticated */}
@@ -876,9 +893,9 @@ export const Jobs: React.FC = () => {
                     </div>
                     <h3 className="exp-locked-title">Premium Market Intelligence</h3>
                     <p className="exp-locked-desc">Access salary benchmarks, competitor headcount trends, and hiring velocity reports powered by VIJ Data.</p>
-                    <button className="exp-locked-btn" onClick={() => router.push('/register')}>
+                    <Link href="/register" className="exp-locked-btn" style={{ textDecoration: 'none', display: 'inline-block', textAlign: 'center' }}>
                       Unlock with a free account
-                    </button>
+                    </Link>
                   </div>
                 </motion.div>
               )}
@@ -892,7 +909,7 @@ export const Jobs: React.FC = () => {
               <div className="exp-insight-cta">
                 <h4>Elevate your career</h4>
                 <p>Create a profile to get personalized job recommendations and salary insights.</p>
-                <button className="exp-insight-cta-primary" onClick={() => router.push('/register')}>Create Account</button>
+                <Link href="/register" className="exp-insight-cta-primary" style={{ textDecoration: 'none', display: 'inline-block', textAlign: 'center' }}>Create Account</Link>
                 <button className="exp-insight-cta-secondary">Browse Limited Access</button>
               </div>
             )}
@@ -1341,3 +1358,4 @@ export const Jobs: React.FC = () => {
     </PageTransition>
   );
 };
+

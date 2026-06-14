@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import {
   ArrowLeft, MapPin, DollarSign, Clock, Users, Bookmark, Share2,
@@ -39,7 +40,7 @@ export const JobDetails: React.FC = () => {
   const company = job ? getCompanyBySlug(job.companySlug) : null;
 
   const matchResult: MatchResult | null = useMemo(() => {
-    if (!isAuthenticated || !user || user.role !== 'seeker' || !job) return null;
+    if (!isAuthenticated || !user || user.role === 'recruiter' || !job) return null;
     const profile: UserProfile = {
       skills: user.skills || [],
       experience: user.experience || 0,
@@ -62,7 +63,7 @@ export const JobDetails: React.FC = () => {
   if (!job) {
     return (
       <PageTransition>
-        <div className="jd-empty"><Briefcase size={48} /><h2>Job not found</h2><GlassButton onClick={() => router.push('/jobs')}>Back to Jobs</GlassButton></div>
+        <div className="jd-empty"><Briefcase size={48} /><h2>Job not found</h2><GlassButton href="/jobs">Back to Jobs</GlassButton></div>
       </PageTransition>
     );
   }
@@ -94,14 +95,14 @@ export const JobDetails: React.FC = () => {
                     <h1 className="jd-title">{job.title}</h1>
                     <div className="jd-meta-info">
                       <Building2 size={16} />
-                      <span className="jd-company-link" onClick={() => router.push(`/company/${job.companySlug}`)}>{company?.name || job.companySlug}</span>
+                      <Link href={`/company/${job.companySlug}`} className="jd-company-link" style={{ textDecoration: 'none' }}>{company?.name || job.companySlug}</Link>
                       <span>•</span>
                       <MapPin size={14} /><span>{job.location}</span>
                     </div>
                   </div>
-                  <div className="jd-company-logo" onClick={() => router.push(`/company/${job.companySlug}`)}>
+                  <Link href={`/company/${job.companySlug}`} className="jd-company-logo" style={{ textDecoration: 'none' }}>
                     {company?.logo || job.companySlug.charAt(0).toUpperCase()}
-                  </div>
+                  </Link>
                 </div>
 
                 <div className="jd-badges">
@@ -186,8 +187,9 @@ export const JobDetails: React.FC = () => {
             {/* Company Preview */}
             {company && (
               <motion.div custom={2} variants={sectionVariants} initial="hidden" animate="visible">
-                <GlassCard className="jd-company-preview" onClick={() => router.push(`/company/${company.slug}`)}>
-                  <div className="jd-cp-header">
+                <Link href={`/company/${company.slug}`} style={{ textDecoration: 'none' }}>
+                  <GlassCard className="jd-company-preview">
+                    <div className="jd-cp-header">
                     <div className="jd-cp-logo">{company.logo}</div>
                     <div>
                       <h3>{company.name}</h3>
@@ -197,7 +199,8 @@ export const JobDetails: React.FC = () => {
                   </div>
                   <p className="jd-cp-desc">{company.description.substring(0, 150)}...</p>
                   <span className="jd-cp-link">View full profile <ArrowRight size={12} /></span>
-                </GlassCard>
+                  </GlassCard>
+                </Link>
               </motion.div>
             )}
           </div>
@@ -222,7 +225,7 @@ export const JobDetails: React.FC = () => {
                         <GlassButton variant="secondary" onClick={() => setShowImprovementModal(true)} className="jd-action-full">
                           View Missing Skills
                         </GlassButton>
-                        <GlassButton variant="secondary" onClick={() => router.push('/services')} className="jd-action-full">
+                        <GlassButton variant="secondary" href="/services" className="jd-action-full">
                           <Sparkles size={16} /> Improve Your Profile
                         </GlassButton>
                       </div>
@@ -294,12 +297,12 @@ export const JobDetails: React.FC = () => {
                   <div key={item} className="jd-missing-item">
                     <AlertCircle size={16} />
                     <span>{item}</span>
-                    <button className="jd-learn-btn" onClick={() => router.push('/services')}>Learn <ExternalLink size={10} /></button>
+                    <Link href="/services" className="jd-learn-btn" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>Learn <ExternalLink size={10} /></Link>
                   </div>
                 ))}
               </div>
 
-              <GlassButton variant="primary" className="jd-modal-cta" onClick={() => { setShowImprovementModal(false); router.push('/services'); }}>
+              <GlassButton variant="primary" className="jd-modal-cta" onClick={() => setShowImprovementModal(false)} href="/services">
                 <Sparkles size={16} /> Go to Learning & Services
               </GlassButton>
             </motion.div>

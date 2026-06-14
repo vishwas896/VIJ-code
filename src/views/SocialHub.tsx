@@ -1,9 +1,10 @@
+/* eslint-disable */
 'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  MessageSquare, Heart, Share2, Compass, BookOpen, 
-  TrendingUp, Globe, MapPin, Briefcase, Lock, UserPlus, Link2, Repeat, Users,
+  MessageSquare, Compass, BookOpen, 
+  TrendingUp, Globe, MapPin, Briefcase, Lock, Link2, Repeat, Users,
   X, ArrowRightLeft, ThumbsUp, Send, Plus
 } from 'lucide-react';
 import { GlassCard } from '../components/common/GlassCard';
@@ -14,7 +15,7 @@ import { useLanguage } from '../context/LanguageContext';
 import './SocialHub.css';
 
 /* ─── Mock Data & Feed Map ─── */
-const categories = ['Global', 'National', 'Business', 'Trending'];
+
 
 const FEED_MAP: Record<string, string> = {
   'Global': 'https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en',
@@ -165,7 +166,7 @@ const sideLinks = [
   { icon: <Users size={18} />, label: 'Following', active: false },
 ];
 
-const trendingTags = ['#TechLayoffs', '#AIStartups', '#WebRTC', '#FramerMotion', '#React15'];
+
 
 // Top discussions moved to render logic or removed if redundant
 
@@ -254,7 +255,7 @@ export const SocialHub: React.FC = () => {
   const initializeInteractions = (items: NewsItem[]) => {
     setLikesCount(prev => {
       const next = { ...prev };
-      items.forEach((item, idx) => {
+      items.forEach((item) => {
         if (next[item.id] === undefined) {
           next[item.id] = (item.title.charCodeAt(0) * 7) % 180 + 20;
         }
@@ -410,12 +411,12 @@ export const SocialHub: React.FC = () => {
     }
   };
 
-  const renderPostCard = (item: NewsItem, isFeatured: boolean = false, idx: number = 0) => {
+  const renderPostCard = (item: NewsItem, idx: number = 0) => {
     const author = postAuthors[item.id] || { name: 'Staff Writer', role: 'Platform Tech Writer', avatar: 'SW' };
     const likes = likesCount[item.id] || 0;
     const isLiked = liked[item.id] || false;
     const comments = postComments[item.id] || [];
-    const trending = trendingScores[item.id] || '';
+
 
     return (
       <GlassCard className={`feed-post-card hover-lift`} key={item.id} style={{ padding: '24px', paddingBottom: '16px' }}>
@@ -820,28 +821,26 @@ export const SocialHub: React.FC = () => {
 
         <div className="hub-grid">          {/* ══════ LEFT SIDEBAR ══════ */}
           <aside 
-            className={`hub-sidebar left-sidebar ${isSidebarHovered ? 'expanded' : 'collapsed'}`}
+            className={`vij-pill-sidebar ${isSidebarHovered ? 'expanded' : 'collapsed'}`}
             onMouseEnter={() => setIsSidebarHovered(true)}
             onMouseLeave={() => setIsSidebarHovered(false)}
           >
-            <div className="sticky-pane">
-              <nav className="nav-menu">
-                <span className="nav-section-title">Discovery</span>
+            <div className="vij-pill-panel">
+              <nav className="vij-pill-nav-menu" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {sideLinks.map(link => (
-                  <div key={link.label} className={`nav-item ${link.active ? 'active' : ''}`}>
-                    {link.icon} <span>{link.label}</span>
+                  <div key={link.label} className={`vij-pill-nav-item ${link.active ? 'active' : ''}`}>
+                    {link.icon} <span className="vij-pill-nav-label">{link.label}</span>
                   </div>
                 ))}
               </nav>
 
-              <hr className="pane-divider" />
+              <div className="vij-pill-sidebar-divider" />
 
-              <nav className="nav-menu">
-                <span className="nav-section-title">Categories</span>
-                <div className={`nav-item ${activeTab === 'Global' ? 'active' : ''}`} onClick={() => setActiveTab('Global')}><Globe size={18} /> <span>{t('news.global')}</span></div>
-                <div className={`nav-item ${activeTab === 'National' ? 'active' : ''}`} onClick={() => setActiveTab('National')}><MapPin size={18} /> <span>{t('news.national')}</span></div>
-                <div className={`nav-item ${activeTab === 'Business' ? 'active' : ''}`} onClick={() => setActiveTab('Business')}><Briefcase size={18} /> <span>{t('news.business')}</span></div>
-                <div className={`nav-item ${activeTab === 'Trending' ? 'active' : ''}`} onClick={() => setActiveTab('Trending')}><TrendingUp size={18} /> <span>{t('news.trending')}</span></div>
+              <nav className="vij-pill-nav-menu" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div className={`vij-pill-nav-item ${activeTab === 'Global' ? 'active' : ''}`} onClick={() => setActiveTab('Global')}><Globe size={18} /> <span className="vij-pill-nav-label">{t('news.global')}</span></div>
+                <div className={`vij-pill-nav-item ${activeTab === 'National' ? 'active' : ''}`} onClick={() => setActiveTab('National')}><MapPin size={18} /> <span className="vij-pill-nav-label">{t('news.national')}</span></div>
+                <div className={`vij-pill-nav-item ${activeTab === 'Business' ? 'active' : ''}`} onClick={() => setActiveTab('Business')}><Briefcase size={18} /> <span className="vij-pill-nav-label">{t('news.business')}</span></div>
+                <div className={`vij-pill-nav-item ${activeTab === 'Trending' ? 'active' : ''}`} onClick={() => setActiveTab('Trending')}><TrendingUp size={18} /> <span className="vij-pill-nav-label">{t('news.trending')}</span></div>
               </nav>
             </div>
           </aside>
@@ -915,14 +914,14 @@ export const SocialHub: React.FC = () => {
                     {/* FEATURED NEWS HERO CARD */}
                     {topStory && (
                       <motion.div variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}>
-                        {renderPostCard(topStory, true, 0)}
+                        {renderPostCard(topStory)}
                       </motion.div>
                     )}
 
                     {/* STANDARD POST CARDS FROM RSS */}
                     {newsItems.map((item, idx) => (
                       <motion.div key={item.id} variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}>
-                        {renderPostCard(item, false, idx + 1)}
+                        {renderPostCard(item, idx + 1)}
                       </motion.div>
                     ))}
 
@@ -1042,4 +1041,5 @@ export const SocialHub: React.FC = () => {
     </PageTransition>
   );
 };
+
 

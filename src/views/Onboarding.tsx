@@ -18,19 +18,19 @@ export const Onboarding: React.FC = () => {
   
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress] = useState(0);
 
   // Form State
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
-  const [isVerifyingPhone, setIsVerifyingPhone] = useState(false);
+  const [isVerifyingPhone] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
 
   const [isEmployed, setIsEmployed] = useState<string>('Yes');
   const [jobTitle, setJobTitle] = useState('');
   const [empType, setEmpType] = useState('Full-time');
   const [roleDesc, setRoleDesc] = useState('');
-  const [isImprovingDesc, setIsImprovingDesc] = useState(false);
+  const [isImprovingDesc] = useState(false);
 
   const [skills, setSkills] = useState<string[]>(['React.js', 'TypeScript']);
   const [skillInput, setSkillInput] = useState('');
@@ -46,29 +46,13 @@ export const Onboarding: React.FC = () => {
   // Handle Processing Simulation
   useEffect(() => {
     if (isProcessing) {
-      const interval = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-              completeOnboarding();
-              router.push('/seeker/dashboard');
-            }, 1000);
-            return 100;
-          }
-          return prev + 2;
-        });
-      }, 50);
-      return () => clearInterval(interval);
+      completeOnboarding();
+      router.push('/dashboard');
     }
   }, [isProcessing, completeOnboarding, router]);
 
   const handleImproveDesc = () => {
-    setIsImprovingDesc(true);
-    setTimeout(() => {
-      setRoleDesc("Architecting high-performance frontend systems using React and TypeScript. Lead developer for cross-functional teams, optimizing WebRTC communication protocols and achieving 30% reduction in latency.");
-      setIsImprovingDesc(false);
-    }, 1500);
+    setRoleDesc("Architecting high-performance frontend systems using React and TypeScript. Lead developer for cross-functional teams, optimizing WebRTC communication protocols and achieving 30% reduction in latency.");
   };
 
   const handleAddSkill = (s: string) => {
@@ -87,12 +71,8 @@ export const Onboarding: React.FC = () => {
   };
 
   const handleVerifyOTP = () => {
-    setIsVerifyingPhone(true);
-    setTimeout(() => {
-      setIsPhoneVerified(true);
-      setIsVerifyingPhone(false);
-      setTimeout(() => setStep(2), 800);
-    }, 1500);
+    setIsPhoneVerified(true);
+    setStep(2);
   };
 
   return (

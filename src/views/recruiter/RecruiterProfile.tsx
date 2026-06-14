@@ -1,16 +1,38 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PageTransition } from '../../components/common/PageTransition';
 import { GlassCard } from '../../components/common/GlassCard';
 import { GlassButton } from '../../components/common/GlassButton';
-import { Building2, Image as ImageIcon, Save, ArrowLeft } from 'lucide-react';
+import { Building2, Save, ArrowLeft, Mail, Phone, Shield } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import './Recruiter.css';
 
 export const RecruiterProfile: React.FC = () => {
   const router = useRouter();
-  const [bio, setBio] = useState('Acme Corp is a leading innovator in cloud-based solutions, empowering businesses to scale seamlessly.');
-  const [culture, setCulture] = useState('We believe in a remote-first, inclusive culture where every voice is heard and innovation is celebrated daily.');
+  const { user, updateProfile } = useAuth();
+  
+  const [formData, setFormData] = useState({
+    designation: user?.roleTitle || '',
+    department: '',
+    company: user?.currentCompany || '',
+    workEmail: user?.email || '',
+    businessContact: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = () => {
+    updateProfile({
+      roleTitle: formData.designation,
+      currentCompany: formData.company,
+      email: formData.workEmail,
+    });
+  };
+
+  if (!user || user.role !== 'recruiter') return null;
 
   return (
     <PageTransition>
@@ -18,98 +40,97 @@ export const RecruiterProfile: React.FC = () => {
         
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <div>
-            <h1 className="recruiter-title">Company Profile Manager</h1>
-            <p className="recruiter-subtitle" style={{ margin: 0 }}>This is exactly what candidates see in the 3-Pane Interview Room.</p>
+            <h1 className="recruiter-title">Recruiter Professional Profile</h1>
+            <p className="recruiter-subtitle" style={{ margin: 0 }}>Your professional identity and verified company affiliation.</p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
             <GlassButton variant="secondary" onClick={() => router.push('/recruiter/dashboard')}>
               <ArrowLeft size={16} style={{ marginRight: '8px' }} /> Dashboard
             </GlassButton>
-            <GlassButton variant="primary" glowingEdge="azure">
+            <GlassButton variant="primary" glowingEdge="azure" onClick={handleSave}>
               <Save size={16} style={{ marginRight: '8px' }} /> Save Changes
             </GlassButton>
           </div>
         </div>
 
-        <div className="profile-split">
+        <div className="profile-split" style={{ gridTemplateColumns: '1fr', maxWidth: '800px', margin: '0 auto' }}>
           
-          {/* ── Edit Form (Left) ── */}
-          <div className="profile-editor">
-            <GlassCard className="parameter-card">
-              <h2 className="dashboard-section-title"><Building2 size={20} /> Core Identity</h2>
-              
+          <GlassCard className="parameter-card">
+            <h2 className="dashboard-section-title"><Building2 size={20} /> Professional Details</h2>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
               <div className="recruiter-form-group">
-                <label className="recruiter-label">Company Bio</label>
-                <textarea 
+                <label className="recruiter-label">Current Company</label>
+                <input 
+                  name="company"
                   className="recruiter-input" 
-                  style={{ height: '100px', resize: 'vertical' }}
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
+                  value={formData.company}
+                  onChange={handleChange}
+                  placeholder="Acme Corp"
                 />
               </div>
 
               <div className="recruiter-form-group">
-                <label className="recruiter-label">Culture & Benefits</label>
-                <textarea 
+                <label className="recruiter-label">Designation / Title</label>
+                <input 
+                  name="designation"
                   className="recruiter-input" 
-                  style={{ height: '100px', resize: 'vertical' }}
-                  value={culture}
-                  onChange={(e) => setCulture(e.target.value)}
+                  value={formData.designation}
+                  onChange={handleChange}
+                  placeholder="Senior Talent Acquisition"
                 />
               </div>
-            </GlassCard>
 
-            <GlassCard className="parameter-card">
-              <h2 className="dashboard-section-title"><ImageIcon size={20} /> Media Gallery</h2>
-              <p className="recruiter-subtitle">Upload photos of your office, team events, or product shots.</p>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div style={{ height: '120px', background: 'rgba(255,255,255,0.4)', border: '2px dashed rgba(0,0,0,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--vij-text-muted)', cursor: 'pointer' }}>
-                  + Add Image
-                </div>
-                <div style={{ height: '120px', background: 'rgba(255,255,255,0.4)', border: '2px dashed rgba(0,0,0,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--vij-text-muted)', cursor: 'pointer' }}>
-                  + Add Image
-                </div>
+              <div className="recruiter-form-group">
+                <label className="recruiter-label">Department</label>
+                <input 
+                  name="department"
+                  className="recruiter-input" 
+                  value={formData.department}
+                  onChange={handleChange}
+                  placeholder="Human Resources"
+                />
               </div>
-            </GlassCard>
-          </div>
-
-          {/* ── Live Preview (Right) ── */}
-          <div className="profile-preview">
-            <div style={{ position: 'sticky', top: '100px' }}>
-              <div className="dashboard-section-title">
-                <h2 style={{ fontSize: '14px', color: 'var(--vij-text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Interview Preview</h2>
-              </div>
-              
-              <GlassCard style={{ padding: '0', overflow: 'hidden' }}>
-                <div style={{ height: '140px', background: 'linear-gradient(135deg, var(--accent-azure), #6366f1)' }} />
-                <div style={{ padding: '24px', position: 'relative' }}>
-                  <div style={{ width: '80px', height: '80px', background: 'white', borderRadius: '16px', position: 'absolute', top: '-40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', fontWeight: 800, color: 'var(--vij-text-main)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                    AC
-                  </div>
-                  
-                  <div style={{ marginTop: '48px' }}>
-                    <h3 style={{ fontSize: '24px', fontWeight: 800, margin: '0 0 4px', color: 'var(--vij-text-main)' }}>Acme Corp</h3>
-                    <p style={{ margin: '0 0 24px', color: 'var(--vij-text-muted)', fontWeight: 500 }}>SaaS & Cloud Infrastructure • San Francisco</p>
-                    
-                    <h4 style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--vij-text-main)', marginBottom: '8px' }}>About Us</h4>
-                    <p style={{ fontSize: '14px', color: 'var(--vij-text-muted)', lineHeight: 1.6, marginBottom: '24px' }}>
-                      {bio}
-                    </p>
-
-                    <h4 style={{ fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--vij-text-main)', marginBottom: '8px' }}>Culture</h4>
-                    <p style={{ fontSize: '14px', color: 'var(--vij-text-muted)', lineHeight: 1.6 }}>
-                      {culture}
-                    </p>
-                  </div>
-                </div>
-              </GlassCard>
             </div>
-          </div>
+          </GlassCard>
+
+          <GlassCard className="parameter-card" style={{ marginTop: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2 className="dashboard-section-title" style={{ margin: 0 }}><Shield size={20} /> Business Contact & Verification</h2>
+              <span style={{ fontSize: '12px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '4px 10px', borderRadius: '99px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Shield size={12} /> Level {user.verificationLevel || 0} Verified
+              </span>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div className="recruiter-form-group">
+                <label className="recruiter-label"><Mail size={14} style={{ display: 'inline', marginRight: '4px' }}/> Work Email (must match company domain)</label>
+                <input 
+                  name="workEmail"
+                  type="email"
+                  className="recruiter-input" 
+                  value={formData.workEmail}
+                  onChange={handleChange}
+                  placeholder="name@company.com"
+                />
+              </div>
+
+              <div className="recruiter-form-group">
+                <label className="recruiter-label"><Phone size={14} style={{ display: 'inline', marginRight: '4px' }}/> Business Contact Number</label>
+                <input 
+                  name="businessContact"
+                  type="tel"
+                  className="recruiter-input" 
+                  value={formData.businessContact}
+                  onChange={handleChange}
+                  placeholder="+1 (555) 000-0000"
+                />
+              </div>
+            </div>
+          </GlassCard>
 
         </div>
       </div>
     </PageTransition>
   );
 };
-

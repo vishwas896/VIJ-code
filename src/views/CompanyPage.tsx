@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   ArrowLeft, Building2, ExternalLink, Info, Loader2, Share2,
   MapPin, Users, Globe, Lock, Briefcase, DollarSign, TrendingUp,
@@ -60,7 +61,7 @@ export const CompanyPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const getUserProfile = (): UserProfile | null => {
-    if (!isAuthenticated || !user || user.role !== 'seeker') return null;
+    if (!isAuthenticated || !user || user.role === 'recruiter') return null;
     return {
       skills: user.skills || [],
       experience: user.experience || 0,
@@ -173,7 +174,7 @@ export const CompanyPage: React.FC = () => {
     <PageTransition>
       <div className="company-page">
         <div className="company-nav-bar">
-          <GlassButton variant="secondary" onClick={() => router.push('/companies')} icon={<ArrowLeft size={16} />}>
+          <GlassButton variant="secondary" href="/companies" icon={<ArrowLeft size={16} />}>
             Back to Search
           </GlassButton>
         </div>
@@ -188,7 +189,7 @@ export const CompanyPage: React.FC = () => {
             <Info size={48} style={{ color: '#94a3b8' }} />
             <h2>No Data Found</h2>
             <p>{error}</p>
-            <GlassButton onClick={() => router.push('/companies')}>Return to Search</GlassButton>
+            <GlassButton href="/companies">Return to Search</GlassButton>
           </div>
         ) : localCompany ? (
           /* ═══════════════════════════════════════════════════════════
@@ -241,7 +242,7 @@ export const CompanyPage: React.FC = () => {
                 </div>
                 <p>{localCompany.industry} • {localCompany.headquarters}</p>
                 <div className="company-actions">
-                  <GlassButton variant="primary" icon={<Briefcase size={16} />} onClick={() => router.push(`/company/${companyId}/careers`)}>
+                  <GlassButton variant="primary" icon={<Briefcase size={16} />} href={`/company/${companyId}/careers`}>
                     View Careers Portal
                   </GlassButton>
                   {localCompany.website && (
@@ -319,14 +320,15 @@ export const CompanyPage: React.FC = () => {
                     {localJobs.map((job) => {
                       const match = userProfile ? calculateMatchScore(userProfile, job) : null;
                       return (
-                        <GlassCard key={job.id} className="local-job-row" style={{ 
+                        <Link key={job.id} href={`/jobs/${job.id}`} style={{ textDecoration: 'none' }}>
+                        <GlassCard className="local-job-row" style={{ 
                           display: 'flex', 
                           justifyContent: 'space-between', 
                           alignItems: 'center', 
                           padding: '20px', 
                           cursor: 'pointer',
                           transition: 'transform 0.2s, box-shadow 0.2s'
-                        }} onClick={() => router.push(`/jobs/${job.id}`)}>
+                        }}>
                           <div>
                             <h4 style={{ margin: '0 0 6px 0', fontSize: '17px', fontWeight: 700, color: '#0f172a' }}>{job.title}</h4>
                             <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: '#64748b', alignItems: 'center' }}>
@@ -351,6 +353,7 @@ export const CompanyPage: React.FC = () => {
                             <span style={{ color: '#0ea5e9', fontWeight: 600, fontSize: '14px' }}>View Role →</span>
                           </div>
                         </GlassCard>
+                        </Link>
                       );
                     })}
                     {localJobs.length === 0 && (
@@ -442,7 +445,7 @@ export const CompanyPage: React.FC = () => {
                 </div>
                 <p>Global entity profile generated via live web intelligence.</p>
                 <div className="company-actions">
-                  <GlassButton variant="primary" icon={<ExternalLink size={16} />} onClick={() => router.push(`/companies`)}>
+                  <GlassButton variant="primary" icon={<ExternalLink size={16} />} href={`/companies`}>
                     Search Open Jobs
                   </GlassButton>
                   <GlassButton variant="secondary" icon={<Share2 size={16} />}>Share Profile</GlassButton>
@@ -504,7 +507,7 @@ export const CompanyPage: React.FC = () => {
                       <Lock size={40} style={{ color: '#94a3b8' }} />
                       <h3>Unlock Deep Analytics</h3>
                       <p>Register to view verified employee counts, global branches, and aggregated salary data for {wikiData.title}.</p>
-                      <GlassButton variant="primary" onClick={() => router.push('/register')}>Create Free Account</GlassButton>
+                      <GlassButton variant="primary" href="/register">Create Free Account</GlassButton>
                     </div>
                   </GlassCard>
                 )}
@@ -514,15 +517,15 @@ export const CompanyPage: React.FC = () => {
                     <h3>Similar Companies in {deepAnalytics?.industry || 'this sector'}</h3>
                     <div className="similar-grid">
                       {relatedCompanies.map((comp) => (
+                        <Link key={comp.pageid} href={`/company/${encodeURIComponent(comp.title)}`} style={{ textDecoration: 'none' }}>
                         <GlassCard 
-                          key={comp.pageid} 
                           className="similar-card"
-                          onClick={() => router.push(`/company/${encodeURIComponent(comp.title)}`)}
                         >
                           <div className="similar-avatar">{comp.title.charAt(0)}</div>
                           <h4>{comp.title}</h4>
                           <p dangerouslySetInnerHTML={{ __html: comp.snippet.substring(0, 60) + '...' }}></p>
                         </GlassCard>
+                        </Link>
                       ))}
                     </div>
                   </div>

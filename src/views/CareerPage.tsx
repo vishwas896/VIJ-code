@@ -41,7 +41,7 @@ export const CareerPage: React.FC = () => {
   }, [jobs, filterDept, filterWorkType, searchQuery]);
 
   const getUserProfile = (): UserProfile | null => {
-    if (!isAuthenticated || !user || user.role !== 'seeker') return null;
+    if (!isAuthenticated || !user || user.role === 'recruiter') return null;
     return {
       skills: user.skills || [],
       experience: user.experience || 0,

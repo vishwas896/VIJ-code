@@ -1,0 +1,1104 @@
+{
+  "categories": [
+    {
+      "title": "Job Discovery Services",
+      "services": [
+        {
+          "name": "Job search",
+          "description": "Search jobs by keyword, job title, company, skill, location, industry, salary, experience, and work type."
+        },
+        {
+          "name": "Advanced job filters",
+          "description": "Filters for remote, hybrid, onsite, full-time, part-time, contract, internship, fresher, walk-in, shift, salary, company size, date posted, and recruiter type."
+        },
+        {
+          "name": "Location-based jobs",
+          "description": "City, state, country, nearby, local, walk-in, and distance-based job discovery."
+        },
+        {
+          "name": "Remote job search",
+          "description": "Remote-only jobs, work-from-home jobs, flexible jobs, hybrid jobs, and distributed-team roles."
+        },
+        {
+          "name": "International job search",
+          "description": "Jobs by country, visa eligibility, relocation, Gulf jobs, EU jobs, US jobs, UK jobs, Canada jobs, Australia jobs, and overseas opportunities."
+        },
+        {
+          "name": "Government job search",
+          "description": "Public sector jobs, government vacancies, federal jobs, state jobs, public employment exchange listings, and official department hiring."
+        },
+        {
+          "name": "Internship search",
+          "description": "Internships by field, stipend, duration, remote/onsite mode, college eligibility, and fresher category."
+        },
+        {
+          "name": "Fresher job search",
+          "description": "Entry-level jobs, campus jobs, graduate jobs, trainee roles, apprenticeships, and first-job opportunities."
+        },
+        {
+          "name": "Executive job search",
+          "description": "Senior management, leadership, CXO, director, and high-salary professional roles."
+        },
+        {
+          "name": "Tech job search",
+          "description": "Software, IT, data, product, cybersecurity, cloud, AI, QA, DevOps, and engineering roles."
+        },
+        {
+          "name": "Blue-collar job search",
+          "description": "Delivery, driver, retail, field sales, BPO, office assistant, technician, warehouse, security, hospitality, and local service jobs."
+        },
+        {
+          "name": "Hourly job search",
+          "description": "Hourly, shift-based, temporary, seasonal, and urgent-hiring roles."
+        },
+        {
+          "name": "Startup job search",
+          "description": "Startup roles, founder-led hiring, salary/equity roles, early-stage company jobs, and remote startup roles."
+        },
+        {
+          "name": "Freelance project search",
+          "description": "Freelance, gig, project, contest, contract, hourly, and fixed-price work discovery."
+        },
+        {
+          "name": "Saved jobs",
+          "description": "Bookmark jobs for later review."
+        },
+        {
+          "name": "Saved searches",
+          "description": "Save search criteria and rerun them later."
+        },
+        {
+          "name": "Similar jobs",
+          "description": "Show jobs similar to a viewed or applied job."
+        },
+        {
+          "name": "Recommended jobs",
+          "description": "Algorithmic recommendations based on profile, resume, search history, applications, and preferences."
+        },
+        {
+          "name": "Featured jobs",
+          "description": "Highlighted or sponsored jobs from employers."
+        },
+        {
+          "name": "Urgent jobs",
+          "description": "Jobs marked as immediate hiring or fast joining."
+        },
+        {
+          "name": "Walk-in jobs",
+          "description": "Interview-based hiring listings with venue, date, and timing."
+        }
+      ]
+    },
+    {
+      "title": "Job Alert Services",
+      "services": [
+        {
+          "name": "Email job alerts",
+          "description": "Regular emails for matching jobs."
+        },
+        {
+          "name": "Mobile push alerts",
+          "description": "App notifications for new jobs, recruiter actions, and application updates."
+        },
+        {
+          "name": "SMS alerts",
+          "description": "Text-message alerts for job matches or employer contact."
+        },
+        {
+          "name": "WhatsApp alerts",
+          "description": "WhatsApp-based job recommendations, application updates, and recruiter communication."
+        },
+        {
+          "name": "Browser alerts",
+          "description": "Web notifications for new jobs and updates."
+        },
+        {
+          "name": "Saved search alerts",
+          "description": "Alerts based on saved search filters."
+        },
+        {
+          "name": "Company job alerts",
+          "description": "Alerts when selected companies post jobs."
+        },
+        {
+          "name": "Recruiter alert notifications",
+          "description": "Notifications when recruiters view, shortlist, message, or contact a candidate."
+        },
+        {
+          "name": "Application status alerts",
+          "description": "Updates when an application is viewed, rejected, shortlisted, or moved to interview."
+        },
+        {
+          "name": "Deadline alerts",
+          "description": "Reminders before job, internship, exam, or application deadlines."
+        }
+      ]
+    },
+    {
+      "title": "Profile And Account Services",
+      "services": [
+        {
+          "name": "Candidate account",
+          "description": "Job-seeker registration and login."
+        },
+        {
+          "name": "Candidate profile",
+          "description": "Work experience, education, skills, projects, certifications, salary, location, and career preferences."
+        },
+        {
+          "name": "Public profile",
+          "description": "A profile visible to recruiters, employers, or professional networks."
+        },
+        {
+          "name": "Private profile",
+          "description": "Hidden or limited-visibility job-seeker profile."
+        },
+        {
+          "name": "Profile completion score",
+          "description": "Suggestions to complete missing profile sections."
+        },
+        {
+          "name": "Profile verification",
+          "description": "Email, phone, identity, employment, education, or skill verification."
+        },
+        {
+          "name": "Work preference settings",
+          "description": "Preferred location, salary, industry, role, company type, shift, remote/onsite mode, and notice period."
+        },
+        {
+          "name": "Job preference matching",
+          "description": "Matching jobs based on stated preferences."
+        },
+        {
+          "name": "Multiple profile versions",
+          "description": "Separate profiles for different roles, industries, or geographies."
+        },
+        {
+          "name": "Career objective section",
+          "description": "Summary, objective, headline, or professional bio."
+        },
+        {
+          "name": "Portfolio links",
+          "description": "Add GitHub, Behance, Dribbble, LinkedIn, personal website, publications, or project links."
+        },
+        {
+          "name": "Profile analytics",
+          "description": "Views, search appearances, recruiter activity, and application performance."
+        },
+        {
+          "name": "Privacy controls",
+          "description": "Control whether employers, current employer, recruiters, or public users can see the profile."
+        },
+        {
+          "name": "Account deletion/data controls",
+          "description": "Delete account, download data, control communications, and manage consent."
+        }
+      ]
+    },
+    {
+      "title": "Resume And CV Services",
+      "services": [
+        {
+          "name": "Resume upload",
+          "description": "Upload PDF, DOC, DOCX, or text resume."
+        },
+        {
+          "name": "Resume parsing",
+          "description": "Auto-fill profile from uploaded resume."
+        },
+        {
+          "name": "Resume storage",
+          "description": "Store one or more resumes in the account."
+        },
+        {
+          "name": "Multiple resumes",
+          "description": "Keep different resumes for different job types."
+        },
+        {
+          "name": "Resume builder",
+          "description": "Create a resume using portal templates."
+        },
+        {
+          "name": "CV builder",
+          "description": "Build longer academic/professional CVs."
+        },
+        {
+          "name": "ATS-friendly resume templates",
+          "description": "Resume templates designed for applicant tracking systems."
+        },
+        {
+          "name": "Resume download/export",
+          "description": "Export resume as PDF, DOCX, or shareable link."
+        },
+        {
+          "name": "Resume critique",
+          "description": "Automated or expert review of resume quality."
+        },
+        {
+          "name": "Resume score",
+          "description": "Rating based on completeness, keywords, formatting, and relevance."
+        },
+        {
+          "name": "Resume keyword suggestions",
+          "description": "Suggested skills and role keywords to improve discoverability."
+        },
+        {
+          "name": "AI resume writing",
+          "description": "AI-generated bullets, summaries, skills, and role descriptions."
+        },
+        {
+          "name": "Expert resume writing",
+          "description": "Paid professional resume writing."
+        },
+        {
+          "name": "Resume rewriting",
+          "description": "Improve an existing resume for clarity, impact, and role fit."
+        },
+        {
+          "name": "Resume formatting",
+          "description": "Make resume clean, consistent, and professional."
+        },
+        {
+          "name": "Visual resume",
+          "description": "Design-heavy resume for creative or presentation use."
+        },
+        {
+          "name": "International resume format",
+          "description": "Country-specific resume/CV formats for US, UK, Canada, Europe, Gulf, Australia, etc."
+        },
+        {
+          "name": "Executive resume",
+          "description": "Resume writing for senior management and leadership roles."
+        },
+        {
+          "name": "Fresher resume",
+          "description": "Resume writing for students and entry-level candidates."
+        },
+        {
+          "name": "Tech resume",
+          "description": "Resume writing optimized for IT, software, data, product, and engineering roles."
+        },
+        {
+          "name": "Cover letter builder",
+          "description": "Create role-specific cover letters."
+        },
+        {
+          "name": "Cover letter writing",
+          "description": "Paid or AI-assisted cover letter drafting."
+        },
+        {
+          "name": "Resume privacy",
+          "description": "Hide resume from selected recruiters or current employer."
+        },
+        {
+          "name": "Searchable resume",
+          "description": "Make resume visible in recruiter database searches."
+        },
+        {
+          "name": "Resume refresh reminders",
+          "description": "Prompts to update resume regularly."
+        }
+      ]
+    },
+    {
+      "title": "Visibility And Promotion Services",
+      "services": [
+        {
+          "name": "Resume display",
+          "description": "Paid or free listing of resume in recruiter databases."
+        },
+        {
+          "name": "Profile highlighter",
+          "description": "Highlight candidate profile in recruiter search results."
+        },
+        {
+          "name": "Featured profile",
+          "description": "Give profile priority placement or special marking."
+        },
+        {
+          "name": "Top applicant placement",
+          "description": "Position candidate higher among applicants."
+        },
+        {
+          "name": "Recruiter reach",
+          "description": "Promote profile/resume to relevant recruiters."
+        },
+        {
+          "name": "Priority application",
+          "description": "Mark application as priority or premium."
+        },
+        {
+          "name": "Profile boost",
+          "description": "Increase profile visibility for a limited period."
+        },
+        {
+          "name": "Resume broadcast",
+          "description": "Send resume to selected recruiters or companies."
+        },
+        {
+          "name": "Recruiter database visibility",
+          "description": "Allow recruiters to discover candidate profile."
+        },
+        {
+          "name": "Search appearance boost",
+          "description": "Improve candidate ranking in recruiter searches."
+        },
+        {
+          "name": "Featured freelancer gig",
+          "description": "Promote service listing or freelance profile."
+        },
+        {
+          "name": "Sponsored portfolio/service",
+          "description": "Paid promotion of freelancer services or gig packages."
+        }
+      ]
+    },
+    {
+      "title": "Application Services",
+      "services": [
+        {
+          "name": "Apply online",
+          "description": "Submit application through portal."
+        },
+        {
+          "name": "One-click apply",
+          "description": "Apply using stored profile/resume with minimal steps."
+        },
+        {
+          "name": "Easy apply",
+          "description": "Simplified application workflow without leaving the portal."
+        },
+        {
+          "name": "External apply",
+          "description": "Redirect to employer website or ATS."
+        },
+        {
+          "name": "Bulk apply",
+          "description": "Apply to multiple relevant jobs quickly, where available."
+        },
+        {
+          "name": "Customized application",
+          "description": "Choose specific resume, cover letter, or answers per job."
+        },
+        {
+          "name": "Screening questions",
+          "description": "Answer employer questions before applying."
+        },
+        {
+          "name": "Eligibility questions",
+          "description": "Confirm experience, salary, location, work authorization, or notice period."
+        },
+        {
+          "name": "Application history",
+          "description": "View past applications."
+        },
+        {
+          "name": "Application tracking",
+          "description": "Track status such as applied, viewed, shortlisted, rejected, interview, or offer."
+        },
+        {
+          "name": "Withdraw application",
+          "description": "Remove or withdraw a submitted application where supported."
+        },
+        {
+          "name": "Duplicate application prevention",
+          "description": "Prevent repeated applications to the same role."
+        },
+        {
+          "name": "Saved draft applications",
+          "description": "Save incomplete applications."
+        },
+        {
+          "name": "Job recommendation after apply",
+          "description": "Show similar jobs after an application."
+        }
+      ]
+    },
+    {
+      "title": "Recruiter And Employer Communication",
+      "services": [
+        {
+          "name": "Recruiter messaging",
+          "description": "Receive and send messages with recruiters."
+        },
+        {
+          "name": "Direct chat",
+          "description": "Chat with employers in app or web."
+        },
+        {
+          "name": "InMail/professional messaging",
+          "description": "Contact recruiters or hiring managers outside direct network on professional platforms."
+        },
+        {
+          "name": "Employer call connect",
+          "description": "Call or receive calls from employers."
+        },
+        {
+          "name": "WhatsApp communication",
+          "description": "Employer-candidate communication through WhatsApp."
+        },
+        {
+          "name": "Interview invitation",
+          "description": "Receive interview invites."
+        },
+        {
+          "name": "Recruiter view notification",
+          "description": "Alert when recruiter views profile or resume."
+        },
+        {
+          "name": "Shortlist notification",
+          "description": "Alert when candidate is shortlisted."
+        },
+        {
+          "name": "Employer follow-up",
+          "description": "Follow up with recruiters or hiring managers."
+        },
+        {
+          "name": "Candidate availability sharing",
+          "description": "Share interview availability or joining availability."
+        },
+        {
+          "name": "Video answer submission",
+          "description": "Record answers to screening questions."
+        },
+        {
+          "name": "Chatbot assistance",
+          "description": "Automated help for job search, applying, and profile completion."
+        }
+      ]
+    },
+    {
+      "title": "Company Research Services",
+      "services": [
+        {
+          "name": "Company profiles",
+          "description": "Company overview, industry, size, location, website, and hiring information."
+        },
+        {
+          "name": "Company reviews",
+          "description": "Employee reviews of culture, management, work-life balance, compensation, and growth."
+        },
+        {
+          "name": "Company ratings",
+          "description": "Aggregated company score."
+        },
+        {
+          "name": "CEO ratings",
+          "description": "Employee feedback on leadership."
+        },
+        {
+          "name": "Benefits information",
+          "description": "Insurance, leave, perks, flexibility, bonuses, and workplace benefits."
+        },
+        {
+          "name": "Office photos/videos",
+          "description": "Workplace images and media."
+        },
+        {
+          "name": "Company jobs page",
+          "description": "All jobs from a selected employer."
+        },
+        {
+          "name": "Follow company",
+          "description": "Get updates and job alerts from selected companies."
+        },
+        {
+          "name": "Best places to work lists",
+          "description": "Rankings based on reviews or editorial criteria."
+        },
+        {
+          "name": "Employer reputation insights",
+          "description": "Review trends, pros/cons, and employee sentiment."
+        },
+        {
+          "name": "Culture insights",
+          "description": "Work environment, values, diversity, growth, and leadership information."
+        }
+      ]
+    },
+    {
+      "title": "Salary And Market Intelligence",
+      "services": [
+        {
+          "name": "Salary search",
+          "description": "Search salary by role, company, location, and experience."
+        },
+        {
+          "name": "Salary estimator",
+          "description": "Estimate pay for a job or candidate profile."
+        },
+        {
+          "name": "Salary comparison",
+          "description": "Compare salary by company, role, city, industry, or seniority."
+        },
+        {
+          "name": "Compensation reports",
+          "description": "Market salary guides and pay reports."
+        },
+        {
+          "name": "Take-home pay calculator",
+          "description": "Estimate net pay after tax/deductions, where available."
+        },
+        {
+          "name": "Cost-of-living insights",
+          "description": "Compare cities or relocation markets."
+        },
+        {
+          "name": "Equity/stock information",
+          "description": "Startup equity, stock options, and compensation mix where available."
+        },
+        {
+          "name": "Job market trends",
+          "description": "Hiring trends, demand by skill, location, and role."
+        },
+        {
+          "name": "Applicant insights",
+          "description": "How candidate compares with other applicants."
+        },
+        {
+          "name": "Skill demand insights",
+          "description": "Which skills are in demand for target roles."
+        }
+      ]
+    },
+    {
+      "title": "Interview Preparation Services",
+      "services": [
+        {
+          "name": "Interview questions",
+          "description": "Company, role, and skill-specific interview questions."
+        },
+        {
+          "name": "Interview reviews",
+          "description": "Candidate experiences from past interviews."
+        },
+        {
+          "name": "Mock interviews",
+          "description": "Practice interviews with experts, peers, AI, or recorded tools."
+        },
+        {
+          "name": "Video interview practice",
+          "description": "Record and review answers."
+        },
+        {
+          "name": "HR interview prep",
+          "description": "Common HR and behavioral questions."
+        },
+        {
+          "name": "Technical interview prep",
+          "description": "Coding, system design, data, engineering, and domain questions."
+        },
+        {
+          "name": "Aptitude test prep",
+          "description": "Quantitative, logical reasoning, verbal, and psychometric practice."
+        },
+        {
+          "name": "Group discussion prep",
+          "description": "GD topics, tips, and practice."
+        },
+        {
+          "name": "Case interview prep",
+          "description": "Consulting and business case practice."
+        },
+        {
+          "name": "Interview scheduling",
+          "description": "Schedule or reschedule interviews."
+        },
+        {
+          "name": "Interview reminders",
+          "description": "Reminders for date, time, link, venue, and preparation."
+        },
+        {
+          "name": "Interview coaching",
+          "description": "Paid or expert coaching sessions."
+        },
+        {
+          "name": "Feedback after interview",
+          "description": "Recruiter or coach feedback where available."
+        }
+      ]
+    },
+    {
+      "title": "Skills, Tests, And Credential Services",
+      "services": [
+        {
+          "name": "Skill assessments",
+          "description": "Tests for job-related skills."
+        },
+        {
+          "name": "Coding tests",
+          "description": "Programming challenges and technical assessments."
+        },
+        {
+          "name": "Language tests",
+          "description": "English, communication, or other language assessments."
+        },
+        {
+          "name": "Aptitude tests",
+          "description": "Logic, numerical, verbal, and reasoning assessments."
+        },
+        {
+          "name": "Typing tests",
+          "description": "Typing speed and accuracy for support/admin roles."
+        },
+        {
+          "name": "Personality tests",
+          "description": "Behavioral or personality assessments."
+        },
+        {
+          "name": "Psychometric tests",
+          "description": "Role-fit and workplace-behavior assessments."
+        },
+        {
+          "name": "Skill badges",
+          "description": "Badges added to profile after passing assessments."
+        },
+        {
+          "name": "Verified skills",
+          "description": "Recruiter-visible proof of skill."
+        },
+        {
+          "name": "Certification upload",
+          "description": "Add third-party certificates."
+        },
+        {
+          "name": "Course completion certificates",
+          "description": "Certificates from portal training programs."
+        },
+        {
+          "name": "Portfolio assessment",
+          "description": "Review of projects, work samples, or creative portfolios."
+        }
+      ]
+    },
+    {
+      "title": "Learning And Upskilling Services",
+      "services": [
+        {
+          "name": "Online courses",
+          "description": "Paid/free courses for job-related skills."
+        },
+        {
+          "name": "Certifications",
+          "description": "Career certificates, skill certificates, and professional credentials."
+        },
+        {
+          "name": "Career tracks",
+          "description": "Structured learning paths for roles."
+        },
+        {
+          "name": "Technical training",
+          "description": "Programming, data, cloud, product, cybersecurity, design, and analytics training."
+        },
+        {
+          "name": "Soft-skills training",
+          "description": "Communication, leadership, business writing, presentation, and workplace skills."
+        },
+        {
+          "name": "Interview courses",
+          "description": "Courses focused on interview performance."
+        },
+        {
+          "name": "Resume courses",
+          "description": "Courses on resume writing and job search."
+        },
+        {
+          "name": "Placement-linked training",
+          "description": "Training programs tied to hiring or placement support."
+        },
+        {
+          "name": "Webinars",
+          "description": "Live career, hiring, and skill sessions."
+        },
+        {
+          "name": "Workshops",
+          "description": "Resume, interview, coding, and career workshops."
+        },
+        {
+          "name": "Learning recommendations",
+          "description": "Course suggestions based on target job or skill gaps."
+        }
+      ]
+    },
+    {
+      "title": "Career Guidance And Coaching",
+      "services": [
+        {
+          "name": "Career advice articles",
+          "description": "Articles on job search, resumes, interviews, salary, and workplace topics."
+        },
+        {
+          "name": "Career counselling",
+          "description": "One-on-one counselling or guidance sessions."
+        },
+        {
+          "name": "Career path guidance",
+          "description": "Suggested roles and paths based on education, skills, and goals."
+        },
+        {
+          "name": "Job-search coaching",
+          "description": "Coaching on applications, networking, follow-ups, and strategy."
+        },
+        {
+          "name": "Resume consultation",
+          "description": "Expert consultation on resume positioning."
+        },
+        {
+          "name": "LinkedIn/profile makeover",
+          "description": "Professional profile optimization."
+        },
+        {
+          "name": "Personal branding",
+          "description": "Guidance on online presence, portfolio, and positioning."
+        },
+        {
+          "name": "Mentorship",
+          "description": "Mentor connections, community mentoring, or expert advice."
+        },
+        {
+          "name": "Career restart support",
+          "description": "Support for career breaks, returnships, and women re-entering work."
+        },
+        {
+          "name": "Relocation guidance",
+          "description": "Advice for moving cities/countries for work."
+        },
+        {
+          "name": "Work authorization guidance",
+          "description": "General information on visa/work eligibility where offered."
+        }
+      ]
+    },
+    {
+      "title": "Networking And Community Services",
+      "services": [
+        {
+          "name": "Professional networking",
+          "description": "Connect with professionals, recruiters, alumni, and hiring managers."
+        },
+        {
+          "name": "Groups/communities",
+          "description": "Communities by role, city, industry, company, or interest."
+        },
+        {
+          "name": "Peer discussions",
+          "description": "Discuss jobs, interviews, salaries, and workplace topics."
+        },
+        {
+          "name": "Referrals",
+          "description": "Employee referral discovery or referral request workflows."
+        },
+        {
+          "name": "Events",
+          "description": "Career fairs, employer events, hiring drives, webinars, and networking sessions."
+        },
+        {
+          "name": "Campus placement support",
+          "description": "College events, employer visits, student profiles, and campus drives."
+        },
+        {
+          "name": "Alumni networking",
+          "description": "Alumni-based job discovery and referrals."
+        },
+        {
+          "name": "Talent communities",
+          "description": "Employer or portal-led communities for future opportunities."
+        }
+      ]
+    },
+    {
+      "title": "Specialized Candidate Services",
+      "services": [
+        {
+          "name": "Student services",
+          "description": "Internships, fresher jobs, campus events, training, and resume help."
+        },
+        {
+          "name": "Fresher services",
+          "description": "Entry-level roles, aptitude prep, placement papers, and first-job guidance."
+        },
+        {
+          "name": "Women career services",
+          "description": "Returnships, flexible jobs, mentorship, diversity hiring, and career restart programs."
+        },
+        {
+          "name": "Executive services",
+          "description": "Senior roles, confidential search, executive resume, and leadership positioning."
+        },
+        {
+          "name": "Tech talent services",
+          "description": "Coding profiles, GitHub/portfolio links, technical tests, and startup matching."
+        },
+        {
+          "name": "Blue-collar services",
+          "description": "Local jobs, call/chat hiring, walk-ins, salary/shift filters, and fast employer contact."
+        },
+        {
+          "name": "Gig-worker services",
+          "description": "Short-term gigs, delivery/service work, task matching, and shift discovery."
+        },
+        {
+          "name": "Freelance services",
+          "description": "Profile, proposals, bidding, contracts, escrow, ratings, and portfolio."
+        },
+        {
+          "name": "Remote-worker services",
+          "description": "Remote-only jobs, global roles, async-work resources, and remote culture filters."
+        },
+        {
+          "name": "Gulf/overseas services",
+          "description": "Gulf jobs, overseas applications, relocation filters, and international CV formats."
+        },
+        {
+          "name": "Government applicant services",
+          "description": "Public job search, resume builder, eligibility filters, application packages, and status tracking."
+        }
+      ]
+    },
+    {
+      "title": "Freelance Marketplace Services",
+      "services": [
+        {
+          "name": "Freelancer profile",
+          "description": "Public seller/freelancer profile with skills, portfolio, and experience."
+        },
+        {
+          "name": "Portfolio showcase",
+          "description": "Display work samples, case studies, images, links, or files."
+        },
+        {
+          "name": "Gig/service listing",
+          "description": "Sell predefined service packages."
+        },
+        {
+          "name": "Project bidding",
+          "description": "Submit proposals or bids for client projects."
+        },
+        {
+          "name": "Proposal templates",
+          "description": "Reusable proposal content."
+        },
+        {
+          "name": "Client messaging",
+          "description": "Chat with potential clients."
+        },
+        {
+          "name": "Contract management",
+          "description": "Create and manage project contracts."
+        },
+        {
+          "name": "Milestone payments",
+          "description": "Break payment into project milestones."
+        },
+        {
+          "name": "Escrow/payment protection",
+          "description": "Hold client funds until agreed delivery."
+        },
+        {
+          "name": "Time tracking",
+          "description": "Track hourly work."
+        },
+        {
+          "name": "Ratings and reviews",
+          "description": "Build reputation through client feedback."
+        },
+        {
+          "name": "Skill exams",
+          "description": "Take tests to prove freelance capabilities."
+        },
+        {
+          "name": "Promoted gigs",
+          "description": "Paid visibility for seller services."
+        },
+        {
+          "name": "Dispute support",
+          "description": "Marketplace support for payment or delivery disputes."
+        }
+      ]
+    },
+    {
+      "title": "Mobile And Accessibility Services",
+      "services": [
+        {
+          "name": "Mobile app",
+          "description": "Android/iOS job search and application app."
+        },
+        {
+          "name": "Mobile resume upload",
+          "description": "Upload or create resume from mobile."
+        },
+        {
+          "name": "Mobile apply",
+          "description": "Apply from phone."
+        },
+        {
+          "name": "App notifications",
+          "description": "Mobile job and recruiter alerts."
+        },
+        {
+          "name": "WhatsApp bot",
+          "description": "Job discovery and alerts through WhatsApp."
+        },
+        {
+          "name": "Voice/call-based hiring",
+          "description": "Employer-candidate phone workflow."
+        },
+        {
+          "name": "Multilingual interface",
+          "description": "Portal available in multiple languages."
+        },
+        {
+          "name": "Local-language jobs",
+          "description": "Jobs and communication in regional languages."
+        },
+        {
+          "name": "Accessibility features",
+          "description": "Screen reader support, keyboard access, readable layouts, and accessible forms where supported."
+        }
+      ]
+    },
+    {
+      "title": "Security, Privacy, And Trust Services",
+      "services": [
+        {
+          "name": "Verified jobs",
+          "description": "Jobs checked or marked as verified."
+        },
+        {
+          "name": "Fraud/scam warnings",
+          "description": "Warnings about fake jobs, payment scams, and suspicious recruiters."
+        },
+        {
+          "name": "Report job",
+          "description": "Report fraudulent or inappropriate jobs."
+        },
+        {
+          "name": "Block employer",
+          "description": "Block or hide specific employers/recruiters."
+        },
+        {
+          "name": "Hide from current employer",
+          "description": "Prevent current employer from seeing resume/profile where supported."
+        },
+        {
+          "name": "Contact privacy",
+          "description": "Mask phone/email or control who can contact candidate."
+        },
+        {
+          "name": "Data privacy controls",
+          "description": "Manage profile visibility, data sharing, and deletion."
+        },
+        {
+          "name": "Safe payment systems",
+          "description": "Freelance escrow, milestone, or protected payments."
+        },
+        {
+          "name": "Review moderation",
+          "description": "Moderation of company reviews, salaries, and interview posts."
+        }
+      ]
+    },
+    {
+      "title": "Premium Or Paid Job-Seeker Services",
+      "services": [
+        {
+          "name": "Premium subscription",
+          "description": "Paid access to enhanced job-search features."
+        },
+        {
+          "name": "Resume writing package",
+          "description": "Professional resume writing."
+        },
+        {
+          "name": "Resume review package",
+          "description": "Expert review and improvement suggestions."
+        },
+        {
+          "name": "Cover letter package",
+          "description": "Professional cover letter writing."
+        },
+        {
+          "name": "LinkedIn/profile writing",
+          "description": "Professional profile makeover."
+        },
+        {
+          "name": "Resume display package",
+          "description": "Paid recruiter visibility."
+        },
+        {
+          "name": "Profile highlighter package",
+          "description": "Paid profile promotion."
+        },
+        {
+          "name": "Priority applicant package",
+          "description": "Higher placement in applicant lists."
+        },
+        {
+          "name": "Recruiter reach package",
+          "description": "Resume/profile sent to recruiters."
+        },
+        {
+          "name": "Interview coaching package",
+          "description": "Paid mock interviews or interview training."
+        },
+        {
+          "name": "Career counselling package",
+          "description": "Paid career guidance."
+        },
+        {
+          "name": "Course bundle",
+          "description": "Paid learning/certification bundle."
+        },
+        {
+          "name": "Salary/applicant insights",
+          "description": "Paid insights into salary or applicant competition."
+        },
+        {
+          "name": "Direct recruiter contact credits",
+          "description": "Paid messaging or contact credits."
+        },
+        {
+          "name": "Freelance bid credits",
+          "description": "Paid proposal/bid credits on freelance marketplaces."
+        }
+      ]
+    },
+    {
+      "title": "Employer-Specific Hiring Workflow Services For Candidates",
+      "services": [
+        {
+          "name": "Employer career page application",
+          "description": "Apply through employer-branded career sites."
+        },
+        {
+          "name": "ATS application status",
+          "description": "Track application inside employer ATS."
+        },
+        {
+          "name": "Talent pool registration",
+          "description": "Join employer database for future jobs."
+        },
+        {
+          "name": "Job fair registration",
+          "description": "Register for virtual or physical hiring events."
+        },
+        {
+          "name": "Assessment invitation",
+          "description": "Complete employer tests."
+        },
+        {
+          "name": "Document submission",
+          "description": "Submit ID, education, experience, portfolio, or work authorization documents."
+        },
+        {
+          "name": "Offer communication",
+          "description": "Receive offer-related messages through portal or employer system."
+        },
+        {
+          "name": "Pre-joining tasks",
+          "description": "Complete onboarding or background-check steps where integrated."
+        }
+      ]
+    }
+  ]
+}

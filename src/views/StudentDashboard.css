@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════
-   SEEKER DASHBOARD
+   STUDENT DASHBOARD
    Theme: Liquid Glass
    ═══════════════════════════════════════════════ */
 
-.seeker-dash-root {
+.student-dash-root {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -14,7 +14,7 @@
 }
 
 /* ── HEADER ── */
-.seeker-dash-header {
+.student-dash-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -27,39 +27,39 @@
   position: relative;
   overflow: hidden;
 }
-.dark .seeker-dash-header {
+.dark .student-dash-header {
   background: rgba(15, 23, 42, 0.4);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.seeker-dash-header::before {
+.student-dash-header::before {
   content: '';
   position: absolute;
   top: 0; left: 0; bottom: 0; width: 6px;
-  background: linear-gradient(180deg, #f59e0b, #ef4444);
+  background: linear-gradient(180deg, #10b981, #0ea5e9);
 }
 
-.seeker-dash-title {
+.student-dash-title {
   font-size: 28px;
   font-weight: 800;
   color: var(--vij-text-h1);
   margin: 0 0 8px;
 }
 
-.seeker-dash-subtitle {
+.student-dash-subtitle {
   font-size: 15px;
   color: var(--vij-text-muted);
   margin: 0;
 }
 
 /* ── KPIs ── */
-.seeker-kpi-grid {
+.student-kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
-.seeker-kpi-card {
+.student-kpi-card {
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -70,16 +70,16 @@
   gap: 12px;
   transition: all 0.2s;
 }
-.dark .seeker-kpi-card {
+.dark .student-kpi-card {
   background: rgba(15, 23, 42, 0.3);
   border-color: rgba(255, 255, 255, 0.1);
 }
-.seeker-kpi-card:hover {
+.student-kpi-card:hover {
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.5);
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
-.dark .seeker-kpi-card:hover {
+.dark .student-kpi-card:hover {
   background: rgba(30, 41, 59, 0.4);
 }
 
@@ -123,13 +123,13 @@
 .kpi-trend.negative { color: #ef4444; }
 
 /* ── MODULES GRID ── */
-.seeker-modules-grid {
+.student-modules-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 24px;
 }
 
-.seeker-module {
+.student-module {
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -139,7 +139,7 @@
   flex-direction: column;
   gap: 16px;
 }
-.dark .seeker-module {
+.dark .student-module {
   background: rgba(15, 23, 42, 0.3);
   border-color: rgba(255, 255, 255, 0.1);
 }
@@ -224,12 +224,10 @@
   background: rgba(14, 165, 233, 0.1);
   padding: 6px 12px;
   border-radius: 99px;
-  border: none;
-  cursor: pointer;
 }
 
 @media (max-width: 1024px) {
-  .seeker-modules-grid {
+  .student-modules-grid {
     grid-template-columns: 1fr;
   }
 }

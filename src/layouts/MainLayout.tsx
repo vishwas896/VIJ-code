@@ -7,6 +7,7 @@ import { GuestBanner } from './GuestBanner';
 import { useAuth } from '../context/AuthContext';
 import { FloatingMessenger } from './FloatingMessenger';
 import { RightSidebar } from './RightSidebar';
+import { LeftSidebar } from './LeftSidebar';
 import { useTheme } from '../context/ThemeContext';
 import { Header } from './header/Header';
 import { Footer } from './footer/Footer';
@@ -42,23 +43,30 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
       
       <Header />
 
-      <main className="main-content has-sidebar" style={{ position: 'relative', overflowX: 'hidden' }}>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div key={pathname} style={{ width: '100%' }}>
-            {children}
-          </motion.div>
-        </AnimatePresence>
-        
-        {!isAuthenticated && <GuestBanner />}
-      </main>
+      <div style={{ display: 'flex', width: '100%', maxWidth: '1600px', margin: '0 auto' }}>
+        {/* Inject Global Left Sidebar */}
+        {isAuthenticated && <LeftSidebar />}
+
+        <main className="main-content has-sidebar" style={{ position: 'relative', overflowX: 'hidden', flex: 1 }}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div key={pathname} style={{ width: '100%' }}>
+              {children}
+            </motion.div>
+          </AnimatePresence>
+          
+          {!isAuthenticated && <GuestBanner />}
+        </main>
+
+        {/* Global Right Sidebar */}
+        {isAuthenticated && (
+          <RightSidebar />
+        )}
+      </div>
 
       <Footer />
       
       {isAuthenticated && (
-        <>
-          <FloatingMessenger />
-          <RightSidebar />
-        </>
+        <FloatingMessenger />
       )}
     </LiquidBackground>
   );

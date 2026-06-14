@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -118,6 +118,7 @@ export const Notifications: React.FC = () => {
   const [items, setItems] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
   const [activeFilter, setActiveFilter] = useState<'all' | 'high' | 'job' | 'connection' | 'system'>('all');
   const [showUnreadOnly, setShowUnreadOnly] = useState<boolean>(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   
   // Quick settings toggles
   const [settingsToggles, setSettingsToggles] = useState({
@@ -250,77 +251,84 @@ export const Notifications: React.FC = () => {
           <div className="notif-grid-layout">
             
             {/* Left Sidebar: Filter Controls */}
-            <aside className="notif-sidebar-left">
-              <GlassCard className="notif-filter-card" glowingEdge="azure">
-                <h3 className="sidebar-section-title">
-                  <Filter size={15} /> Filter Alerts
-                </h3>
+            <aside 
+              className={`vij-pill-sidebar ${sidebarExpanded ? 'expanded' : 'collapsed'}`}
+              onMouseEnter={() => setSidebarExpanded(true)}
+              onMouseLeave={() => setSidebarExpanded(false)}
+            >
+              <div className="vij-pill-panel">
                 
-                <div className="filter-pill-list">
+                <div className="vij-pill-nav-menu" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <button 
-                    className={`filter-sidebar-btn ${activeFilter === 'all' ? 'active' : ''}`}
+                    className={`vij-pill-nav-item ${activeFilter === 'all' ? 'active' : ''}`}
                     onClick={() => setActiveFilter('all')}
+                    style={{ background: 'transparent', border: 'none', width: '100%' }}
                   >
                     <Bell size={16} />
-                    <span>All Alerts</span>
-                    <span className="filter-badge">{items.length}</span>
+                    <span className="vij-pill-nav-label" style={{ flex: 1, textAlign: 'left' }}>All Alerts</span>
+                    <span className="vij-pill-nav-label" style={{ background: 'var(--accent-azure)', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{items.length}</span>
                   </button>
 
                   <button 
-                    className={`filter-sidebar-btn ${activeFilter === 'high' ? 'active' : ''}`}
+                    className={`vij-pill-nav-item ${activeFilter === 'high' ? 'active' : ''}`}
                     onClick={() => setActiveFilter('high')}
+                    style={{ background: 'transparent', border: 'none', width: '100%' }}
                   >
                     <AlertCircle size={16} style={{ color: '#ef4444' }} />
-                    <span style={{ fontWeight: activeFilter === 'high' ? '700' : '500' }}>Critical Action</span>
-                    <span className="filter-badge urgent">{items.filter(item => item.priority === 'high').length}</span>
+                    <span className="vij-pill-nav-label" style={{ flex: 1, textAlign: 'left' }}>Critical Action</span>
+                    <span className="vij-pill-nav-label" style={{ background: '#ef4444', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{items.filter(item => item.priority === 'high').length}</span>
                   </button>
 
                   <button 
-                    className={`filter-sidebar-btn ${activeFilter === 'job' ? 'active' : ''}`}
+                    className={`vij-pill-nav-item ${activeFilter === 'job' ? 'active' : ''}`}
                     onClick={() => setActiveFilter('job')}
+                    style={{ background: 'transparent', border: 'none', width: '100%' }}
                   >
                     <Briefcase size={16} />
-                    <span>Job Matches</span>
-                    <span className="filter-badge">{items.filter(item => item.type === 'job').length}</span>
+                    <span className="vij-pill-nav-label" style={{ flex: 1, textAlign: 'left' }}>Job Matches</span>
+                    <span className="vij-pill-nav-label" style={{ background: 'rgba(0,0,0,0.1)', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{items.filter(item => item.type === 'job').length}</span>
                   </button>
 
                   <button 
-                    className={`filter-sidebar-btn ${activeFilter === 'connection' ? 'active' : ''}`}
+                    className={`vij-pill-nav-item ${activeFilter === 'connection' ? 'active' : ''}`}
                     onClick={() => setActiveFilter('connection')}
+                    style={{ background: 'transparent', border: 'none', width: '100%' }}
                   >
                     <UserPlus size={16} />
-                    <span>Connections</span>
-                    <span className="filter-badge">{items.filter(item => item.type === 'connection').length}</span>
+                    <span className="vij-pill-nav-label" style={{ flex: 1, textAlign: 'left' }}>Connections</span>
+                    <span className="vij-pill-nav-label" style={{ background: 'rgba(0,0,0,0.1)', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{items.filter(item => item.type === 'connection').length}</span>
                   </button>
 
                   <button 
-                    className={`filter-sidebar-btn ${activeFilter === 'system' ? 'active' : ''}`}
+                    className={`vij-pill-nav-item ${activeFilter === 'system' ? 'active' : ''}`}
                     onClick={() => setActiveFilter('system')}
+                    style={{ background: 'transparent', border: 'none', width: '100%' }}
                   >
                     <Star size={16} />
-                    <span>System Boosts</span>
-                    <span className="filter-badge">{items.filter(item => item.type === 'system').length}</span>
+                    <span className="vij-pill-nav-label" style={{ flex: 1, textAlign: 'left' }}>System</span>
+                    <span className="vij-pill-nav-label" style={{ background: 'rgba(0,0,0,0.1)', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{items.filter(item => item.type === 'system').length}</span>
                   </button>
                 </div>
 
-                <hr className="sidebar-divider" />
+                <div className="vij-pill-sidebar-divider" />
 
                 {/* Show Unread Toggle */}
-                <div className="unread-toggle-row">
-                  <label className="switch-label" htmlFor="unread-toggle">
-                    <span>Show Unread Only</span>
-                    <span className="toggle-sub">Filter out previously read logs</span>
-                  </label>
+                <div className="vij-pill-nav-menu" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <button 
-                    id="unread-toggle"
-                    className={`glass-switch ${showUnreadOnly ? 'on' : ''}`}
+                    className={`vij-pill-nav-item`}
                     onClick={() => setShowUnreadOnly(!showUnreadOnly)}
-                    aria-label="Toggle Show Unread Only"
+                    style={{ background: 'transparent', border: 'none', width: '100%' }}
                   >
-                    <div className="switch-handle" />
+                    <Filter size={16} />
+                    <span className="vij-pill-nav-label" style={{ flex: 1, textAlign: 'left' }}>Unread Only</span>
+                    <span className="vij-pill-nav-label">
+                      <div className={`glass-switch ${showUnreadOnly ? 'on' : ''}`} style={{ transform: 'scale(0.8)', transformOrigin: 'right' }}>
+                        <div className="switch-handle" />
+                      </div>
+                    </span>
                   </button>
                 </div>
-              </GlassCard>
+              </div>
             </aside>
 
             {/* Center Area: Notifications Feed List */}

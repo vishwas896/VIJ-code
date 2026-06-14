@@ -48,14 +48,11 @@ export const RecruiterOnboardingFlow: React.FC = () => {
       return;
     }
     setEmailError('');
-    setVerifying(true);
-    setTimeout(() => {
-      setVerifying(false);
-      setEmailVerified(true);
-      setDetectedCompany(result.companyNameGuess);
-      setCompanyName(result.companyNameGuess);
-      setWebsite(`https://${result.domain}`);
-    }, 1500);
+    setVerifying(false);
+    setEmailVerified(true);
+    setDetectedCompany(result.companyNameGuess);
+    setCompanyName(result.companyNameGuess);
+    setWebsite(`https://${result.domain}`);
   };
 
   const handleSmartFill = () => {
@@ -64,26 +61,24 @@ export const RecruiterOnboardingFlow: React.FC = () => {
       c.name.toLowerCase().includes(companyName.toLowerCase()) ||
       companyName.toLowerCase().includes(c.name.toLowerCase())
     );
-    setTimeout(() => {
-      if (match) {
-        setIndustry(match.industry);
-        setCompanySize(match.size);
-        setHeadquarters(match.headquarters);
-        setDescription(match.description);
-        setMission(match.mission);
-        setBenefits(match.benefits);
-        setTechStack(match.techStack);
-      } else {
-        setIndustry('Technology');
-        setCompanySize('50 - 200');
-        setHeadquarters('San Francisco, CA');
-        setDescription(`${companyName} is an innovative company building the future of technology.`);
-        setMission(`Empowering teams to build better products.`);
-        setBenefits(['Health Insurance', 'Remote Flexibility', 'Learning Budget']);
-        setTechStack(['React', 'TypeScript', 'Node.js']);
-      }
-      setSmartFilling(false);
-    }, 1800);
+    if (match) {
+      setIndustry(match.industry);
+      setCompanySize(match.size);
+      setHeadquarters(match.headquarters);
+      setDescription(match.description);
+      setMission(match.mission);
+      setBenefits(match.benefits);
+      setTechStack(match.techStack);
+    } else {
+      setIndustry('Technology');
+      setCompanySize('50 - 200');
+      setHeadquarters('San Francisco, CA');
+      setDescription(`${companyName} is an innovative company building the future of technology.`);
+      setMission(`Empowering teams to build better products.`);
+      setBenefits(['Health Insurance', 'Remote Flexibility', 'Learning Budget']);
+      setTechStack(['React', 'TypeScript', 'Node.js']);
+    }
+    setSmartFilling(false);
   };
 
   const addTag = (type: 'benefit' | 'tech') => {

@@ -19,9 +19,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       router.push('/login');
       return;
     }
-    // If logged in as seeker but onboarding not done, redirect to onboarding (allow all /onboarding/* paths)
-    if (user?.role === 'seeker' && !user.onboardingCompleted && !pathname.startsWith('/onboarding/')) {
-      router.push('/onboarding/parameters');
+    // If onboarding not done, redirect to onboarding (allow all /onboarding/* paths)
+    if (!user?.onboardingCompleted && !pathname.startsWith('/onboarding')) {
+      router.push('/onboarding');
     }
   }, [isAuthenticated, user, pathname, router, loading]);
 
