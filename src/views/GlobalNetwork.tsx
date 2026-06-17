@@ -25,6 +25,7 @@ const MOCK_EVENTS = [
   { id: 'e2', name: 'React Native Conf', date: 'Nov 12, 2026', location: 'London, UK', attendees: '850' },
   { id: 'e3', name: 'Global Design Week', date: 'Dec 05, 2026', location: 'Online', attendees: '5.4k' },
 ];
+const AUTH_REDIRECT_DELAY_MS = 700;
 
 // ── TYPES ──
 interface NetworkUser {
@@ -209,7 +210,7 @@ export const GlobalNetwork: React.FC = () => {
   const requireAuth = (action: string) => {
     if (isAuthenticated) return true;
     showToast(`Please login to ${action}.`);
-    setTimeout(() => router.push('/login'), 700);
+    setTimeout(() => router.push('/login'), AUTH_REDIRECT_DELAY_MS);
     return false;
   };
 

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { 
-  LayoutGrid, Briefcase, Users, Settings, LogOut, LogIn, Menu, X, UserCircle 
+  LayoutGrid, Briefcase, Users, Settings, LogOut, LogIn, Menu, X, UserCircle, Map 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -49,11 +49,12 @@ export const RightSidebar: React.FC = () => {
     ? (isRecruiter ? '/recruiter/profile' : '/profile/me') 
     : '/login';
 
-  const dashboardHref = isRecruiter
-    ? '/recruiter/dashboard'
-    : user?.role === 'student'
-      ? '/student/dashboard'
-      : '/seeker/dashboard';
+  let dashboardHref = '/onboarding/parameters';
+  if (isRecruiter) {
+    dashboardHref = '/recruiter/dashboard';
+  } else if (user?.onboardingCompleted) {
+    dashboardHref = user?.role === 'student' ? '/student/dashboard' : '/seeker/dashboard';
+  }
 
   const navItems = isAuthenticated ? [
     {
@@ -101,7 +102,7 @@ export const RightSidebar: React.FC = () => {
     },
     {
       label: 'Roadmaps',
-      icon: <LayoutGrid size={20} />,
+      icon: <Map size={20} />,
       href: '/roadmaps',
       active: pathname.startsWith('/roadmaps')
     },

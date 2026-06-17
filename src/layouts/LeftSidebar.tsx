@@ -33,7 +33,7 @@ export const LeftSidebar: React.FC = () => {
     return [
       ...commonItems,
       {
-        label: user.role === 'student' ? 'Student KPI' : 'Jobseeker KPI',
+        label: user.role === 'student' ? 'Student KPI' : 'Job Seeker KPI',
         icon: <BarChart3 size={20} />,
         path: user.role === 'student' ? '/student/dashboard' : '/seeker/dashboard',
         active: user.role === 'student' ? isActive('/student/dashboard') : isActive('/seeker/dashboard'),
