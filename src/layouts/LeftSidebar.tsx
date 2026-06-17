@@ -1,58 +1,44 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { 
-  Home, Compass, Briefcase, Users, MessageSquare, 
-  Bell, Bookmark, Settings, Building2, BookOpen
+  Home, Briefcase, Users, MessageSquare, Settings, BarChart3
 } from 'lucide-react';
 import './LeftSidebar.css';
 
 export const LeftSidebar: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const pathname = usePathname();
-  const router = useRouter();
 
   if (!isAuthenticated || !user) return null;
 
   const isActive = (path: string) => pathname.startsWith(path);
 
   const getNavItems = () => {
-    const baseItems = [
-      { label: 'Home Feed', icon: <Home size={20} />, path: '/network', active: pathname === '/network' || pathname === '/' },
-      { label: 'Network', icon: <Users size={20} />, path: '/network/connections', active: isActive('/network/connections') },
-      { label: 'Messages', icon: <MessageSquare size={20} />, path: '/network/chat', active: isActive('/network/chat') },
-      { label: 'Notifications', icon: <Bell size={20} />, path: '/notifications', active: isActive('/notifications') },
+    const commonItems = [
+      { label: 'Home', icon: <Home size={20} />, path: '/home', active: pathname === '/home' },
+      { label: 'Jobs', icon: <Briefcase size={20} />, path: '/jobs', active: isActive('/jobs') },
+      { label: 'Network', icon: <Users size={20} />, path: '/network', active: isActive('/network') },
+      { label: 'Messages', icon: <MessageSquare size={20} />, path: '/network/messages', active: isActive('/network/messages') },
     ];
-
-    if (user.role === 'student') {
-      return [
-        ...baseItems,
-        { label: 'Student Hub', icon: <Compass size={20} />, path: '/student/dashboard', active: isActive('/student/dashboard') },
-        { label: 'Learning Center', icon: <BookOpen size={20} />, path: '/learning-center', active: isActive('/learning-center') },
-        { label: 'Saved Jobs', icon: <Bookmark size={20} />, path: '/jobs/saved', active: isActive('/jobs/saved') },
-      ];
-    }
-
-    if (user.role === 'job_seeker') {
-      return [
-        ...baseItems,
-        { label: 'Career Hub', icon: <Compass size={20} />, path: '/seeker/dashboard', active: isActive('/seeker/dashboard') },
-        { label: 'Jobs Search', icon: <Briefcase size={20} />, path: '/jobs', active: isActive('/jobs') },
-        { label: 'Saved Jobs', icon: <Bookmark size={20} />, path: '/jobs/saved', active: isActive('/jobs/saved') },
-      ];
-    }
 
     if (user.role === 'recruiter') {
       return [
-        ...baseItems,
-        { label: 'Recruiter Hub', icon: <Briefcase size={20} />, path: '/recruiter/dashboard', active: isActive('/recruiter/dashboard') },
-        { label: 'My Company', icon: <Building2 size={20} />, path: '/company-setup', active: isActive('/company') },
-        { label: 'Talent Pool', icon: <Users size={20} />, path: '/recruiter/talent', active: isActive('/recruiter/talent') },
+        ...commonItems,
+        { label: 'Recruiter KPI', icon: <BarChart3 size={20} />, path: '/recruiter/dashboard', active: isActive('/recruiter/dashboard') },
       ];
     }
 
-    return baseItems;
+    return [
+      ...commonItems,
+      {
+        label: user.role === 'student' ? 'Student KPI' : 'Job Seeker KPI',
+        icon: <BarChart3 size={20} />,
+        path: user.role === 'student' ? '/student/dashboard' : '/seeker/dashboard',
+        active: user.role === 'student' ? isActive('/student/dashboard') : isActive('/seeker/dashboard'),
+      },
+    ];
   };
 
   return (

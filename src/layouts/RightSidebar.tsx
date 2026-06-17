@@ -1,12 +1,10 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { 
-  LayoutGrid, Activity, Briefcase, ShoppingBag, 
-  Settings, Palette, LogOut, LogIn, Rocket, Menu, X, 
-  ChevronLeft, ChevronRight, UserCircle 
+  LayoutGrid, Briefcase, Users, Settings, LogOut, LogIn, Menu, X, UserCircle, Map 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -15,7 +13,6 @@ import './RightSidebar.css';
 
 export const RightSidebar: React.FC = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const { isAuthenticated, user, logout } = useAuth();
   const { preferences } = useTheme();
 
@@ -52,19 +49,31 @@ export const RightSidebar: React.FC = () => {
     ? (isRecruiter ? '/recruiter/profile' : '/profile/me') 
     : '/login';
 
-  // Role-specific links inspired by the reference layout, fallback for guests
+  let dashboardHref = '/onboarding/parameters';
+  if (isRecruiter) {
+    dashboardHref = '/recruiter/dashboard';
+  } else if (user?.onboardingCompleted) {
+    dashboardHref = user?.role === 'student' ? '/student/dashboard' : '/seeker/dashboard';
+  }
+
   const navItems = isAuthenticated ? [
     {
       label: 'Dashboard',
       icon: <LayoutGrid size={20} />,
-      href: isRecruiter ? '/recruiter/dashboard' : (user?.onboardingCompleted ? '/seeker/dashboard' : '/onboarding/parameters'),
-      active: pathname.startsWith('/recruiter/dashboard') || pathname.startsWith('/seeker/dashboard') || pathname.startsWith('/onboarding/parameters')
+      href: dashboardHref,
+      active: pathname.startsWith('/recruiter/dashboard') || pathname.startsWith('/seeker/dashboard') || pathname.startsWith('/student/dashboard')
     },
     {
-      label: 'My activity',
-      icon: <Activity size={20} />,
-      href: '/activity',
-      active: pathname.startsWith('/activity')
+      label: 'Jobs',
+      icon: <Briefcase size={20} />,
+      href: '/jobs',
+      active: pathname.startsWith('/jobs')
+    },
+    {
+      label: 'Network',
+      icon: <Users size={20} />,
+      href: '/network',
+      active: pathname.startsWith('/network')
     },
     {
       label: 'Services',
@@ -73,59 +82,41 @@ export const RightSidebar: React.FC = () => {
       active: pathname.startsWith('/services')
     },
     {
-      label: 'Orders',
-      icon: <ShoppingBag size={20} />,
-      href: '/wallet',
-      active: pathname.startsWith('/wallet')
-    },
-    {
       label: 'Settings',
       icon: <Settings size={20} />,
-      href: '/settings/account',
-      active: pathname.startsWith('/settings') && !pathname.includes('/appearance')
-    },
-    {
-      label: 'Themes',
-      icon: <Palette size={20} />,
-      href: '/settings/appearance',
-      active: pathname.includes('/appearance')
+      href: '/settings',
+      active: pathname.startsWith('/settings')
     }
   ] : [
     {
-      label: 'Dashboard',
+      label: 'Login',
       icon: <LayoutGrid size={20} />,
       href: '/login',
       active: false
     },
     {
-      label: 'My activity',
-      icon: <Activity size={20} />,
-      href: '/login',
-      active: false
+      label: 'Jobs',
+      icon: <Briefcase size={20} />,
+      href: '/jobs',
+      active: pathname.startsWith('/jobs')
+    },
+    {
+      label: 'Roadmaps',
+      icon: <Map size={20} />,
+      href: '/roadmaps',
+      active: pathname.startsWith('/roadmaps')
+    },
+    {
+      label: 'Network',
+      icon: <Users size={20} />,
+      href: '/network',
+      active: pathname.startsWith('/network')
     },
     {
       label: 'Services',
       icon: <Briefcase size={20} />,
       href: '/services',
       active: pathname.startsWith('/services')
-    },
-    {
-      label: 'Orders',
-      icon: <ShoppingBag size={20} />,
-      href: '/login',
-      active: false
-    },
-    {
-      label: 'Settings',
-      icon: <Settings size={20} />,
-      href: '/login',
-      active: false
-    },
-    {
-      label: 'Themes',
-      icon: <Palette size={20} />,
-      href: '/login',
-      active: false
     }
   ];
 

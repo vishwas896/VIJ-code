@@ -50,7 +50,6 @@ export const Header: React.FC = () => {
   const navLinks = [
     { to: isAuthenticated ? '/home' : '/', label: t('nav.home') },
     { to: '/jobs', label: t('nav.jobs') },
-    { to: '/news', label: t('nav.news') },
     { to: '/roadmaps', label: t('nav.roadmaps') },
     { to: '/network', label: t('nav.network') },
     { to: '/services', label: t('nav.services') },
