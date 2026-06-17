@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   Zap, MapPin, MessageCircle, UserPlus, Search, Radio, ChevronRight, X, Plus, Minus, 
   LocateFixed, Globe, ShieldCheck, UserCheck, Compass, 
@@ -89,7 +90,8 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
 }
 
 export const GlobalNetwork: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
+  const router = useRouter();
   const userId = user?.id || 'guest';
 
   // ── NETWORK STATE ──
@@ -194,17 +196,25 @@ export const GlobalNetwork: React.FC = () => {
   const markersRef = useRef<L.LayerGroup | null>(null);
 
   // Sync to database triggers
-  const saveConnections = (updated: any) => {
+  const saveConnections = (updated: { connection_id: number; status: 'connected' | 'requested_sent' | 'requested_received'; created_at: string }[]) => {
     setConnections(updated);
     localStorage.setItem(`vij_connections_${userId}`, JSON.stringify(updated));
   };
 
-  const savePreferences = (updated: any) => {
+  const savePreferences = (updated: typeof preferences) => {
     setPreferences(updated);
     localStorage.setItem(`vij_network_preferences_${userId}`, JSON.stringify(updated));
   };
 
+  const requireAuth = (action: string) => {
+    if (isAuthenticated) return true;
+    showToast(`Please login to ${action}.`);
+    setTimeout(() => router.push('/login'), 700);
+    return false;
+  };
+
   const toggleBookmark = (id: number, name: string) => {
+    if (!requireAuth('save profiles')) return;
     const updated = bookmarkedIds.includes(id) 
       ? bookmarkedIds.filter(bId => bId !== id)
       : [...bookmarkedIds, id];
@@ -425,6 +435,7 @@ export const GlobalNetwork: React.FC = () => {
 
   // Handle Connections
   const handleConnectClick = (id: number, name: string) => {
+    if (!requireAuth('connect with professionals')) return;
     const record = connections.find(c => c.connection_id === id);
     if (!record) {
       // Send Request
@@ -445,9 +456,16 @@ export const GlobalNetwork: React.FC = () => {
   };
 
   const handleDisconnect = (id: number, name: string) => {
+    if (!requireAuth('manage your connections')) return;
     const updated = connections.filter(c => c.connection_id !== id);
     saveConnections(updated);
     showToast(`Removed ${name} from your network.`);
+  };
+
+  const handleMessage = (name: string) => {
+    if (!requireAuth('send messages')) return;
+    showToast(`Opening conversation with ${name}...`);
+    router.push('/network/messages');
   };
 
   // Connection count calculations
@@ -496,7 +514,11 @@ export const GlobalNetwork: React.FC = () => {
               </div>
               <div 
                 className={`gn-nav-item ${activeSidebarTab === 'connections' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('connections'); setActiveMobileTab('connections'); }}
+                onClick={() => {
+                  if (!requireAuth('view connections')) return;
+                  setActiveSidebarTab('connections');
+                  setActiveMobileTab('connections');
+                }}
               >
                 <Network size={16} />
                 <span>My Connections</span>
@@ -504,7 +526,11 @@ export const GlobalNetwork: React.FC = () => {
               </div>
               <div 
                 className={`gn-nav-item ${activeSidebarTab === 'requests' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('requests'); setActiveMobileTab('connections'); }}
+                onClick={() => {
+                  if (!requireAuth('view requests')) return;
+                  setActiveSidebarTab('requests');
+                  setActiveMobileTab('connections');
+                }}
               >
                 <UserCheck size={16} />
                 <span>Requests</span>
@@ -537,7 +563,11 @@ export const GlobalNetwork: React.FC = () => {
               </div>
               <div 
                 className={`gn-nav-item ${activeSidebarTab === 'saved' ? 'active' : ''}`}
-                onClick={() => { setActiveSidebarTab('saved'); setActiveMobileTab('discover'); }}
+                onClick={() => {
+                  if (!requireAuth('view saved profiles')) return;
+                  setActiveSidebarTab('saved');
+                  setActiveMobileTab('discover');
+                }}
               >
                 <Bookmark size={16} />
                 <span>Saved Profiles</span>
@@ -766,7 +796,7 @@ export const GlobalNetwork: React.FC = () => {
                           <div className="gn-card-actions-row" onClick={e => e.stopPropagation()}>
                             {isConnected ? (
                               <>
-                                <button className="gn-card-btn outline">
+                                <button className="gn-card-btn outline" onClick={() => handleMessage(u.name)}>
                                   <MessageCircle size={12} />
                                   <span>Message</span>
                                 </button>
@@ -893,7 +923,7 @@ export const GlobalNetwork: React.FC = () => {
                               <div className="gn-list-row-right" onClick={e => e.stopPropagation()}>
                                 {isConnected ? (
                                   <>
-                                    <button className="gn-list-row-btn outline">
+                                    <button className="gn-list-row-btn outline" onClick={() => handleMessage(u.name)}>
                                       <MessageCircle size={12} />
                                       <span>Message</span>
                                     </button>
@@ -1165,7 +1195,11 @@ export const GlobalNetwork: React.FC = () => {
         </button>
         <button 
           className={`gn-mobile-nav-item ${activeMobileTab === 'connections' ? 'active' : ''}`}
-          onClick={() => { setActiveMobileTab('connections'); setActiveSidebarTab('connections'); }}
+          onClick={() => {
+            if (!requireAuth('view connections')) return;
+            setActiveMobileTab('connections');
+            setActiveSidebarTab('connections');
+          }}
         >
           <Network size={18} />
           <span>Connections</span>
@@ -1244,7 +1278,7 @@ export const GlobalNetwork: React.FC = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '32px' }}>
                 {connections.some(c => c.connection_id === selectedUser.id && c.status === 'connected') ? (
                   <>
-                    <button className="gn-card-btn primary" style={{ padding: '12px' }}>
+                    <button className="gn-card-btn primary" style={{ padding: '12px' }} onClick={() => handleMessage(selectedUser.name)}>
                       <MessageCircle size={14} />
                       <span>Start Conversation</span>
                     </button>
@@ -1308,4 +1342,3 @@ export const GlobalNetwork: React.FC = () => {
     </div>
   );
 };
-
